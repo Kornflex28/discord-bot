@@ -1,7 +1,10 @@
 module.exports = {
 	name: 'server',
-	description: 'Server infos',
+    description: 'Server infos',
+    guildOnly: true,
 	execute(message, args) {
-	    message.channel.send(`Nom du serveur: ${message.guild.name}\nNombre de membres: ${message.guild.memberCount}`);
-	},
+        // message.guild.joined_at.fetch().then(ts => {console.log(ts)});
+        console.log(message.guild)
+        message.channel.send(`Nom du serveur: ${message.guild.name}\nNombre de membres: ${message.guild.memberCount}\nCréé le : ${message.guild.createdAt}`);
+    }
 };

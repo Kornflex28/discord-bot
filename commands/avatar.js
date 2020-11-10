@@ -1,6 +1,7 @@
 module.exports = {
 	name: 'avatar',
-	description: 'Avatar links',
+    description: 'Donne les liens des avatars des users mentionnés (très utile), si pas de mention ton propre avatar est donné.',
+    usage: '<user1> <user2> ...',
 	execute(message, args) {
 	    if (!message.mentions.users.size) {
             return message.channel.send(`Ton avatar: <${message.author.displayAvatarURL({ format: "png", dynamic: true })}>`);

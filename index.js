@@ -1,7 +1,7 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const config = require('./config.json');
-const { prefix, token, creator_id } = config;
+const { prefix, token, creator_id, default_cooldown } = config;
 
 const client = new Discord.Client();
 
@@ -22,14 +22,20 @@ client.once('ready', () => {
 client.on('message', message => {
 
     if (!message.content.startsWith(prefix) || message.author.bot) return;
-    console.log(message)
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
 
-    if (!client.commands.has(commandName)) {
+    const command = client.commands.get(commandName)
+		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+
+	if (!command){
         return message.reply(`désolé mais \`${commandName}\` n'est pas encore une de mes faces (commande), si tu as une idée de génie tu peux toujours envoyer un message à <@${creator_id}> (gros tocard askip).`);
-    }
-    const command = client.commands.get(commandName);
+    };
+
+    if (command.guildOnly && message.channel.type === 'dm') {
+		return message.reply(`Je ne peux pas utiliser la face \`${commandName}\` en DM (désolé).`);
+	}
+
     if (command.args && !args.length) {
         let reply = 'désolé mais tu n\'as pas donné d\'argument. C\'est scandaleux !';
 
@@ -46,7 +52,7 @@ client.on('message', message => {
         
     const now = Date.now();
     const timestamps = cooldowns.get(command.name);
-    const cooldownAmount = (command.cooldown || 2) * 1000;
+    const cooldownAmount = (command.cooldown || default_cooldown) * 1000;
 
     if (timestamps.has(message.author.id)) {
         const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
@@ -64,11 +70,11 @@ client.on('message', message => {
         command.execute(message, args);
     } catch (error) {
         console.error(error);
-        message.reply('Oups j\'ai du être mal lancé, il y a eu une erreur lors de l\'éxécution.');
+        message.reply('oups j\'ai du être mal lancé, il y a eu une erreur lors de l\'éxécution.');
     }
 
-
-    console.log(message.content);  
+    // console.log(message)
+    console.log(message.author.username, message.content);  
     
 });
 
