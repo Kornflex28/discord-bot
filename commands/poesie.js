@@ -1,5 +1,6 @@
 
 const https = require('https');
+const md5 = require('md5')
 const fetch = require("node-fetch");
 const Discord = require('discord.js');
 htmlparser = require('node-html-parser');
@@ -41,7 +42,7 @@ function decodeString(str) {
 module.exports = {
 	name: 'poesie',
     description: 'Lance le dé et obtient un poème aleatoire francais',
-    aliases: ['poésie','poeme','poème'],
+    aliases: ['poésie','poeme','poème','poem'],
     cooldown: 15,
 	execute(message, args) {
         
@@ -84,7 +85,7 @@ module.exports = {
                 wiki_search = encodeURIComponent(poem_author.split(',')[0].slice(1));
                 var author_url = '';
 
-                console.log(wiki_url + wiki_search)
+                console.log('!POEM WIKI SEARCH: '+ wiki_url + wiki_search)
                 
                 // console.log(poem_content.length);
                 if (poem_content.length>5500){
@@ -95,7 +96,7 @@ module.exports = {
                     .then(json=>{
                         try {
                         author_url = json[3][0];
-                        console.log(author_url);
+                        // console.log(author_url);
                         } catch (error) {console.log('Erreur avec le lien wiki de l\'auteur du poeme',error)}
                         return author_url;
                     })
@@ -105,7 +106,7 @@ module.exports = {
                         const field_lim = 900;
                         var fields = [];
                         const n_blocks = Math.ceil(parseInt(nl_indices[nl_indices.length - 1])/field_lim);
-                        console.log(nl_indices,n_blocks);   
+                        // console.log(nl_indices,n_blocks);   
                         if (n_blocks > 1 ) {
                             var prev_idx = 0
                             for (var k=1;k<n_blocks;k++) {
@@ -132,7 +133,7 @@ module.exports = {
                         const author_split = author_url.split('/');
                         // console.log(author_split)
                         const wiki_img_url = "https://en.wikipedia.org/w/api.php?action=query&prop=pageimages&format=json&piprop=original&titles="+author_split[author_split.length-1];
-                        console.log(wiki_img_url)
+                        // console.log(wiki_img_url)
                         fetch(wiki_img_url)
                             .then(response => response.json())
                             .then(json => {
@@ -152,7 +153,7 @@ module.exports = {
 
                                 } catch (error) {console.log('Erreur avec image de l\'auteur du poeme',error)}
                                 
-                                console.log(fields)
+                                // console.log(fields)
                                 message.channel.send(poemEmbed);
                             })
                         } else {

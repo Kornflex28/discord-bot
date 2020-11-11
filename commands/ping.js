@@ -3,6 +3,7 @@ module.exports = {
     description: 'Ping!',
     cooldown: 1,
 	execute(message, args) {
-		message.channel.send('Pong.');
+		var ping = Date.now() - message.createdTimestamp + " ms";
+		message.channel.send(`🏓 Pong !\n*ton ping: ${ping}*`);
 	},
 };
