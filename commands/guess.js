@@ -1,4 +1,4 @@
-const config = require('../config.json');
+const config = require('../../config.json');
 var {_guess_min, _guess_max, _guess_chosen, _guess_n} = config.guess;
 module.exports = {
 	name: 'guess',

@@ -1,4 +1,4 @@
-const { tenor } = require('../config.json');
+const { tenor } = require('../../config.json');
 const fetch = require("node-fetch");
 const randomWords = require('random-words');
 

@@ -1,7 +1,7 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const { NlpManager } = require('node-nlp');
-const config = require('./config.json');
+const config = require('../config.json');
 const { prefix, token, creator_id, default_cooldown } = config;
 
 const client = new Discord.Client();
