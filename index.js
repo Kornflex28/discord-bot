@@ -70,7 +70,7 @@ client.on('message', message => {
         command.execute(message, args);
     } catch (error) {
         console.error(error);
-        message.reply('oups j\'ai du être mal lancé, il y a eu une erreur lors de l\'éxécution.');
+        message.reply(`oups j\'ai du être mal lancé, il y a eu une erreur lors de l\'éxécution.\n\`${error}\``);
     }
 
     // console.log(message)
