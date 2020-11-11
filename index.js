@@ -39,7 +39,7 @@ client.on('message', message => {
     
     if(!message.author.bot) {
 
-        // console.log(message.content)
+        console.log(message.content)
 
         // reactions handling 
         if (['vie', 'damso'].some(elem => message.content.toLowerCase().includes(elem))) {
@@ -52,9 +52,10 @@ client.on('message', message => {
         }
         
         // bot mentions handling
-        bot_mention = `<@!${client.user.id}>`;
-        if (message.content.startsWith(bot_mention)) {
-            const messageContent = message.content.slice(bot_mention.length).trim();
+        bot_id = client.user.id;
+
+        if (message.content.startsWith(`<@!${bot_id}>`) || message.content.startsWith(`<@${bot_id}>`)) {
+            const messageContent = message.content.slice(bot_id.length+4).trim();
             console.log(message.author.username+': "' + messageContent+'"')
             manager.process('fr', messageContent)
                 .then(response => {
