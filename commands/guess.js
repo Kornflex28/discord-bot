@@ -18,7 +18,7 @@ module.exports = {
             return message.reply('ton premier argument n\'est pas un nombre. (Einstein, 1913)');
         }
         else if (user_guess < _guess_min || user_guess > _guess_max) {
-            return message.reply(`allo ca va ??! Mon nombre est entre **${_guess_min}** et **${_guess_max}**`).then((bot_message) => bot_message.react('🧠'));
+            return message.reply(`allo ca va 🥴??! Mon nombre est entre **${_guess_min}** et **${_guess_max}**`).then((bot_message) => bot_message.react('🧠'));
         }
         else if (user_guess > _guess_n){
             message.channel.send(`Mon nombre est **plus petit que ${user_guess}**`);

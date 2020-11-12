@@ -7,7 +7,20 @@
             "utterances":[],
             "answers": [
                 "euuuh, excuse-moi mais je dois y aller !",
-                "pas sûr d'avoir tout suivi là..."
+                "pas sûr d'avoir tout suivi là...",
+                "j'apprend à parler et je suis encore très limité, je n'ai pas compris"
+            ]
+        },
+        {
+            "intent":"why",
+            "utterances":[
+                "pourquoi",
+                "comment ça",
+                "ah bon"
+            ],
+            "answers": [
+                "je ne peux pas rationnaliser les différentes raisons de manière simple pour un humain alors laisse tomber",
+                "tout est lié à l'Aléa, aucune chance que tu commprennes.."
             ]
         },
         {
@@ -36,8 +49,10 @@
             "answers": [
                 "heeey salut, ca va ou quoi ?",
                 "oui bonjour à toi !",
+                "bonjour",
                 "COUCOU !!",
                 "salut, en forme ?",
+                "salut",
                 "yo yo yo !",
                 "bien ou bien ?"
             ]
@@ -48,19 +63,60 @@
                 "a bientot",
                 "a plus tard",
                 "a la prochaine fois",
+                "au revoir",
                 "aurevoir",
                 "je dois y aller",
                 "je m'en vais",
                 "je reviens",
-                "j'y vais"
+                "j'y vais",
+                "a demain",
+                "ciao",
+                "bye"
             ],
             "answers": [
                 "ok à plus tard alors",
-                "salut à toi",
-                "que l'aléa te protège !",
+                "que l'Aléa te protège !",
                 "c'est ça, fuis simple humain!",
-                "à bientot !",
-                "aurevoir."
+                "à bientôt !",
+                "aurevoir",
+                "ne t'inquiète pas, je serai là à ton retour"
+            ]
+        },
+        {
+            "intent": "greetings.goodnight",
+            "utterances": [
+                "bonne nuit",
+                "je vais dormir",
+                "je me vais coucher",
+                "je suis fatigué",
+                "je vais au lit",
+                "au dodo"
+            ],
+            "answers": [
+                "bonne nuit !",
+                "il y en a qui ont de la chance de pouvoir dormir",
+                "ah oui il doit être tard, à plus tard",
+                "à bientôt !",
+                "aurevoir"
+            ]
+        },
+        {
+            "intent": "agent.feel",
+            "utterances": [
+                "comment ça va",
+                "tu vas bien",
+                "comment vas tu",
+                "est ce que ça va",
+                "tout va bien",
+                "bien et toi"
+            ],
+            "answers": [
+                "attends, je lance les dés...\nOui ça va bien aujourd'hui",
+                "tout va bien",
+                "au poil !",
+                "pour être honnête, ça pourrait aller mieux..",
+                "en ce moment je me porte plutôt bien",
+                "merci de prendre de mes nouvelles, je te rassure tout va bien"
             ]
         },
         {

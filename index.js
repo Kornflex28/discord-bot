@@ -74,11 +74,11 @@ client.on('message', message => {
                 || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
             if (!command){
-                return message.reply(`désolé mais \`${commandName}\` n'est pas encore une de mes faces (commande), si tu as une idée de génie tu peux toujours envoyer un message à <@${creator_id}> (gros tocard askip).`);
+                return message.reply(`désolé mais \`${commandName}\` n'est pas encore une de mes faces, si tu as une idée de génie tu peux toujours envoyer un message à <@${creator_id}> (gros tocard askip).`);
             };
 
             if (command.guildOnly && message.channel.type === 'dm') {
-                return message.reply(`Je ne peux pas utiliser la face \`${commandName}\` en DM (désolé).`);
+                return message.reply(`Je ne peux pas utiliser la face \`${commandName}\` en DM (désolé). 😬`);
             }
 
             if (command.args && !args.length) {
@@ -104,7 +104,7 @@ client.on('message', message => {
             
                 if (now < expirationTime) {
                     const timeLeft = (expirationTime - now) / 1000;
-                    return message.reply(`my brooo, ne soit pas impatient ! Attends un peu, encore ${timeLeft.toFixed(1)} s de réutiliser ma face \`${command.name}\`.`);
+                    return message.reply(`my brooo, ne soit pas impatient 🤠! Attends un peu, encore ${timeLeft.toFixed(1)} s de réutiliser ma face \`${command.name}\`.`);
                 }
             }
 
@@ -115,7 +115,7 @@ client.on('message', message => {
                 command.execute(message, args);
             } catch (error) {
                 console.error(error);
-                message.reply(`oups j\'ai du être mal lancé, il y a eu une erreur lors de l\'éxécution.\n\`${error}\``);
+                message.reply(`oups j\'ai du être mal lancé 🤕, il y a eu une erreur lors de l\'éxécution.\n\`${error}\``);
             }
 
             // console.log(message)
