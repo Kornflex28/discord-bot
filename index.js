@@ -3,14 +3,15 @@ const Discord = require('discord.js');
 const { NlpManager } = require('node-nlp');
 const config = require('../config.json');
 const { prefix, token, creator_id, default_cooldown } = config;
+const nlpTools = require('./nlp/nlp_process.js')
 
 const client = new Discord.Client();
 
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
-	client.commands.set(command.name, command);
+    const command = require(`./commands/${file}`);
+    client.commands.set(command.name, command);
 }
 
 const cooldowns = new Discord.Collection();
@@ -19,9 +20,9 @@ const cooldowns = new Discord.Collection();
 const manager = new NlpManager({ languages: ['fr'], forceNER: true, modelFileName: './nlp/dede_fr.nlp' });
 // Adds the utterances and intents for the NLP
 manager.addCorpus('./nlp/corpus-fr.json');
- 
+
 // Train and save the model.
-(async() => {
+(async () => {
     await manager.train();
 })();
 
@@ -29,15 +30,31 @@ manager.addCorpus('./nlp/corpus-fr.json');
 
 
 client.once('ready', () => {
-    
+    client.user.setPresence({ activity: { name: `les dés`, type: 'LISTENING' }, status: 'online' });
     console.log('Bot logged in!');
+});
+
+client.on('guildMemberAdd', member => {
+    console.log(member);
+	const channel = member.guild.channels.cache.find(ch => ch.name === 'general');
+	if (!channel) return;
+    channel.send(`Bienvenue chez les fous, ${member} ! Que dirais tu d'un petit lancer de dés pour fêter ça ?!`);
+    n_dice = 5;
+    dice = Array.from({ length: n_dice }, () => Math.floor(Math.random() * 6) + 1);
+    die_emojis = dice.map(die => client.emojis.cache.find(emoji => emoji.name === `die${die}`));
+    channel.send(`${die_emojis.join("")}`)
+    
 });
 
 client.on('message', message => {
 
-    if (message.author.bot) {return;}
-    
-    if(!message.author.bot) {
+    if (message.content === '!!testjoin') {
+		client.emit('guildMemberAdd', message.member);
+	}
+
+    if (message.author.bot) { return; }
+
+    if (!message.author.bot) {
 
         console.log(message.content)
 
@@ -45,23 +62,21 @@ client.on('message', message => {
         if (['vie', 'damso'].some(elem => message.content.toLowerCase().includes(elem))) {
             message.react('🖖');
         }
-        
-        if (['maisnan','mais nan'].some(elem => message.content.toLowerCase().includes(elem))) {
+
+        if (['maisnan', 'mais nan'].some(elem => message.content.toLowerCase().includes(elem))) {
             message.react('🤯');
             message.reply('MAIS NAN ?!!');
         }
-        
+
         // bot mentions handling
         bot_id = client.user.id;
 
         if (message.content.startsWith(`<@!${bot_id}>`) || message.content.startsWith(`<@${bot_id}>`)) {
-            const messageContent = message.content.slice(bot_id.length+4).trim();
-            console.log(message.author.username+': "' + messageContent+'"')
-            manager.process('fr', messageContent)
-                .then(response => {
-                    console.log(response);
-                    message.reply(response.answer);
-                })
+
+            const messageContent = message.content.slice(bot_id.length + 4).trim();
+            console.log(message.author.username + ': "' + messageContent + '"')
+
+            nlpTools.process_message(manager, message, messageContent);
         }
 
         // commands handling
@@ -73,7 +88,7 @@ client.on('message', message => {
             const command = client.commands.get(commandName)
                 || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
-            if (!command){
+            if (!command) {
                 return message.reply(`désolé mais \`${commandName}\` n'est pas encore une de mes faces, si tu as une idée de génie tu peux toujours envoyer un message à <@${creator_id}> (gros tocard askip).`);
             };
 
@@ -89,19 +104,19 @@ client.on('message', message => {
                 }
 
                 return message.reply(reply);
-                }
-            
+            }
+
             if (!cooldowns.has(command.name)) {
                 cooldowns.set(command.name, new Discord.Collection());
             }
-                
+
             const now = Date.now();
             const timestamps = cooldowns.get(command.name);
             const cooldownAmount = (command.cooldown || default_cooldown) * 1000;
 
             if (timestamps.has(message.author.id)) {
                 const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-            
+
                 if (now < expirationTime) {
                     const timeLeft = (expirationTime - now) / 1000;
                     return message.reply(`my brooo, ne soit pas impatient 🤠! Attends un peu, encore ${timeLeft.toFixed(1)} s de réutiliser ma face \`${command.name}\`.`);
@@ -119,10 +134,11 @@ client.on('message', message => {
             }
 
             // console.log(message)
-            console.log(message.author.username, message.content);  
+            console.log(message.author.username, message.content);
         }
     }
-    
+
 });
+
 
 client.login(token);

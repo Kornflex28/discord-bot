@@ -57,7 +57,7 @@ module.exports = {
                 message.reply(`wouah ça commence à faire beaucoup de dés mais ok ${client.emojis.cache.find(emoji => emoji.name === `rollingdie`)}`);
             }
             else {
-                message.reply(`😮😮  pourquoi as tu besoin d\'autant de dés ?? Je fais de mon mieux ${client.emojis.cache.find(emoji => emoji.name === `rollingdie`)}`)
+                message.reply(`😮😮 autant de dés ?? Je fais de mon mieux ${client.emojis.cache.find(emoji => emoji.name === `rollingdie`)}`)
             }
             dice = Array.from({ length: n_dice }, () => Math.floor(Math.random() * 6) + 1);
             die_emojis = dice.map(die => client.emojis.cache.find(emoji => emoji.name === `die${die}`));

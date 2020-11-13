@@ -24,6 +24,43 @@
             ]
         },
         {
+            "intent":"yes",
+            "utterances":[
+                "ok",
+                "oui",
+                "bien sur"
+            ],
+            "answers": []
+        },
+        {
+            "intent":"no",
+            "utterances":[
+                "non",
+                "non merci",
+                "pas du tout"
+            ],
+            "answers": [
+                "ok...",
+                "ah..."
+            ]
+        },
+        {
+            "intent":"thankyou",
+            "utterances":[
+                "merci",
+                "merci beaucoup",
+                "ca fait plaisir",
+                "je te remercie"
+            ],
+            "answers": [
+                "mais de rien !",
+                "ça me fait plaisir",
+                "pas de soucis",
+                "pas de quoi",
+                "c'était rien !"
+            ]
+        },
+        {
             "intent":"agent.identity",
             "utterances":[
                 "qui es tu",
@@ -42,6 +79,8 @@
             "utterances": [
                 "salut",
                 "bonjour",
+                "bjr",
+                "slt",
                 "yo",
                 "hey",
                 "coucou"
@@ -128,13 +167,81 @@
                 "quel est ton anniversaire",
                 "date de ton anniversaire",
                 "quel ton age",
-                "tu as quel age"
+                "tu as quel age",
+                "quel age as tu",
+                "quelle est ta date de naissance"
             ],
             "answers": [
                 "tu as prévu quelque chose ? C'est aujourd'hui mon anniversaire alors",
                 "hmm je ne suis pas trop sur, on peut deviner mon age en comptant mes faces !",
-                "je ne connais pas ma date de naissance exacte, mais je suis plutot jeune",
-                "j'ai réussi à trouver mon age exact en regardant mes données, mais je vais le garder secret"
+                "je ne connais pas ma date de naissance exacte, mais je suis plutot jeune"
+            ]
+        },
+        {
+            "intent": "command.apod",
+            "utterances": [
+                "une photo astronomie",
+                "astrophoto",
+                "je peux avoir une photo spatiale",
+                "montre une photo du ciel",
+                "photo de la nasa",
+                "apod"
+            ],
+            "answers": [
+                "je vais voir ce que je peux faire...",
+                "laisse moi regarder...",
+                "je cherche dans mes faces attends, un peu..."
+            ]
+        },
+        {
+            "intent": "command.gif",
+            "utterances": [
+                "donne gif",
+                "montre moi un gif",
+                "je peux avoir un gif",
+                "je veux un gif",
+                "choisi un gif",
+                "gif"
+            ],
+            "answers": [
+                "je vais voir ce que je peux faire...",
+                "laisse moi regarder...",
+                "je cherche dans mes faces attends, un peu...",
+                "bien sur, je fais ça au plus vite !"
+            ]
+        },
+        {
+            "intent": "command.poesie",
+            "utterances": [
+                "donne poème",
+                "montre moi un poeme",
+                "je peux avoir un poeme",
+                "je veux un poeme",
+                "choisi un poeme",
+                "poème",
+                "la poésie"
+            ],
+            "answers": [
+                "je vais voir ce que je peux faire...",
+                "laisse moi regarder...",
+                "je cherche dans mes faces attends, un peu...",
+                "bien sur, je fais ça au plus vite !"
+            ]
+        },
+        {
+            "intent": "command.roll",
+            "utterances": [
+                "jette les dés",
+                "lance des dés",
+                "balance des dés",
+                "donne moi des dés",
+                "jet de dés"
+            ],
+            "answers": [
+                "Ahh je n'attendais que ça, c'est parti !",
+                "J'adore cette partie de mon boulot !",
+                "Oh oui! Oh oui ! Vite vite !",
+                "DES DÉS! DES DÉS! MES DÉS PARTOUT!"
             ]
         }
     ]
