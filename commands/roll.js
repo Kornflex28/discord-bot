@@ -75,7 +75,7 @@ module.exports = {
                 }
                 const p_roll = (fact[n_dice-1]/die_count) * (1/(6 ** n_dice)); 
                 var m = -Math.floor( Math.log10(p_roll)+1);
-                message.channel.send(`*Tu avais ${(100 * p_roll).toFixed(m<2 ? 2 : m)}% d'obtenir c${n_dice>1 ? 'es' : 'e'} dé${n_dice>1 ? 's (sans tenir compte de l\'ordre)' : ''} .*`);
+                message.channel.send(`*Tu avais ${(100 * p_roll).toFixed(m<2 ? 2 : m)}% de chances d'obtenir c${n_dice>1 ? 'es' : 'e'} dé${n_dice>1 ? 's (sans tenir compte de l\'ordre)' : ''} .*`);
                 if (n_dice>1) {message.channel.send(`*La somme de tes dés vaut ${sum}, il y a ${(100 * p_sum).toFixed(2)}% de chance d'obtenir ce résultat (${n_sum_possibilities.toLocaleString('en').replace(/,/g," ")} ${n_sum_possibilities>1 ? 'lancers' : 'lancer'} sur les ${(6 ** n_dice).toLocaleString('en').replace(/,/g," ")} possibles)*`)};
             });
 
