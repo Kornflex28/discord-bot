@@ -34,8 +34,9 @@ client.once('ready', () => {
     console.log('Bot logged in!');
 });
 
+// NEW MEMBER IN GUILD
 client.on('guildMemberAdd', member => {
-    console.log(member);
+    // console.log(member);
 	const channel = member.guild.channels.cache.find(ch => ch.name === 'general');
 	if (!channel) return;
     channel.send(`Bienvenue chez les fous, ${member} ! Que dirais tu d'un petit lancer de dés pour fêter ça ?!`);
@@ -46,6 +47,25 @@ client.on('guildMemberAdd', member => {
     
 });
 
+//JOINING VOICE CHANNEL
+client.on('voiceStateUpdate', (oldMember, newMember) => {
+
+    const targetVoiceChannel = 'LoL';
+    const targetMessageChannel = 'general';
+    const message_prob = 0.25;
+    let newUserChannel = newMember.channel
+    let oldUserChannel = oldMember.channel
+    
+    if(oldUserChannel === null && newUserChannel !== null) {
+        if (newUserChannel.name === targetVoiceChannel && Math.random() < message_prob) {
+            const channel = newMember.member.guild.channels.cache.find(ch => ch.name === targetMessageChannel);
+            const lines = ['Et c\'est reparti...', 'Fidèle à soi même', 'Pour changer', 'Ah toi aussi ?', 'Mais NAN ?!', 'Indémodable'];
+            channel.send(`${lines[Math.floor(Math.random()*lines.length)]} <@${newMember.member.user.id}> arrive sur le vocal ${channel.name}`);
+        }
+    }
+  })
+
+// MESSAGE 
 client.on('message', message => {
 
     if (message.content === '!!testjoin') {

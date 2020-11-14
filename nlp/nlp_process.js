@@ -25,7 +25,7 @@ module.exports = {
                     let minutes = Math.floor(totalSeconds / 60);
                     let seconds = Math.floor(totalSeconds % 60);
                     let uptime = `${days > 0 ? `${days} ${days == 1 ? `jour, ` : 'jours, '}` : ``}${hours > 0 ? `${hours} ${hours == 1 ? 'heure, ' : 'heures, '}` : ``}${minutes > 0 ? `${minutes} ${minutes == 1 ? 'minute, ' : 'minutes, '}` : ``}${seconds} ${seconds > 1 ? 'secondes' : 'seconde'}`;
-                    message.channel.send(`Après un peu plus de réflexion, je pense avoir environ ${uptime}\nPlutôt jeune non pour vous les humains ?`);
+                    message.channel.send(`Après un peu plus de réflexion et de recherches, je date du 10 novembre 2020 environ et on m'a mis à jour pour la dernière fois il y a ${uptime}.`);
                 }
                 else if (intent.includes('command.')) {
                     const commandName = intent.slice(8);
