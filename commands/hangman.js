@@ -109,16 +109,16 @@ module.exports = {
     description: 'Je lance les dés pour trouver un mot aléatoire et joue au pendu',
     cooldown: 2,
     usage: '',
-    aliases: 'pendu',
+    aliases: ['pendu'],
     args: true,
     execute(message, args) {
         const senderChannel = message.channel;
         const arg = clean_str(args[0]);
         var game = hangman.find(game => game._channelId == senderChannel.id);
 
-        if (message.author.id != config.creator_id) {
-            return senderChannel.send('Désolé mais tu ne peux pas lancer cette commande encore');
-        }
+        // if (message.author.id != config.creator_id) {
+        //     return senderChannel.send('Désolé mais tu ne peux pas lancer cette commande encore');
+        // }
 
         if (arg === 'create') {
             if (game !== undefined) {
