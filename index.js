@@ -60,7 +60,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
         if (newUserChannel.name === targetVoiceChannel && Math.random() < message_prob) {
             const channel = newMember.member.guild.channels.cache.find(ch => ch.name === targetMessageChannel);
             const lines = ['Et c\'est reparti...', 'Fidèle à soi même', 'Pour changer', 'Ah toi aussi ?', 'Mais NAN ?!', 'Indémodable'];
-            channel.send(`${lines[Math.floor(Math.random()*lines.length)]} <@${newMember.member.user.id}> arrive sur le vocal ${channel.name}`);
+            channel.send(`${lines[Math.floor(Math.random()*lines.length)]} <@${newMember.member.user.id}> arrive sur le vocal ${targetVoiceChannel}`);
         }
     }
   })
