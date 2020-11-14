@@ -108,7 +108,7 @@ module.exports = {
     name: 'hangman',
     description: 'Je lance les dés pour trouver un mot aléatoire et joue au pendu',
     cooldown: 2,
-    usage: '',
+    usage: '<"create"> || <"board"> || <lettre> || <"endgame">',
     aliases: ['pendu'],
     args: true,
     execute(message, args) {
