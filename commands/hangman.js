@@ -2,7 +2,11 @@ const config = require('../../config.json');
 const Discord = require('discord.js');
 const fs = require('fs');
 const frNouns = './french_nouns.txt';
-var { hangman } = config;
+const frVerbs = './french_verbs.txt';
+var { hangman, dico_api_key } = config;
+const fetch = require('node-fetch');
+const dict_url = "https://api.dicolink.com/v1/mot/";
+
 
 function clean_str(str) {
     return str.toLowerCase()
@@ -24,12 +28,16 @@ function clean_str(str) {
         ;
 };
 
-var frWords;
+var frWords =[];
 fs.readFile(frNouns ,'utf8', ((err, data) => {
-    frWords = data.split('\n').filter(str=>!(str.includes(';pl')||str.includes('-')||str.includes("'"))).map(str=>clean_str(str.split(';')[0]));
-    // console.log(frWords.splice(0,30));
+    frWords = frWords.concat(data.split('\n').filter(str=>!(str.includes(';pl')||str.includes('-')||str.includes("'"))).map(str=>clean_str(str.split(';')[0])));
     })
 );
+fs.readFile(frVerbs ,'utf8', ((err, data) => {
+    frWords = frWords.concat(data.split('\n').filter(str=>!(str.includes('-')||str.includes("'"))).map(str=>clean_str(str.split(';')[0])));
+    })
+);
+frWords.sort(() => Math.random() - 0.5);
 
 function boardWord(word, letters) {
     var boardW = '';
@@ -234,12 +242,38 @@ module.exports = {
 
             if (!game._livesRemaining) {
                 senderChannel.send(`aie aie ça dégage ! Juste au cas où, le mot était *${game._guessWord}*`).then(() => {
+                    fetch(dict_url+`${game._guessWord}/definitions?limite=3&source=larousse&api_key=`+dico_api_key)
+                    .then(response => {return response.json()})
+                    .then(json =>{
+                            if (json.error){return;}
+                            var def_str = new Discord.MessageEmbed()
+                            .setTitle(game._guessWord)
+                            .setDescription('[Larousse](https://www.larousse.fr/)')
+                            json.forEach(elem => {
+                                
+                                def_str.addField(elem.nature, elem.definition);
+                            });
+                            senderChannel.send(`Voilà ce que j'ai trouvé pour ce mot:`).then(()=>senderChannel.send(def_str))
+                        });
                     const gameIndex = hangman.indexOf(game);
                     hangman.splice(gameIndex, 1);
                 })
             }
             if (!game._lastMessage.embeds[0].fields[0].value.includes('\\_')){
                 senderChannel.send(`MAIS NAN ?! Bravo (c'était facile)`).then(() => {
+                    fetch(dict_url+`${game._guessWord}/definitions?limite=3&source=larousse&api_key=`+dico_api_key)
+                    .then(response => {return response.json()})
+                    .then(json =>{
+                            if (json.error){return;}
+                            var def_str = new Discord.MessageEmbed()
+                            .setTitle(game._guessWord)
+                            .setDescription('[Larousse](https://www.larousse.fr/)')
+                            json.forEach(elem => {
+                                
+                                def_str.addField(elem.nature, elem.definition);
+                            });
+                            senderChannel.send(`Voilà ce que j'ai trouvé pour ce mot:`).then(()=>senderChannel.send(def_str))
+                        });
                     const gameIndex = hangman.indexOf(game);
                     hangman.splice(gameIndex, 1);
                 })
