@@ -6,7 +6,7 @@ var emojis = [
 const fs = require('fs');
 const Discord = require('discord.js');
 const { NlpManager } = require('node-nlp');
-const config = require('../config.json');
+const config = require('./config.json');
 const { prefix, token, creator_id, default_cooldown } = config;
 const nlpTools = require('./nlp/nlp_process.js')
 const thoughts = './nlp/thoughts.txt';
@@ -33,9 +33,9 @@ manager.addCorpus('./nlp/corpus-fr.json');
 })();
 
 
-const minTime = 20 // hours 
-const maxTime = 72 // hours 
-var interval = (Math.floor(Math.random() * (maxTime - minTime) ) + minTime) * 60 * 60 * 1000 ; // in ms
+const minTime = 20 * 60 * 60 // 20 hours in s 
+const maxTime = 72 * 60 * 60 // 72 hours in s
+var interval = (Math.floor(Math.random() * (maxTime - minTime) ) + minTime) * 1000 ; // in ms
 var msgs = [];
 fs.readFile(thoughts ,'utf8', ((err, data) => {
     msgs = msgs.concat(data.split('\n'));
@@ -49,7 +49,7 @@ function startInterval(_interval,client,channelId,msgs) {
         client.channels.fetch(channelId).then(channel => {
             channel.send(msgs[Math.floor(Math.random() * msgs.length)]);
             clearInterval(intervalId);
-            interval = (Math.floor(Math.random() * (maxTime - minTime) ) + minTime) * 60 * 60 * 1000 ; // in ms
+            interval = (Math.floor(Math.random() * (maxTime - minTime) ) + minTime) * 1000 ; // in ms
             startInterval(interval,client,channelId,msgs);
         })
         .catch(console.error); // add error handling here
@@ -199,4 +199,4 @@ client.on('message', message => {
 });
 
 
-client.login(token);
+client.login(process.env.BOT_TOKEN);
