@@ -49,7 +49,7 @@ function startInterval(_interval,client,channelId,msgs) {
         client.channels.fetch(channelId).then(channel => {
             channel.send(msgs[Math.floor(Math.random() * msgs.length)]);
             clearInterval(intervalId);
-            interval = (Math.floor(Math.random() * (maxTime - minTime) ) + minTime) * 1000 ; // in ms
+            interval = (Math.floor(Math.random() * (maxTime - minTime) ) + minTime) * 60 * 60 * 1000 ; // in ms
             startInterval(interval,client,channelId,msgs);
         })
         .catch(console.error); // add error handling here
