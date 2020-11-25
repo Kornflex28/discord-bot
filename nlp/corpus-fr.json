@@ -66,7 +66,7 @@
                 "qui es tu",
                 "t'es quoi",
                 "peux tu te presenter",
-                "quest que tu es"
+                "qu est ce que tu es"
             ],
             "answers": [
                 "je suis Dédé le Robot, un dé magique qui possède bien plus que 6 faces avec toutes des fonctionnalités différentes !",
@@ -83,7 +83,8 @@
                 "slt",
                 "yo",
                 "hey",
-                "coucou"
+                "coucou",
+                "wesh"
             ],
             "answers": [
                 "heeey salut, ca va ou quoi ?",
@@ -171,7 +172,6 @@
                 "quelle est ta date de naissance"
             ],
             "answers": [
-                "tu as prévu quelque chose ? C'est aujourd'hui mon anniversaire alors",
                 "hmm je ne suis pas trop sur, on peut deviner mon age en comptant mes faces !",
                 "je ne connais pas ma date de naissance exacte, mais je suis plutot jeune"
             ]
@@ -241,6 +241,18 @@
                 "J'adore cette partie de mon boulot !",
                 "Oh oui! Oh oui ! Vite vite !",
                 "DES DÉS! DES DÉS! MES DÉS PARTOUT!"
+            ]
+        },
+        {
+            "intent": "bro",
+            "utterances": [
+                "bruh",
+                "my bro"
+            ],
+            "answers": [
+                "BRUH",
+                "https://tenor.com/ba7RL.gif",
+                "ca va my bro ?"
             ]
         }
     ]
