@@ -9,6 +9,7 @@ const { NlpManager } = require('node-nlp');
 const config = require('../config.json');
 const { prefix, token, creator_id, default_cooldown } = config;
 const nlpTools = require('./nlp/nlp_process.js')
+const thoughts = './nlp/thoughts.txt';
 
 const client = new Discord.Client();
 
@@ -32,11 +33,38 @@ manager.addCorpus('./nlp/corpus-fr.json');
 })();
 
 
+const minTime = 20 // hours 
+const maxTime = 72 // hours 
+var interval = (Math.floor(Math.random() * (maxTime - minTime) ) + minTime) * 60 * 60 * 1000 ; // in ms
+var msgs = [];
+fs.readFile(thoughts ,'utf8', ((err, data) => {
+    msgs = msgs.concat(data.split('\n'));
+    })
+);
+var intervalId;
+
+function startInterval(_interval,client,channelId,msgs) {
+    // Store the id of the interval so we can clear it later
+    intervalId = setInterval(function() {
+        client.channels.fetch(channelId).then(channel => {
+            channel.send(msgs[Math.floor(Math.random() * msgs.length)]);
+            clearInterval(intervalId);
+            interval = (Math.floor(Math.random() * (maxTime - minTime) ) + minTime) * 1000 ; // in ms
+            startInterval(interval,client,channelId,msgs);
+        })
+        .catch(console.error); // add error handling here
+    }, _interval);
+  }
 
 
 client.once('ready', () => {
     client.user.setPresence({ activity: { name: `les dés`, type: 'LISTENING' }, status: 'online' });
     console.log('Bot logged in!');
+   
+    const oopsGeneralId = "412295691755454488";
+    // testingId = "775495920321298462"
+
+    startInterval(interval,client,oopsGeneralId,msgs)
 });
 
 // NEW MEMBER IN GUILD
