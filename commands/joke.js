@@ -57,7 +57,7 @@ module.exports = {
                 message.channel.send(`**${data.joke}**\n*${data.answer}*`)
             })
             .then(() => { 
-                replyToJoke(message,data.type);
+                replyToJoke(message,joke_type);
                 if (Math.random()<=replyProb) {
                     message.channel.send('Au risque de me répéter, personnellement, je ne trouve pas ces blagues drôles ni bien écrites, elles viennent de ce que vous appelez Internet...');
                 }
