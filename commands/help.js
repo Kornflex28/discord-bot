@@ -1,4 +1,4 @@
-const { prefix, default_cooldown } = require('../../config.json');
+const { prefix, default_cooldown, creator_id } = require('../../config.json');
 module.exports = {
 	name: 'help',
 	description: 'Liste de toutes mes faces (commandes) ou infos à propos d\'une face spécifique.',
