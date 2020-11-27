@@ -119,10 +119,16 @@ client.on('message', message => {
 		client.emit('guildMemberAdd', message.member);
     }
     
-    if (message.content === 'saucisse' && message.author.id == creator_id) {
-		client.channels.fetch(oopsGeneralId).then(channel => {
-            channel.send(msgs[Math.floor(Math.random() * msgs.length)]);
-            msg = `\`\`\`ini\n [saucisse sent to ${channel.name}]\n\`\`\``
+    if (message.content.startsWith('mergez') && message.author.id == creator_id) {
+        const messageContent = message.content.slice('mergez'.length +1).trim();
+        console.log(`"${messageContent}"`)
+		client.channels.fetch(testingId).then(channel => {
+            if (messageContent === "") {
+                channel.send(msgs[Math.floor(Math.random() * msgs.length)]);
+            } else {
+                channel.send(messageContent);
+            }
+            msg = `\`\`\`ini\n [mergez sent to ${channel.name}]\n\`\`\``
             sendToLogs(logsChannelId,msg)
         })
     }
