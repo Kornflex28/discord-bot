@@ -121,8 +121,8 @@ client.on('message', message => {
     
     if (message.content.startsWith('mergez') && message.author.id == creator_id) {
         const messageContent = message.content.slice('mergez'.length +1).trim();
-        console.log(`"${messageContent}"`)
-		client.channels.fetch(testingId).then(channel => {
+        // console.log(`"${messageContent}"`)
+		client.channels.fetch(oopsGeneralId).then(channel => {
             if (messageContent === "") {
                 channel.send(msgs[Math.floor(Math.random() * msgs.length)]);
             } else {
