@@ -103,7 +103,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
             const lines = ['Et c\'est reparti...', 'Fidèle à soi même', 'Pour changer', 'Ah toi aussi ?', 'Mais NAN ?!', 'Indémodable'];
             channel.send(`${lines[Math.floor(Math.random()*lines.length)]} <@${newMember.member.user.id}> arrive sur le vocal ${targetVoiceChannel}`);
             voiceAddMsg = `\`\`\`bash\n "${newMember.member.user.username} joined ${targetVoiceChannel} in vocal in ${newMember.member.guild}"\n\`\`\``
-            sendToLogs(process.env.LOGS_CHANNEL_ID,guildAddMsg);
+            sendToLogs(process.env.LOGS_CHANNEL_ID,voiceAddMsg);
         }
     }
     
@@ -221,7 +221,7 @@ client.on('message', message => {
 
             // console.log(message)
             console.log(message.author.username, message.content);
-            commandMsg = `\`\`\`diff\n+ Command msg by ${message.author.username} in ${message.channel.name}, ${message.guild.name}\n ${message.content}\n\`\`\``;
+            commandMsg = `\`\`\`diff\n+ Command msg by ${message.author.username} in ${message.channel.type === 'dm' ? "DM" : message.channel.name}, ${message.guild.name}\n ${message.content}\n\`\`\``;
             sendToLogs(process.env.LOGS_CHANNEL_ID,commandMsg)
         }
     }
