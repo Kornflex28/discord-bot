@@ -2,15 +2,6 @@ require('dotenv').config();
 const fetch = require("node-fetch");
 const randomWords = require('random-words');
 
-function clean_str(str) {
-    return str.replace('\'',' ')
-            .replace('é','e')
-            .replace('è','e')
-            .replace('ê','e')
-            .replace('à','a')
-            .replace('')
-            ;
-};
 module.exports = {
 	name: 'gif',
     description: 'Lance le dé et envoie un gif selon une recherche ou un gif aleatoire si aucun argument n\'est donné',
