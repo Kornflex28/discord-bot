@@ -221,7 +221,7 @@ client.on('message', message => {
 
             // console.log(message)
             console.log(message.author.username, message.content);
-            commandMsg = `\`\`\`diff\n+ Command msg by ${message.author.username} in ${message.channel.type === 'dm' ? "DM" : message.channel.name}, ${message.guild.name}\n ${message.content}\n\`\`\``;
+            commandMsg = `\`\`\`diff\n+ Command msg by ${message.author.username} in ${message.channel.type === 'dm' ? "DM" : message.channel.name}${message.channel.type != 'dm' ? `, ${message.guild.name}`:''}\n ${message.content}\n\`\`\``;
             sendToLogs(process.env.LOGS_CHANNEL_ID,commandMsg)
         }
     }
