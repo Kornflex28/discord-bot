@@ -1,4 +1,4 @@
-const { prefix, default_cooldown, creator_id } = require('../../config.json');
+require('dotenv').config()
 module.exports = {
 	name: 'help',
 	description: 'Liste de toutes mes faces (commandes) ou infos à propos d\'une face spécifique.',
@@ -12,7 +12,7 @@ module.exports = {
     if (!args.length) {
         data.push('Voici une liste de toutes mes faces (commandes):');
         data.push(commands.map(command => command.name).join(', '));
-        data.push(`\nTu peux envoyer \`${prefix}help <nom de commande>\` pour les infos specifiques à celle ci !`);
+        data.push(`\nTu peux envoyer \`${process.env.BOT_PREFIX}help <nom de commande>\` pour les infos specifiques à celle ci !`);
 
         return message.author.send(data, { split: true })
             .then(() => {
@@ -29,16 +29,16 @@ module.exports = {
     const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
 
     if (!command) {
-        return message.reply(`\`${name}\` n\'est pas encore une de mes faces (commande), si tu as une idée de génie tu peux toujours envoyer un message à <@${creator_id}> (gros tocard askip).`);
+        return message.reply(`\`${name}\` n\'est pas encore une de mes faces (commande), si tu as une idée de génie tu peux toujours envoyer un message à <@${process.env.CREATOR_ID}> (gros tocard askip).`);
     }
 
     data.push(`**Nom:** ${command.name}`);
 
     if (command.aliases) data.push(`**Alias:** ${command.aliases.join(', ')}`);
     if (command.description) data.push(`**Description:** ${command.description}`);
-    if (command.usage) data.push(`**Utilisation:** ${prefix}${command.name} ${command.usage}`);
+    if (command.usage) data.push(`**Utilisation:** ${process.env.BOT_PREFIX}${command.name} ${command.usage}`);
 
-    data.push(`**Cooldown:** ${command.cooldown || default_cooldown} s`);
+    data.push(`**Cooldown:** ${command.cooldown || parseInt(process.env.DEFAULT_COOLDOWN)} s`);
 
     message.channel.send(data, { split: true });
 

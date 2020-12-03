@@ -1,5 +1,9 @@
-const config = require('../../config.json');
-var {_guessMin, _guessMax, _guessChosen, _guessN} = config.guess;
+require('dotenv').config();
+
+var _guessMin = parseInt(process.env.GUESS_MIN);
+var _guessMax = parseInt(process.env.GUESS_MAX);
+var _guessChosen = process.env.GUESS_CHOSEN;
+var _guessN = parseInt(process.env.GUESS_N);
 module.exports = {
 	name: 'guess',
     description: 'Jeu pour tester ton QI où il faut deviner le nombre que j\'ai choisi entre 2 nombres.',
@@ -30,7 +34,6 @@ module.exports = {
             _guessChosen = false;
             message.channel.send(`Incroyable ${message.author} tu as deviné ! **Mon nombre était ${user_guess}**`).then((bot_message) => bot_message.react('🤯'));
         }
-        // message.reply(`chosen number is: ${config._guessN}`)
         return;
 	},
 };

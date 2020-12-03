@@ -1,4 +1,4 @@
-const { joke_api_key } = require('../../config.json');
+require('dotenv').config()
 const fetch = require("node-fetch");
 
 
@@ -30,7 +30,7 @@ module.exports = {
         if (!args.length){
             fetch('https://www.blagues-api.fr/api/random?disallow=blondes', {
                 headers: {
-                    'Authorization': `Bearer ${joke_api_key}`
+                    'Authorization': `Bearer ${process.env.JOKE_TOKEN}`
                 }
             })
             .then(response => response.json())
@@ -49,7 +49,7 @@ module.exports = {
         else if (joke_types.includes(joke_type)) {
             fetch(`https://www.blagues-api.fr/api/type/${joke_type}/random`, {
                 headers: {
-                    'Authorization': `Bearer ${joke_api_key}`
+                    'Authorization': `Bearer ${process.env.JOKE_TOKEN}`
                 }
             })
             .then(response => response.json())

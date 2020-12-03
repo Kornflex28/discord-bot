@@ -1,4 +1,4 @@
-const { nasa_api_key } = require('../../config.json');
+require('dotenv').config();
 const Discord = require('discord.js');
 const fetch = require("node-fetch");
 var fetch_url;
@@ -13,9 +13,9 @@ module.exports = {
             var randYear = Math.floor(Math.random()*21)+2000;
             var randMonth = Math.floor(Math.random()*12)+1;
             var randDay = Math.floor(Math.random()*29)+1;
-            fetch_url = "https://api.nasa.gov/planetary/apod?api_key=" + nasa_api_key + `&date=${randYear}-${randMonth}-${randDay}`
+            fetch_url = "https://api.nasa.gov/planetary/apod?api_key=" + process.env.NASA_TOKEN + `&date=${randYear}-${randMonth}-${randDay}`
         } else if (args[0] === 'ajd') {
-            fetch_url = "https://api.nasa.gov/planetary/apod?api_key="+ nasa_api_key;
+            fetch_url = "https://api.nasa.gov/planetary/apod?api_key="+ process.env.NASA_TOKEN;
         } else {
             return message.reply(`désolé mais l'argument \`${args[0]}\` n'est pas correct, essaye avec "ajd".`)
         }

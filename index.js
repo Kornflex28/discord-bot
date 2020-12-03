@@ -4,10 +4,9 @@ var emojis = [
 
 
 const fs = require('fs');
+require('dotenv').config();
 const Discord = require('discord.js');
 const { NlpManager } = require('node-nlp');
-const config = require('../config.json');
-const { prefix, token, creator_id, default_cooldown } = config;
 const nlpTools = require('./nlp/nlp_process.js')
 const thoughts = './nlp/thoughts.txt';
 
@@ -72,7 +71,7 @@ client.once('ready', () => {
     console.log('Bot logged in!');
 
     startInterval(interval,client,oopsGeneralId,msgs)
-    readyMsg = `\`\`\`diff\n- Bot logged in! ${Date(Date.now()).toLocaleString()}\nInterval = ${(interval/(1000*60*60)).toFixed(2)} h\n\`\`\`<@${creator_id}>`;
+    readyMsg = `\`\`\`diff\n- Bot logged in! ${Date(Date.now()).toLocaleString()}\nInterval = ${(interval/(1000*60*60)).toFixed(2)} h\n\`\`\`<@${process.env.CREATOR_ID}>`;
     sendToLogs(logsChannelId,readyMsg)
 });
 
@@ -115,11 +114,11 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 // MESSAGE 
 client.on('message', message => {
 
-    if (message.content === '!!testjoin' && message.author.id == creator_id) {
+    if (message.content === '!!testjoin' && message.author.id == process.env.CREATOR_ID) {
 		client.emit('guildMemberAdd', message.member);
     }
     
-    if (message.content.startsWith('mergez') && message.author.id == creator_id) {
+    if (message.content.startsWith('mergez') && message.author.id == process.env.CREATOR_ID) {
         const messageContent = message.content.slice('mergez'.length +1).trim();
         // console.log(`"${messageContent}"`)
 		client.channels.fetch(oopsGeneralId).then(channel => {
@@ -167,16 +166,16 @@ client.on('message', message => {
         }
 
         // commands handling
-        if (message.content.startsWith(prefix)) {
+        if (message.content.startsWith(process.env.BOT_PREFIX)) {
 
-            const args = message.content.slice(prefix.length).trim().split(/ +/);
+            const args = message.content.slice(process.env.BOT_PREFIX.length).trim().split(/ +/);
             const commandName = args.shift().toLowerCase();
 
             const command = client.commands.get(commandName)
                 || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
             if (!command) {
-                return message.reply(`désolé mais \`${commandName}\` n'est pas encore une de mes faces, si tu as une idée de génie tu peux toujours envoyer un message à <@${creator_id}> (gros tocard askip).`);
+                return message.reply(`désolé mais \`${commandName}\` n'est pas encore une de mes faces, si tu as une idée de génie tu peux toujours envoyer un message à <@${process.env.CREATOR_ID}> (gros tocard askip).`);
             };
 
             if (command.guildOnly && message.channel.type === 'dm') {
@@ -187,7 +186,7 @@ client.on('message', message => {
                 let reply = 'désolé mais tu n\'as pas donné d\'argument. C\'est scandaleux !';
 
                 if (command.usage) {
-                    reply += `\nL'utilisation correcte serait: \`${prefix}${command.name} ${command.usage}\``;
+                    reply += `\nL'utilisation correcte serait: \`${process.env.BOT_PREFIX}${command.name} ${command.usage}\``;
                 }
 
                 return message.reply(reply);
@@ -199,7 +198,7 @@ client.on('message', message => {
 
             const now = Date.now();
             const timestamps = cooldowns.get(command.name);
-            const cooldownAmount = (command.cooldown || default_cooldown) * 1000;
+            const cooldownAmount = (command.cooldown || parseInt(process.env.DEFAULT_COOLDOWN)) * 1000;
 
             if (timestamps.has(message.author.id)) {
                 const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
@@ -232,4 +231,4 @@ client.on('message', message => {
 });
 
 
-client.login(token);
+client.login(process.env.BOT_TOKEN);

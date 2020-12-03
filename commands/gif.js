@@ -1,4 +1,4 @@
-const { tenor } = require('../../config.json');
+require('dotenv').config();
 const fetch = require("node-fetch");
 const randomWords = require('random-words');
 
@@ -19,13 +19,13 @@ module.exports = {
 	execute(message, args) {
         var gif_url;
         if (!args.length){
-            var search_url = "https://api.tenor.com/v1/search?q=" + randomWords() + "&key=" + tenor.api_key + "&limit=" + tenor.search_limit + "&media_filter=minimal&contentfilter=medium";
+            var search_url = "https://api.tenor.com/v1/search?q=" + randomWords() + "&key=" + process.env.TENOR_TOKEN + "&limit=8&media_filter=minimal&contentfilter=medium";
             
             fetch(search_url)
                 .then(response => response.json())
                 .then(json => {
                     try {
-                        gif_url = json.results[Math.floor(Math.random() * tenor.search_limit)].url
+                        gif_url = json.results[Math.floor(Math.random() * 8)].url
                         message.channel.send(gif_url);
                     } catch (error) {
                         console.error(error);
@@ -39,7 +39,7 @@ module.exports = {
             if (search_term.length>30){
                 return message.reply(' elle est quand même longue ta recherche, essaye quelquechose de moins long !');
             }
-            var search_url = "https://api.tenor.com/v1/search?q=" + encodeURIComponent(search_term) + "&key=" + tenor.api_key + "&limit=" + tenor.search_limit + "&media_filter=minimal&contentfilter=medium";
+            var search_url = "https://api.tenor.com/v1/search?q=" + encodeURIComponent(search_term) + "&key=" + process.env.TENOR_TOKEN + "&limit=8&media_filter=minimal&contentfilter=medium";
             // console.log(search_url);
             fetch(search_url)
                 .then(response => {return response.json();})
@@ -50,7 +50,7 @@ module.exports = {
                         return this.execute(message,[]);
                     } else {
                         try {
-                            gif_url = json.results[Math.floor(Math.random() * tenor.search_limit)].url
+                            gif_url = json.results[Math.floor(Math.random() * 8)].url
                             message.channel.send(gif_url);
                         } catch (error) {
                             console.error(error);

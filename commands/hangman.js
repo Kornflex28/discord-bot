@@ -1,9 +1,14 @@
-const config = require('../../config.json');
+require('dotenv').config();
 const Discord = require('discord.js');
 const fs = require('fs');
 const frNouns = './french_nouns.txt';
 const frVerbs = './french_verbs.txt';
-var { hangman, dico_api_key } = config;
+var hangman_init = process.env.HANGMAN;
+var hangman;
+if (!hangman_init) {
+    hangman = []
+    hangman_init = true;
+}
 const fetch = require('node-fetch');
 const dict_url = "https://api.dicolink.com/v1/mot/";
 
@@ -11,20 +16,20 @@ const dict_url = "https://api.dicolink.com/v1/mot/";
 function clean_str(str) {
     return str.toLowerCase()
         .replace('\'', ' ')
-        .replace('é', 'e')
-        .replace('è', 'e')
-        .replace('ê', 'e')
-        .replace('ë','e')
-        .replace('à', 'a')
-        .replace('ä','a')
-        .replace('ï','i')
-        .replace('î','i')
-        .replace('ô','o')
-        .replace('ö','o')
-        .replace('û','u')
-        .replace('ü','u')
-        .replace('ù','u')
-        .replace('ç','c')
+        .replace(/é/g, 'e')
+        .replace(/è/g, 'e')
+        .replace(/ê/g, 'e')
+        .replace(/ë/g,'e')
+        .replace(/à/g, 'a')
+        .replace(/ä/g,'a')
+        .replace(/ï/g,'i')
+        .replace(/î/g,'i')
+        .replace(/ô/g,'o')
+        .replace(/ö/g,'o')
+        .replace(/û/g,'u')
+        .replace(/ü/g,'u')
+        .replace(/ù/g,'u')
+        .replace(/ç/g,'c')
         ;
 };
 
@@ -53,63 +58,6 @@ function boardWord(word, letters) {
     return boardW;
 }
 
-hangman = [`
-  +---+
-  |   |
-      |
-      |
-      |
-      |
-=========
-`, `
-  +---+
-  |   |
-  O   |
-      |
-      |
-      |
-=========
-`, `
-  +---+
-  |   |
-  O   |
-  |   |
-      |
-      |
-=========
-`, `
-  +---+
-  |   |
-  O   |
- /|   |
-      |
-      |
-=========
-`, `
-  +---+
-  |   |
-  O   |
- /|\\\  |
-      |
-      |
-=========
-`, `
-  +---+
-  |   |
-  O   |
- /|\\\  |
- /    |
-      |
-=========
-`, `
-  +---+
-  |   |
-  O   |
- /|\\\  |
- / \\\  |
-      |
-=========
-`];
 
 
 module.exports = {
@@ -119,14 +67,11 @@ module.exports = {
     usage: '<"create"> ou <"board"> ou <lettre> ou <"endgame">',
     aliases: ['pendu'],
     args: true,
+    guildOnly: true,
     execute(message, args) {
         const senderChannel = message.channel;
         const arg = clean_str(args[0]);
         var game = hangman.find(game => game._channelId == senderChannel.id);
-
-        // if (message.author.id != config.creator_id) {
-        //     return senderChannel.send('Désolé mais tu ne peux pas lancer cette commande encore');
-        // }
 
         if (arg === 'create') {
             if (game !== undefined) {
@@ -242,7 +187,7 @@ module.exports = {
 
             if (!game._livesRemaining) {
                 senderChannel.send(`aie aie ça dégage ! Juste au cas où, le mot était *${game._guessWord}*`).then(() => {
-                    fetch(dict_url+`${game._guessWord}/definitions?limite=3&source=larousse&api_key=`+dico_api_key)
+                    fetch(dict_url+`${game._guessWord}/definitions?limite=3&source=larousse&api_key=`+process.env.DICO_TOKEN)
                     .then(response => {return response.json()})
                     .then(json =>{
                             if (json.error){return;}
@@ -261,7 +206,7 @@ module.exports = {
             }
             if (!game._lastMessage.embeds[0].fields[0].value.includes('\\_')){
                 senderChannel.send(`MAIS NAN ?! Bravo (c'était facile)`).then(() => {
-                    fetch(dict_url+`${game._guessWord}/definitions?limite=3&source=larousse&api_key=`+dico_api_key)
+                    fetch(dict_url+`${game._guessWord}/definitions?limite=3&source=larousse&api_key=`+process.env.DICO_TOKEN)
                     .then(response => {return response.json()})
                     .then(json =>{
                             if (json.error){return;}
