@@ -30,7 +30,7 @@ module.exports = {
         const rankEmbed = new Discord.MessageEmbed()
             .setColor('RANDOM')
             .setTitle(`${target.user.username}`)
-            .setDescription(`A rejoint le serveur le ${target.joinedAt.toLocaleDateString()}`)
+            .setDescription(`A rejoint le serveur le ${target.joinedAt.toLocaleDateString('fr-FR')}`)
             .setThumbnail(`${target.user.displayAvatarURL({ format: "png", dynamic: true })}`)
             .addField(`Niveau ${user.level}`,`Prochain niveau: ${user.xp.toLocaleString()}/${100*(user.level+1)**2} XP`)
             .setTimestamp()
