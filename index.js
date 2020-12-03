@@ -41,9 +41,7 @@ fs.readFile(thoughts ,'utf8', ((err, data) => {
     })
 );
 var intervalId;
-const logsChannelId = "781840003117744158";
-const oopsGeneralId = "412295691755454488";
-const testingId = "775495920321298462";
+
 
 function startInterval(_interval,client,channelId,msgs) {
     // Store the id of the interval so we can clear it later
@@ -53,15 +51,15 @@ function startInterval(_interval,client,channelId,msgs) {
             clearInterval(intervalId);
             interval = (Math.floor(Math.random() * (maxTime - minTime) ) + minTime) * 1000 ; // in ms
             msg = `\`\`\`ini\n [saucisse sent to ${channel.name}, new Interval = ${(interval/(1000*60*60)).toFixed(2)} h]\n\`\`\``
-            sendToLogs(logsChannelId,msg)
+            sendToLogs(process.env.LOGS_CHANNEL_ID,msg)
             startInterval(interval,client,channelId,msgs);
         })
         .catch(console.error); // add error handling here
     }, _interval);
   }
 
-function sendToLogs(logsChannelId,msg) {
-    client.channels.fetch(logsChannelId).then(channel => {
+function sendToLogs(process.env.LOGS_CHANNEL_ID,msg) {
+    client.channels.fetch(process.env.LOGS_CHANNEL_ID).then(channel => {
         channel.send(msg)
     });
 }
@@ -70,9 +68,9 @@ client.once('ready', () => {
     client.user.setPresence({ activity: { name: `les dés`, type: 'LISTENING' }, status: 'online' });
     console.log('Bot logged in!');
 
-    startInterval(interval,client,oopsGeneralId,msgs)
+    startInterval(interval,client,process.env.OOPS_GENERAL_ID,msgs)
     readyMsg = `\`\`\`diff\n- Bot logged in! ${Date(Date.now()).toLocaleString()}\nInterval = ${(interval/(1000*60*60)).toFixed(2)} h\n\`\`\`<@${process.env.CREATOR_ID}>`;
-    sendToLogs(logsChannelId,readyMsg)
+    sendToLogs(process.env.LOGS_CHANNEL_ID,readyMsg)
 });
 
 // NEW MEMBER IN GUILD
@@ -86,7 +84,7 @@ client.on('guildMemberAdd', member => {
     die_emojis = dice.map(die => client.emojis.cache.find(emoji => emoji.name === `die${die}`));
     channel.send(`${die_emojis.join("")}`)
     guildAddMsg = `\`\`\`fix\n ${member.user.username} joined ${channel.name} in ${member.guild}\n\`\`\``
-    sendToLogs(logsChannelId,guildAddMsg);
+    sendToLogs(process.env.LOGS_CHANNEL_ID,guildAddMsg);
     
 });
 
@@ -105,7 +103,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
             const lines = ['Et c\'est reparti...', 'Fidèle à soi même', 'Pour changer', 'Ah toi aussi ?', 'Mais NAN ?!', 'Indémodable'];
             channel.send(`${lines[Math.floor(Math.random()*lines.length)]} <@${newMember.member.user.id}> arrive sur le vocal ${targetVoiceChannel}`);
             voiceAddMsg = `\`\`\`bash\n "${newMember.member.user.username} joined ${targetVoiceChannel} in vocal in ${newMember.member.guild}"\n\`\`\``
-            sendToLogs(logsChannelId,guildAddMsg);
+            sendToLogs(process.env.LOGS_CHANNEL_ID,guildAddMsg);
         }
     }
     
@@ -121,14 +119,14 @@ client.on('message', message => {
     if (message.content.startsWith('mergez') && message.author.id == process.env.CREATOR_ID) {
         const messageContent = message.content.slice('mergez'.length +1).trim();
         // console.log(`"${messageContent}"`)
-		client.channels.fetch(oopsGeneralId).then(channel => {
+		client.channels.fetch(process.env.OOPS_GENERAL_ID).then(channel => {
             if (messageContent === "") {
                 channel.send(msgs[Math.floor(Math.random() * msgs.length)]);
             } else {
                 channel.send(messageContent);
             }
             msg = `\`\`\`ini\n [mergez sent to ${channel.name}]\n\`\`\``
-            sendToLogs(logsChannelId,msg)
+            sendToLogs(process.env.LOGS_CHANNEL_ID,msg)
         })
     }
 
@@ -160,7 +158,7 @@ client.on('message', message => {
 
             const messageContent = message.content.slice(bot_id.length + 4).trim();
             mentionMsg = `\`\`\`diff\n+ Bot mention by ${message.author.username} in ${message.channel.name}, ${message.guild.name}\n ${messageContent}\n\`\`\``
-            sendToLogs(logsChannelId,mentionMsg)
+            sendToLogs(process.env.LOGS_CHANNEL_ID,mentionMsg)
 
             nlpTools.process_message(manager, message, messageContent);
         }
@@ -217,14 +215,14 @@ client.on('message', message => {
             } catch (error) {
                 console.error(error);
                 errorMsg = `\`\`\`css\n[Bot error]\n${error}}\n\`\`\``;
-                sendToLogs(logsChannelId,errorMsg)
+                sendToLogs(process.env.LOGS_CHANNEL_ID,errorMsg)
                 message.reply(`oups j\'ai du être mal lancé 🤕, il y a eu une erreur lors de l\'éxécution.\n\`${error}\``);
             }
 
             // console.log(message)
             console.log(message.author.username, message.content);
             commandMsg = `\`\`\`diff\n+ Command msg by ${message.author.username} in ${message.channel.name}, ${message.guild.name}\n ${message.content}\n\`\`\``;
-            sendToLogs(logsChannelId,commandMsg)
+            sendToLogs(process.env.LOGS_CHANNEL_ID,commandMsg)
         }
     }
 
