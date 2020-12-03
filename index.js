@@ -58,8 +58,8 @@ function startInterval(_interval,client,channelId,msgs) {
     }, _interval);
   }
 
-function sendToLogs(process.env.LOGS_CHANNEL_ID,msg) {
-    client.channels.fetch(process.env.LOGS_CHANNEL_ID).then(channel => {
+function sendToLogs(LOGS_CHANNEL_ID,msg) {
+    client.channels.fetch(LOGS_CHANNEL_ID).then(channel => {
         channel.send(msg)
     });
 }
