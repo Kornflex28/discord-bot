@@ -40,9 +40,9 @@ function decodeString(str) {
 };
 
 module.exports = {
-	name: 'poesie',
+	name: 'poem',
     description: 'Lance le dé et obtient un poème aleatoire francais',
-    aliases: ['poésie','poeme','poème','poem'],
+    aliases: ['poésie','poeme','poème','poesie'],
     cooldown: 15,
 	execute(message, args) {
         
