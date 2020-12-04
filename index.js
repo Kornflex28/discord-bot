@@ -74,14 +74,18 @@ function addXpToActiveUsers(client) {
     client.guilds.cache.forEach(guild =>{
         if (guild.voiceStates.cache.size > 0) {
             guild.voiceStates.cache.forEach(async (user) =>{
-                const guildGeneral = guild.channels.cache.find(ch => ch.name === targetMessageChannel);
-                const userInst = await client.users.fetch(user.id);
-                var randomAmountOfXp = Math.floor(Math.random() * 2) + 1; // Min 1, Max 2
-                const hasLeveledUp = await Levels.appendXp(user.id, user.guild.id, randomAmountOfXp);
-                if (hasLeveledUp) {
-                    const usr = await Levels.fetch(user.id, user.guild.id);
-                    guildGeneral.send(`${userInst}, ${lvlUpMessages[Math.floor(Math.random()*lvlUpMessages.length)]} Tu as gagné un niveau, tu es desormais niveau **${usr.level}**. :tada:`);
-                }
+                // console.log('ping')
+                if (user.channelID!=null) {
+                    const guildGeneral = guild.channels.cache.find(ch => ch.name === targetMessageChannel);
+                    const userInst = await client.users.fetch(user.id);
+                    // console.log(user);
+                    var randomAmountOfXp = Math.floor(Math.random() * 2) + 1; // Min 1, Max 2
+                    const hasLeveledUp = await Levels.appendXp(user.id, user.guild.id, randomAmountOfXp);
+                    if (hasLeveledUp) {
+                        const usr = await Levels.fetch(user.id, user.guild.id);
+                        guildGeneral.send(`${userInst}, ${lvlUpMessages[Math.floor(Math.random()*lvlUpMessages.length)]} Tu as gagné un niveau, tu es desormais niveau **${usr.level}**. :tada:`);
+                    }
+            }
             })
         }
     })
