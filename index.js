@@ -125,7 +125,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 
     const targetVoiceChannel = 'LoL';
     const targetMessageChannel = 'general';
-    const message_prob = 0.25;
+    const message_prob = 0.1;
     let newUserChannel = newMember.channel
     let oldUserChannel = oldMember.channel
     
