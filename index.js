@@ -70,20 +70,22 @@ function sendToLogs(LOGS_CHANNEL_ID,msg) {
 }
 
 function addXpToActiveUsers(client) {
-    const targetMessageChannel = 'general';
+    // const targetMessageChannel = 'general';
+    const targetMessageChannel = '🌾xp-farm';
     client.guilds.cache.forEach(guild =>{
+        // console.log(guild.channels.cache.find(ch => ch.name === targetMessageChannel));
         if (guild.voiceStates.cache.size > 0) {
             guild.voiceStates.cache.forEach(async (user) =>{
                 // console.log('ping')
                 if (user.channelID!=null) {
-                    const guildGeneral = guild.channels.cache.find(ch => ch.name === targetMessageChannel);
+                    const xpChannel = guild.channels.cache.find(ch => ch.name === targetMessageChannel);
                     const userInst = await client.users.fetch(user.id);
                     // console.log(user);
                     var randomAmountOfXp = Math.floor(Math.random() * 2) + 1; // Min 1, Max 2
                     const hasLeveledUp = await Levels.appendXp(user.id, user.guild.id, randomAmountOfXp);
                     if (hasLeveledUp) {
                         const usr = await Levels.fetch(user.id, user.guild.id);
-                        guildGeneral.send(`${userInst}, ${lvlUpMessages[Math.floor(Math.random()*lvlUpMessages.length)]} Tu as gagné un niveau, tu es desormais niveau **${usr.level}**. :tada:`);
+                        xpChannel.send(`${userInst.username}, ${lvlUpMessages[Math.floor(Math.random()*lvlUpMessages.length)]} Tu as gagné un niveau, tu es desormais niveau **${usr.level}**. :tada:`);
                     }
             }
             })
@@ -166,11 +168,13 @@ client.on('message', async (message) => {
 
 
         if (message.guild) {
+            const targetMessageChannel = '🌾xp-farm';
+            const xpChannel = message.guild.channels.cache.find(ch => ch.name === targetMessageChannel)
             const randomAmountOfXp = Math.floor(Math.random() * 29) + 1; // Min 1, Max 30
             const hasLeveledUp = await Levels.appendXp(message.author.id, message.guild.id, randomAmountOfXp);
             if (hasLeveledUp) {
                 const user = await Levels.fetch(message.author.id, message.guild.id);
-                message.channel.send(`${message.author}, ${lvlUpMessages[Math.floor(Math.random()*lvlUpMessages.length)]} Tu as gagné un niveau, tu es desormais niveau **${user.level}**. :tada:`);
+                xpChannel.send(`${message.author.username}, ${lvlUpMessages[Math.floor(Math.random()*lvlUpMessages.length)]} Tu as gagné un niveau, tu es desormais niveau **${user.level}**. :tada:`);
             }
         }
 
