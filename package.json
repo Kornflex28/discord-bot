@@ -9,7 +9,7 @@
     "node-html-parser": "^2.0.0",
     "node-nlp": "^4.15.0",
     "random-words": "^1.1.1",
-    "translate": "^0.7.0"
+    "wikijs": "^6.0.1"
   },
   "main": "index.js",
   "name": "discord-bot"
