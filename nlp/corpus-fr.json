@@ -210,7 +210,7 @@
             ]
         },
         {
-            "intent": "command.poesie",
+            "intent": "command.poem",
             "utterances": [
                 "donne poème",
                 "montre moi un poeme",
