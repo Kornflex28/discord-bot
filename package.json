@@ -8,7 +8,9 @@
     "node-fetch": "^2.6.1",
     "node-html-parser": "^2.0.0",
     "node-nlp": "^4.15.0",
-    "random-words": "^1.1.1"
+    "random-words": "^1.1.1",
+    "translate": "^0.7.0"
   },
-  "main": "index.js"
+  "main": "index.js",
+  "name": "discord-bot"
 }

@@ -85,7 +85,7 @@ function addXpToActiveUsers(client) {
                     const hasLeveledUp = await Levels.appendXp(user.id, user.guild.id, randomAmountOfXp);
                     if (hasLeveledUp) {
                         const usr = await Levels.fetch(user.id, user.guild.id);
-                        xpChannel.send(`${userInst.username}, ${lvlUpMessages[Math.floor(Math.random()*lvlUpMessages.length)]} Tu as gagné un niveau, tu es desormais niveau **${usr.level}**. :tada:`);
+                        xpChannel.send(`**${userInst.username}**, ${lvlUpMessages[Math.floor(Math.random()*lvlUpMessages.length)]} Tu as gagné un niveau, tu es desormais niveau **${usr.level}**. :tada:`);
                     }
             }
             })
@@ -174,7 +174,7 @@ client.on('message', async (message) => {
             const hasLeveledUp = await Levels.appendXp(message.author.id, message.guild.id, randomAmountOfXp);
             if (hasLeveledUp) {
                 const user = await Levels.fetch(message.author.id, message.guild.id);
-                xpChannel.send(`${message.author.username}, ${lvlUpMessages[Math.floor(Math.random()*lvlUpMessages.length)]} Tu as gagné un niveau, tu es desormais niveau **${user.level}**. :tada:`);
+                xpChannel.send(`**${message.author.username}**, ${lvlUpMessages[Math.floor(Math.random()*lvlUpMessages.length)]} Tu as gagné un niveau, tu es desormais niveau **${user.level}**. :tada:`);
             }
         }
 
