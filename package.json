@@ -9,6 +9,7 @@
     "node-html-parser": "^2.0.0",
     "node-nlp": "^4.15.0",
     "random-words": "^1.1.1",
+    "twit": "^2.2.11",
     "wikijs": "^6.0.1"
   },
   "main": "index.js",
