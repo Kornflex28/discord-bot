@@ -11,7 +11,7 @@ module.exports = {
     usage: '@utilisateur ou rien',
 	async execute(message, args) {
         const target = message.mentions.members.first() || message.member;
-        console.log(target)
+        // console.log(target)
         if (target.id === process.env.BOT_ID) {
             const rankEmbed = new Discord.MessageEmbed()
             .setColor('RANDOM')

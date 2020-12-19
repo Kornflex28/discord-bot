@@ -11,7 +11,7 @@ module.exports = {
 
     if (!args.length) {
         data.push('Voici une liste de toutes mes faces (commandes):');
-        data.push(commands.map(command => command.name).join(', '));
+        data.push('```' + commands.map(command => command.name).join(', ')+'```');
         data.push(`\nTu peux envoyer \`${process.env.BOT_PREFIX}help <nom de commande>\` pour les infos specifiques à celle ci !`);
 
         return message.author.send(data, { split: true })

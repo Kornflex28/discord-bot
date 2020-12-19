@@ -25,13 +25,15 @@ module.exports = {
         const client = message.client;
         const messageChannel = message.channel;
         var die_emojis;
-        message.react('🎲');
+       const messageChannel = message.channel;
 
         if (!args.length) {
             n_dice = Math.floor(Math.random() * 15)+1;
             dice = Array.from({ length: n_dice }, () => Math.floor(Math.random() * 6) + 1);
             die_emojis = dice.map(die => client.emojis.cache.find(emoji => emoji.name === `die${die}`));
-            messageChannel.send(`et hop ! Petit lancer de dés ${client.emojis.cache.find(emoji => emoji.name === `rollingdie`)}`)
+
+            messageChannel.send(`Et hop ! Petit lancer de dés ${client.emojis.cache.find(emoji => emoji.name === `rollingdie`)}`)
+
         }
 
         else if (isNaN(n_dice)) {
