@@ -23,6 +23,7 @@ module.exports = {
         var n_dice = parseInt(args[0]);
         var dice;
         const client = message.client;
+        const messageChannel = message.channel;
         var die_emojis;
         message.react('🎲');
 
@@ -30,7 +31,7 @@ module.exports = {
             n_dice = Math.floor(Math.random() * 15)+1;
             dice = Array.from({ length: n_dice }, () => Math.floor(Math.random() * 6) + 1);
             die_emojis = dice.map(die => client.emojis.cache.find(emoji => emoji.name === `die${die}`));
-            message.channel.send(`et hop ! Petit lancer de dés ${client.emojis.cache.find(emoji => emoji.name === `rollingdie`)}`)
+            messageChannel.send(`et hop ! Petit lancer de dés ${client.emojis.cache.find(emoji => emoji.name === `rollingdie`)}`)
         }
 
         else if (isNaN(n_dice)) {
@@ -63,7 +64,7 @@ module.exports = {
             die_emojis = dice.map(die => client.emojis.cache.find(emoji => emoji.name === `die${die}`));
 
         }
-        message.channel.send(`${die_emojis.join("")}`)
+        messageChannel.send(`${die_emojis.join("")}`)
             .then(() => {
                 const sum = dice.reduce((a, b) => a + b, 0);
                 const p_sum = probOfSum(sum, n_dice, 6);
@@ -75,8 +76,8 @@ module.exports = {
                 }
                 const p_roll = (fact[n_dice-1]/die_count) * (1/(6 ** n_dice)); 
                 var m = -Math.floor( Math.log10(p_roll)+1);
-                message.channel.send(`*Tu avais ${(100 * p_roll).toFixed(m<2 ? 2 : m)}% de chances d'obtenir c${n_dice>1 ? 'es' : 'e'} dé${n_dice>1 ? 's (sans tenir compte de l\'ordre)' : ''} .*`);
-                if (n_dice>1) {message.channel.send(`*La somme de tes dés vaut ${sum}, il y a ${(100 * p_sum).toFixed(2)}% de chance d'obtenir ce résultat (${n_sum_possibilities.toLocaleString('en').replace(/,/g," ")} ${n_sum_possibilities>1 ? 'lancers' : 'lancer'} sur les ${(6 ** n_dice).toLocaleString('en').replace(/,/g," ")} possibles)*`)};
+                messageChannel.send(`*Tu avais ${(100 * p_roll).toFixed(m<2 ? 2 : m)}% de chances d'obtenir c${n_dice>1 ? 'es' : 'e'} dé${n_dice>1 ? 's (sans tenir compte de l\'ordre)' : ''} .*`);
+                if (n_dice>1) {messageChannel.send(`*La somme de tes dés vaut ${sum}, il y a ${(100 * p_sum).toFixed(2)}% de chance d'obtenir ce résultat (${n_sum_possibilities.toLocaleString('en').replace(/,/g," ")} ${n_sum_possibilities>1 ? 'lancers' : 'lancer'} sur les ${(6 ** n_dice).toLocaleString('en').replace(/,/g," ")} possibles)*`)};
             });
 
 
