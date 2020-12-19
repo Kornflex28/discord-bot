@@ -8,7 +8,8 @@ module.exports = {
     description: 'Lance les dés et obtiens un mot français aléatoire et sa définition',
     aliases:['mot'],
 	execute(message, args) {
-        message.channel.send('J\'ouvre mon dictionnaire...')
+        const messageChannel = message.channel;
+        messageChannel.send('J\'ouvre mon dictionnaire...')
         fetch(dict_url+process.env.DICO_TOKEN).then(response => response.json())
         .then(json => {
             // console.log(json);
@@ -29,7 +30,7 @@ module.exports = {
                                 }
                             });
                 // console.log(def_str)
-                message.channel.send(def_str);
+                messageChannel.send(def_str);
             })
         })
 	},
