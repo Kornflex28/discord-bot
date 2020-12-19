@@ -25,7 +25,6 @@ module.exports = {
         const client = message.client;
         const messageChannel = message.channel;
         var die_emojis;
-       const messageChannel = message.channel;
 
         if (!args.length) {
             n_dice = Math.floor(Math.random() * 15)+1;
