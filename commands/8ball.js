@@ -23,6 +23,7 @@ module.exports = {
     description: 'La boule magique !!',
     cooldown: 2,
     aliases: ['boule','boulemagique'],
+    args:true,
 	execute(message, args) {
         if (!args.length){
            return message.reply('dis moi quelque chose au moins ! 🧙');
