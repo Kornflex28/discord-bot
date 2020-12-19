@@ -27,10 +27,10 @@ module.exports = {
         message.react('🎲');
 
         if (!args.length) {
-            n_dice = 1;
-            dice = [Math.floor(Math.random() * 6) + 1];
-            die_emojis = Array(client.emojis.cache.find(emoji => emoji.name === `die${dice[0]}`));
-            message.reply(`et hop ! Petit lancer de dé ${client.emojis.cache.find(emoji => emoji.name === `rollingdie`)}`)
+            n_dice = Math.floor(Math.random() * 15)+1;
+            dice = Array.from({ length: n_dice }, () => Math.floor(Math.random() * 6) + 1);
+            die_emojis = dice.map(die => client.emojis.cache.find(emoji => emoji.name === `die${die}`));
+            message.channel.send(`et hop ! Petit lancer de dés ${client.emojis.cache.find(emoji => emoji.name === `rollingdie`)}`)
         }
 
         else if (isNaN(n_dice)) {
