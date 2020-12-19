@@ -19,6 +19,7 @@ module.exports = {
             .then(json => {
                 // console.log(json)
                 if (json.error){return message.reply('désolé mais mon dictionnaire s\'est déchiré on dirait... Réessaye si tu veux')}
+
                 var def_str = new Discord.MessageEmbed()
                             .setTitle(word)
                             .setDescription('[Larousse](https://www.larousse.fr/)')

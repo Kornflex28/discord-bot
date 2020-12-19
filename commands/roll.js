@@ -23,6 +23,7 @@ module.exports = {
         var n_dice = parseInt(args[0]);
         var dice;
         const client = message.client;
+        const messageChannel = message.channel;
         var die_emojis;
        const messageChannel = message.channel;
 
@@ -30,7 +31,9 @@ module.exports = {
             n_dice = Math.floor(Math.random() * 15)+1;
             dice = Array.from({ length: n_dice }, () => Math.floor(Math.random() * 6) + 1);
             die_emojis = dice.map(die => client.emojis.cache.find(emoji => emoji.name === `die${die}`));
+
             messageChannel.send(`Et hop ! Petit lancer de dés ${client.emojis.cache.find(emoji => emoji.name === `rollingdie`)}`)
+
         }
 
         else if (isNaN(n_dice)) {
