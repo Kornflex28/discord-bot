@@ -7,6 +7,7 @@ module.exports = {
 	name: 'definition',
     description: 'Regarde dans mes faces la définition d\'un mot',
     aliases:['def'],
+    args: true,
     usage: '<mot>',
 	execute(message, args) {
         const senderChannel = message.channel;
