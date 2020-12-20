@@ -18,7 +18,8 @@
     "random-words": "^1.1.1",
     "twit": "^2.2.11",
     "wikijs": "^6.0.1",
-    "ytdl-core": "^4.2.1"
+    "ytdl-core": "^4.2.1",
+    "ytpl": "^2.0.3"
   },
   "main": "index.js",
   "name": "discord-bot"
