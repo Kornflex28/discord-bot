@@ -12,7 +12,7 @@ module.exports = {
         const meleePlaylist = await ytpl('PL67D312AAC7F2E719');
         const videosUrl = meleePlaylist.items.map(video=>video.shortUrl);
         const url = videosUrl[Math.floor(Math.random()*videosUrl.length)]
-        let stream = ytdl(url,{filter: 'audioonly', format: 'mp3'});
+        stream = await ytdl(url,{filter: 'audioonly', format: 'mp3'});
         messageChannel.send('Laisse moi regarder ce que j\'ai...')
         const filename = 'surprise.mp3'
         await stream.pipe(fs.createWriteStream(`files/${filename}`))
