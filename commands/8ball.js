@@ -23,12 +23,9 @@ module.exports = {
     description: 'La boule magique !!',
     cooldown: 2,
     aliases: ['boule','boulemagique'],
+    usage: '<question>',
     args:true,
 	execute(message, args) {
-        if (!args.length){
-           return message.reply('dis moi quelque chose au moins ! 🧙');
-        } else {
-            message.channel.send(`*${answers[Math.floor(Math.random()*answers.length)]}* 🔮`);
-        }
+            message.channel.send(`🧙 *${answers[Math.floor(Math.random()*answers.length)]}* 🔮`);
 	},
 };
