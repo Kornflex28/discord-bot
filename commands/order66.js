@@ -17,7 +17,7 @@ module.exports = {
     description: 'Exécute l\'Ordre 66.',
   aliases: ['ordre66','66'],
   guildOnly: true,
-	cooldown: 2,
+	cooldown: 60,
 	execute(message, args) {
         const client = message.client;
         const messageChannel = message.channel;
