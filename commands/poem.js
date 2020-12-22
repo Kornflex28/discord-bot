@@ -85,7 +85,7 @@ module.exports = {
                 wiki_search = encodeURIComponent(poem_author.split(',')[0].slice(1));
                 let author_url = '';
 
-                console.log('!POEM WIKI SEARCH: '+ wiki_url + wiki_search)
+                // console.log('!POEM WIKI SEARCH: '+ wiki_url + wiki_search)
                 
                 // console.log(poem_content.length);
                 if (poem_content.length>5500){
