@@ -95,7 +95,7 @@ function addXpToActiveUsers(client) {
         })
     } catch (error) { console.log(error) }
 
-    
+
     try {
         const targetMessageChannel = '🌾xp-farm';
         client.guilds.cache.forEach(guild => {
@@ -135,10 +135,11 @@ client.once('ready', () => {
 
     client.setInterval(addXpToActiveUsers, activeTimeIntreval, client);
 
-
+    
     stream = T.stream('statuses/filter', { follow: ['898994539', '1976143068'] })
     stream.on('tweet', function (tweet) {
         let tweetUrl = 'https://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str;
+        let targetMessageChannel = '🥋macron-vs-sardoche'
         try {
             if (['898994539', '1976143068'].includes(tweet.user.id_str)) {
                 client.guilds.cache.forEach(guild => {
