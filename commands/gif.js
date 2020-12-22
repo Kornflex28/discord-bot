@@ -26,7 +26,7 @@ module.exports = {
         }
         else if (args.length>0) {
             const search_term = args.join("-")//.replace(/[^a-zA-Z0-9éè]/g,' ');
-            console.log(encodeURIComponent(search_term))
+            // console.log(encodeURIComponent(search_term))
             if (search_term.length>30){
                 return message.reply(' elle est quand même longue ta recherche, essaye quelquechose de moins long !');
             }
