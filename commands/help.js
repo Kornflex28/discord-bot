@@ -14,9 +14,9 @@ module.exports = {
         var commandEmbed = new Discord.MessageEmbed()
         .setTitle(`Liste des commandes de Dédé`)
         .setDescription(`Tu peux envoyer \`${process.env.BOT_PREFIX}help <nom de commande>\` pour les infos specifiques à celle ci !`)
-        .setColor('RANDOM')
+        .setColor(message.guild.me.displayHexColor)
         .setTimestamp()
-        .setFooter('Documentation officielle de Dédé');
+        .setFooter('Documentation officielle de Dédé', message.client.user.displayAvatarURL());
         // data.push('Voici une liste de toutes mes faces (commandes):');
         commandEmbed.addField('Commandes disponibles','```' + commands.map(command => command.name).join(', ')+'```');
         // data.push(`Tu peux envoyer \`${process.env.BOT_PREFIX}help <nom de commande>\` pour les infos specifiques à celle ci !`);
