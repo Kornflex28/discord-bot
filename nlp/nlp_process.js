@@ -13,7 +13,7 @@ module.exports = {
         // }
         NlpManager.process('fr', messageContent)
             .then(response => {
-                console.log(response);
+                // console.log(response);
                 message.reply(response.answer);
                 const intent = response.intent;
                 if (intent === 'agent.birthday') {
