@@ -40,7 +40,7 @@ module.exports = {
                         .setDescription(
                             `**\`${dilemma.txt1[0].toUpperCase() + dilemma.txt1.substring(1).replace(/&#039;/g,'\'')}\`**\nbut\n**\`${dilemma.txt2[0].toUpperCase() + dilemma.txt2.substring(1).replace(/&#039;/g,'\'')}\`**`
                         )
-                        .setThumbnail('https://i.kym-cdn.com/entries/icons/original/000/019/571/dailystruggg.jpg')
+                        .setThumbnail('https://i.redd.it/36beovu0v1q11.png')
                         .addField('Qu\'il en soit ainsi :judge:' , `\`${choice_str}\``)
                         .addField(`Répartition des ${(dilemma.yes+dilemma.no).toLocaleString('fr')} votes`,`${(100*dilemma.yes/(dilemma.yes+dilemma.no)).toFixed(2)} % ✅ vs ${(100*dilemma.no/(dilemma.yes+dilemma.no)).toFixed(2)} % ❌`)
                         .setTimestamp()
