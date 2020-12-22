@@ -3,6 +3,7 @@ let emojis = [
 ];
 
 const lvlUpMessages = ['MAIS NAN ?!', 'c\'est pas trop tôt !', 'ah bah enfin..', 'youpi.', 'waouh !!', 'mais wesh ??', 'jure !', 'est-ce bien ce que je vois ?'];
+const moment = require('moment');
 
 
 const fs = require('fs');
@@ -86,23 +87,20 @@ function addXpToActiveUsers(client) {
     // const targetMessageChannel = 'general';
     const targetMessageChannel = '🌾xp-farm';
     client.guilds.cache.forEach(guild => {
-        // console.log(guild.channels.cache.find(ch => ch.name === targetMessageChannel));
         if (guild.voiceStates.cache.size > 0) {
             guild.voiceStates.cache.forEach(async (user) => {
-                // console.log('ping')
                 if (user.channelID != null) {
                     let xpChannel = guild.channels.cache.find(ch => ch.name === targetMessageChannel);
                     if (!xpChannel) {
-                        guild.channels.create(targetMessageChannel,{topic:'Spam lvl Up',parent:guild.channels.cache.find(ch => ch.name === 'Text Channels')}).then(ch=>xpChannel=ch)
+                        guild.channels.create(targetMessageChannel, { topic: 'Spam lvl Up', parent: guild.channels.cache.find(ch => ch.name === 'Text Channels') }).then(ch => xpChannel = ch)
                     }
                     const userInst = await client.users.fetch(user.id);
-                    // console.log(user);
                     let randomAmountOfXp = Math.floor(Math.random() * 2) + 1; // Min 1, Max 2
                     const hasLeveledUp = await Levels.appendXp(user.id, user.guild.id, randomAmountOfXp);
                     if (hasLeveledUp) {
                         const usr = await Levels.fetch(user.id, user.guild.id);
                         xpChannel.send(`**${userInst.username}**, ${lvlUpMessages[Math.floor(Math.random() * lvlUpMessages.length)]} Tu as gagné un niveau, tu es desormais niveau **${usr.level}**. :tada:`);
-                        if (!(usr.level%5)) {
+                        if (!(usr.level % 5)) {
                             const generalChannel = guild.channels.cache.find(ch => ch.name === 'general');
                             generalChannel.send(`:tada: **${userInst.username}**, ${lvlUpMessages[Math.floor(Math.random() * lvlUpMessages.length)]} Tu as gagné un niveau, tu es desormais niveau **${usr.level}**. :tada:`);
 
@@ -124,27 +122,35 @@ client.once('ready', () => {
 
     client.setInterval(addXpToActiveUsers, activeTimeIntreval, client);
 
-    stream = T.stream('statuses/filter', { follow: ['898994539','1976143068'] })
+    try {
+        let targetMessageChannel = '🥋macron-vs-sardoche'
+        client.guilds.cache.forEach(guild => {
+            let MvSChannel = guild.channels.cache.find(ch => ch.name === targetMessageChannel);
+            if (!MvSChannel) {
+                guild.channels.create(targetMessageChannel, { topic: 'Stream des tweets de Macron et Sardoche', parent: guild.channels.cache.find(ch => ch.name === 'Text Channels') }).then(ch => MvSChannel = ch)
+            }
+        })
+    } catch (error) { console.log(error) }
+
+    stream = T.stream('statuses/filter', { follow: ['898994539', '1976143068'] })
     stream.on('tweet', function (tweet) {
-            let tweetUrl = "https://twitter.com/" + tweet.user.screen_name + "/status/" + tweet.id_str;
-            try {
-                if (['898994539','1976143068'].includes(tweet.user.id_str)) {
-                    client.channels.fetch(process.env.MACRONVSARDOCHE_CHANNEL_ID).then(channel => {
-                        channel.send(tweetUrl); 
-                }).catch(err => {
-                    console.log(err)
+        let tweetUrl = 'https://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str;
+        try {
+            if (['898994539', '1976143068'].includes(tweet.user.id_str)) {
+                client.guilds.cache.forEach(guild => {
+                    let MvSChannel = guild.channels.cache.find(ch => ch.name === targetMessageChannel);
+                    MvSChannel.send(tweetUrl)
                 })
             }
-            } catch (error) {
-                console.error(error);
-            }
+        } catch (error) {
+            console.error(error);
+        }
     })
 
 });
 
 // NEW MEMBER IN GUILD
 client.on('guildMemberAdd', member => {
-    // console.log(member);
     const channel = member.guild.channels.cache.find(ch => ch.name === 'general');
     if (!channel) return;
     channel.send(`Bienvenue chez les fous, ${member} ! Que dirais tu d'un petit lancer de dés pour fêter ça ?!`);
@@ -187,7 +193,6 @@ client.on('message', async (message) => {
 
     if (message.content.startsWith('mergez') && message.author.id == process.env.CREATOR_ID) {
         const messageContent = message.content.slice('mergez'.length + 1).trim();
-        // console.log(`"${messageContent}"`)
         client.channels.fetch(process.env.OOPS_GENERAL_ID).then(channel => {
             if (messageContent === "") {
                 channel.send(msgs[Math.floor(Math.random() * msgs.length)]);
@@ -203,19 +208,20 @@ client.on('message', async (message) => {
 
     if (!message.author.bot) {
 
+        console.log(`${moment(message.createdAt).format('MMMM Do YYYY, h:mm:ss a')} ${message.guild.name}, #${message.channel.name}, ${message.author.username}: "${message.cleanContent}"`);
 
         if (message.guild) {
             const targetMessageChannel = '🌾xp-farm';
             let xpChannel = message.guild.channels.cache.find(ch => ch.name === targetMessageChannel)
             if (!xpChannel) {
-                message.guild.channels.create(targetMessageChannel,{topic:'Spam lvl Up',parent:message.guild.channels.cache.find(ch => ch.name === 'Text Channels')}).then(ch=>xpChannel=ch)
+                message.guild.channels.create(targetMessageChannel, { topic: 'Spam lvl Up', parent: message.guild.channels.cache.find(ch => ch.name === 'Text Channels') }).then(ch => xpChannel = ch)
             }
             const randomAmountOfXp = Math.floor(Math.random() * 29) + 1; // Min 1, Max 30
             const hasLeveledUp = await Levels.appendXp(message.author.id, message.guild.id, randomAmountOfXp);
             if (hasLeveledUp) {
                 const user = await Levels.fetch(message.author.id, message.guild.id);
                 xpChannel.send(`**${message.author.username}**, ${lvlUpMessages[Math.floor(Math.random() * lvlUpMessages.length)]} Tu as gagné un niveau, tu es desormais niveau **${user.level}**. :tada:`);
-                if (!(user.level%5)) {
+                if (!(user.level % 5)) {
                     const generalChannel = message.guild.channels.cache.find(ch => ch.name === 'general');
                     generalChannel.send(`:tada: **${message.author.username}**, ${lvlUpMessages[Math.floor(Math.random() * lvlUpMessages.length)]} Tu as gagné un niveau, tu es desormais niveau **${user.level}**. :tada:`);
 
@@ -223,7 +229,6 @@ client.on('message', async (message) => {
             }
         }
 
-        console.log(message.content)
         const react_prob = Math.exp(-1);
 
         // reactions handling 
@@ -308,8 +313,6 @@ client.on('message', async (message) => {
                 message.reply(`oups j\'ai du être mal lancé 🤕, il y a eu une erreur lors de l\'éxécution.\n\`${error}\``);
             }
 
-            // console.log(message)
-            console.log(message.author.username, message.content);
             commandMsg = `\`\`\`diff\n+ Command msg by ${message.author.username} in ${message.channel.type === 'dm' ? "DM" : message.channel.name}${message.channel.type != 'dm' ? `, ${message.guild.name}` : ''}\n ${message.content}\n\`\`\``;
             sendToLogs(process.env.LOGS_CHANNEL_ID, commandMsg)
         }
