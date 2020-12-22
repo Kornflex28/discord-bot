@@ -84,6 +84,18 @@ function sendToLogs(LOGS_CHANNEL_ID, msg) {
 }
 
 function addXpToActiveUsers(client) {
+
+    try {
+        let targetMessageChannel = '🥋macron-vs-sardoche'
+        client.guilds.cache.forEach(guild => {
+            let MvSChannel = guild.channels.cache.find(ch => ch.name === targetMessageChannel);
+            if (!MvSChannel) {
+                guild.channels.create(targetMessageChannel, { topic: 'Stream des tweets de Macron et Sardoche\nN\'hésitez pas à mute le salon', parent: guild.channels.cache.find(ch => ch.name === 'Text Channels') }).then(ch => MvSChannel = ch)
+            }
+        })
+    } catch (error) { console.log(error) }
+
+    
     try {
         const targetMessageChannel = '🌾xp-farm';
         client.guilds.cache.forEach(guild => {
@@ -123,15 +135,6 @@ client.once('ready', () => {
 
     client.setInterval(addXpToActiveUsers, activeTimeIntreval, client);
 
-    try {
-        let targetMessageChannel = '🥋macron-vs-sardoche'
-        client.guilds.cache.forEach(guild => {
-            let MvSChannel = guild.channels.cache.find(ch => ch.name === targetMessageChannel);
-            if (!MvSChannel) {
-                guild.channels.create(targetMessageChannel, { topic: 'Stream des tweets de Macron et Sardoche\nN\'hésitez pas à mute le salon', parent: guild.channels.cache.find(ch => ch.name === 'Text Channels') }).then(ch => MvSChannel = ch)
-            }
-        })
-    } catch (error) { console.log(error) }
 
     stream = T.stream('statuses/filter', { follow: ['898994539', '1976143068'] })
     stream.on('tweet', function (tweet) {
