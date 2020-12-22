@@ -97,7 +97,7 @@ function addXpToActiveUsers(client) {
 
 
     try {
-        const targetMessageChannel = '🌾xp-farm';
+        let targetMessageChannel = '🌾xp-farm';
         client.guilds.cache.forEach(guild => {
             if (guild.voiceStates.cache.size > 0) {
                 guild.voiceStates.cache.forEach(async (user) => {
