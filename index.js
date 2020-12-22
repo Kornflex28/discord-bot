@@ -84,32 +84,33 @@ function sendToLogs(LOGS_CHANNEL_ID, msg) {
 }
 
 function addXpToActiveUsers(client) {
-    // const targetMessageChannel = 'general';
-    const targetMessageChannel = '🌾xp-farm';
-    client.guilds.cache.forEach(guild => {
-        if (guild.voiceStates.cache.size > 0) {
-            guild.voiceStates.cache.forEach(async (user) => {
-                if (user.channelID != null) {
-                    let xpChannel = guild.channels.cache.find(ch => ch.name === targetMessageChannel);
-                    if (!xpChannel) {
-                        guild.channels.create(targetMessageChannel, { topic: 'Spam lvl Up', parent: guild.channels.cache.find(ch => ch.name === 'Text Channels') }).then(ch => xpChannel = ch)
-                    }
-                    const userInst = await client.users.fetch(user.id);
-                    let randomAmountOfXp = Math.floor(Math.random() * 2) + 1; // Min 1, Max 2
-                    const hasLeveledUp = await Levels.appendXp(user.id, user.guild.id, randomAmountOfXp);
-                    if (hasLeveledUp) {
-                        const usr = await Levels.fetch(user.id, user.guild.id);
-                        xpChannel.send(`**${userInst.username}**, ${lvlUpMessages[Math.floor(Math.random() * lvlUpMessages.length)]} Tu as gagné un niveau, tu es desormais niveau **${usr.level}**. :tada:`);
-                        if (!(usr.level % 5)) {
-                            const generalChannel = guild.channels.cache.find(ch => ch.name === 'general');
-                            generalChannel.send(`:tada: **${userInst.username}**, ${lvlUpMessages[Math.floor(Math.random() * lvlUpMessages.length)]} Tu as gagné un niveau, tu es desormais niveau **${usr.level}**. :tada:`);
+    try {
+        const targetMessageChannel = '🌾xp-farm';
+        client.guilds.cache.forEach(guild => {
+            if (guild.voiceStates.cache.size > 0) {
+                guild.voiceStates.cache.forEach(async (user) => {
+                    if (user.channelID != null) {
+                        let xpChannel = guild.channels.cache.find(ch => ch.name === targetMessageChannel);
+                        if (!xpChannel) {
+                            guild.channels.create(targetMessageChannel, { topic: 'Spam lvl Up\nN\'hésitez pas à mute le salon', parent: guild.channels.cache.find(ch => ch.name === 'Text Channels') }).then(ch => xpChannel = ch)
+                        }
+                        const userInst = await client.users.fetch(user.id);
+                        let randomAmountOfXp = Math.floor(Math.random() * 2) + 1; // Min 1, Max 2
+                        const hasLeveledUp = await Levels.appendXp(user.id, user.guild.id, randomAmountOfXp);
+                        if (hasLeveledUp) {
+                            const usr = await Levels.fetch(user.id, user.guild.id);
+                            xpChannel.send(`**${userInst.username}**, ${lvlUpMessages[Math.floor(Math.random() * lvlUpMessages.length)]} Tu as gagné un niveau, tu es desormais niveau **${usr.level}**. :tada:`);
+                            if (!(usr.level % 5)) {
+                                const generalChannel = guild.channels.cache.find(ch => ch.name === 'general');
+                                generalChannel.send(`:tada: **${userInst.username}**, ${lvlUpMessages[Math.floor(Math.random() * lvlUpMessages.length)]} Tu as gagné un niveau, tu es desormais niveau **${usr.level}**. :tada:`);
 
+                            }
                         }
                     }
-                }
-            })
-        }
-    })
+                })
+            }
+        })
+    } catch (error) { console.log(error) }
 }
 
 client.once('ready', () => {
@@ -127,7 +128,7 @@ client.once('ready', () => {
         client.guilds.cache.forEach(guild => {
             let MvSChannel = guild.channels.cache.find(ch => ch.name === targetMessageChannel);
             if (!MvSChannel) {
-                guild.channels.create(targetMessageChannel, { topic: 'Stream des tweets de Macron et Sardoche', parent: guild.channels.cache.find(ch => ch.name === 'Text Channels') }).then(ch => MvSChannel = ch)
+                guild.channels.create(targetMessageChannel, { topic: 'Stream des tweets de Macron et Sardoche\nN\'hésitez pas à mute le salon', parent: guild.channels.cache.find(ch => ch.name === 'Text Channels') }).then(ch => MvSChannel = ch)
             }
         })
     } catch (error) { console.log(error) }
@@ -211,22 +212,24 @@ client.on('message', async (message) => {
         console.log(`${moment(message.createdAt).format('MMMM Do YYYY, h:mm:ss a')} ${message.guild.name}, #${message.channel.name}, ${message.author.username}: "${message.cleanContent}"`);
 
         if (message.guild) {
-            const targetMessageChannel = '🌾xp-farm';
-            let xpChannel = message.guild.channels.cache.find(ch => ch.name === targetMessageChannel)
-            if (!xpChannel) {
-                message.guild.channels.create(targetMessageChannel, { topic: 'Spam lvl Up', parent: message.guild.channels.cache.find(ch => ch.name === 'Text Channels') }).then(ch => xpChannel = ch)
-            }
-            const randomAmountOfXp = Math.floor(Math.random() * 29) + 1; // Min 1, Max 30
-            const hasLeveledUp = await Levels.appendXp(message.author.id, message.guild.id, randomAmountOfXp);
-            if (hasLeveledUp) {
-                const user = await Levels.fetch(message.author.id, message.guild.id);
-                xpChannel.send(`**${message.author.username}**, ${lvlUpMessages[Math.floor(Math.random() * lvlUpMessages.length)]} Tu as gagné un niveau, tu es desormais niveau **${user.level}**. :tada:`);
-                if (!(user.level % 5)) {
-                    const generalChannel = message.guild.channels.cache.find(ch => ch.name === 'general');
-                    generalChannel.send(`:tada: **${message.author.username}**, ${lvlUpMessages[Math.floor(Math.random() * lvlUpMessages.length)]} Tu as gagné un niveau, tu es desormais niveau **${user.level}**. :tada:`);
-
+            try {
+                const targetMessageChannel = '🌾xp-farm';
+                let xpChannel = message.guild.channels.cache.find(ch => ch.name === targetMessageChannel)
+                if (!xpChannel) {
+                    message.guild.channels.create(targetMessageChannel, { topic: 'Spam lvl Up\nN\'hésitez pas à mute le salon', parent: message.guild.channels.cache.find(ch => ch.name === 'Text Channels') }).then(ch => xpChannel = ch)
                 }
-            }
+                const randomAmountOfXp = Math.floor(Math.random() * 29) + 1; // Min 1, Max 30
+                const hasLeveledUp = await Levels.appendXp(message.author.id, message.guild.id, randomAmountOfXp);
+                if (hasLeveledUp) {
+                    const user = await Levels.fetch(message.author.id, message.guild.id);
+                    xpChannel.send(`**${message.author.username}**, ${lvlUpMessages[Math.floor(Math.random() * lvlUpMessages.length)]} Tu as gagné un niveau, tu es desormais niveau **${user.level}**. :tada:`);
+                    if (!(user.level % 5)) {
+                        const generalChannel = message.guild.channels.cache.find(ch => ch.name === 'general');
+                        generalChannel.send(`:tada: **${message.author.username}**, ${lvlUpMessages[Math.floor(Math.random() * lvlUpMessages.length)]} Tu as gagné un niveau, tu es desormais niveau **${user.level}**. :tada:`);
+
+                    }
+                }
+            } catch (error) { console.log(error) }
         }
 
         const react_prob = Math.exp(-1);

@@ -38,11 +38,11 @@ module.exports = {
             .addField('Serveur', `\`\`\`asciidoc\n${serverStats}\`\`\``)
             .addField(
                 'Lien',
-                '**[GitHub](https://github.com/Kornflex28/discord-bot)**'
+                `**[GitHub](https://github.com/Kornflex28/discord-bot)** | **[Invite moi sur ton serveur](https://discord.com/api/oauth2/authorize?client_id=775672151549149194&permissions=8&scope=bot)**`
             )
             .setFooter('Statistiques garanties sans Aléa grâce à PreviCorp ©', message.client.user.displayAvatarURL({ dynamic: true }))
             .setTimestamp()
-            .setColor(message.guild.me.displayHexColor);
+            .setColor('RANDOM');
         message.channel.send(embed);
 
     },
