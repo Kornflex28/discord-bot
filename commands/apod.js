@@ -1,7 +1,7 @@
 require('dotenv').config();
 const Discord = require('discord.js');
 const fetch = require("node-fetch");
-var fetch_url;
+let fetch_url;
 
 module.exports = {
 	name: 'apod',
@@ -10,9 +10,9 @@ module.exports = {
     usage: '<ajd>',
 	execute(message, args) {
         if (!args.length) {
-            var randYear = Math.floor(Math.random()*21)+2000;
-            var randMonth = Math.floor(Math.random()*12)+1;
-            var randDay = Math.floor(Math.random()*29)+1;
+            let randYear = Math.floor(Math.random()*21)+2000;
+            let randMonth = Math.floor(Math.random()*12)+1;
+            let randDay = Math.floor(Math.random()*29)+1;
             fetch_url = "https://api.nasa.gov/planetary/apod?api_key=" + process.env.NASA_TOKEN + `&date=${randYear}-${randMonth}-${randDay}`
         } else if (args[0] === 'ajd') {
             fetch_url = "https://api.nasa.gov/planetary/apod?api_key="+ process.env.NASA_TOKEN;
@@ -22,7 +22,7 @@ module.exports = {
         fetch(fetch_url).then(response=>response.json())
         .then(json=>{
             // console.log(json)
-            var apodEmbed = new Discord.MessageEmbed()
+            let apodEmbed = new Discord.MessageEmbed()
                                 .setColor('#0099ff')
                                 .setTitle(json.title)
                                 .setDescription(json.explanation)

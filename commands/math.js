@@ -1,6 +1,6 @@
 require('dotenv').config();
 const fetch = require("node-fetch");
-var fetch_url;
+let fetch_url;
 
 module.exports = {
 	name: 'math',
@@ -8,7 +8,7 @@ module.exports = {
     cooldown: 5,
     usage: '<nombre> ou rien',
 	execute(message, args) {
-        var n = parseInt(args[0]);
+        let n = parseInt(args[0]);
         if (!args.length) {
             fetch_url = 'http://numbersapi.com/random/trivia?json'
         } 

@@ -11,7 +11,7 @@ module.exports = {
         const { commands } = message.client;
 
     if (!args.length) {
-        var commandEmbed = new Discord.MessageEmbed()
+        let commandEmbed = new Discord.MessageEmbed()
         .setTitle(`Liste des commandes de Dédé`)
         .setDescription(`Tu peux envoyer \`${process.env.BOT_PREFIX}help <nom de commande>\` pour les infos specifiques à celle ci !`)
         .setColor(message.guild.me.displayHexColor)
@@ -40,7 +40,7 @@ module.exports = {
     }
 
     // data.push(`**Nom:** ${command.name}`);
-    var commandEmbed = new Discord.MessageEmbed()
+    let commandEmbed = new Discord.MessageEmbed()
     .setTitle(`Commande: ${command.name}`)
     .setDescription(`${command.description}`)
     .setColor('RANDOM')

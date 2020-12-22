@@ -1,9 +1,9 @@
 require('dotenv').config();
 
-var _guessMin = parseInt(process.env.GUESS_MIN);
-var _guessMax = parseInt(process.env.GUESS_MAX);
-var _guessChosen = process.env.GUESS_CHOSEN;
-var _guessN = parseInt(process.env.GUESS_N);
+let _guessMin = parseInt(process.env.GUESS_MIN);
+let _guessMax = parseInt(process.env.GUESS_MAX);
+let _guessChosen = process.env.GUESS_CHOSEN;
+let _guessN = parseInt(process.env.GUESS_N);
 module.exports = {
 	name: 'guess',
     description: 'Jeu pour tester ton QI où il faut deviner le nombre que j\'ai choisi entre 2 nombres.',

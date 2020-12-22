@@ -7,7 +7,7 @@ async function sendWikiEmbed(message,wikiSearch) {
     if (!wikiSearch.length) {
         return message.reply('désolé mais je n\'ai rien trouvé sur Wikipédia à ce propos !  :judge:')
     }
-    var wikiEmbed = new Discord.MessageEmbed()
+    let wikiEmbed = new Discord.MessageEmbed()
     .setThumbnail('https://upload.wikimedia.org/wikipedia/commons/7/75/Wikipedia_mobile_app_logo.png')
     .setTimestamp()
     .setFooter('Données fournies grâce à la face Wikipedia de Dédé. N\'oubliez pas que n\'importe qui peut modifier une page Wikipédia.');
@@ -18,7 +18,7 @@ async function sendWikiEmbed(message,wikiSearch) {
     wikiEmbed.setURL(wikiPage.raw.fullurl);
     wikiEmbed.setImage(wikiImage);
     if(wikiSummary.length > 2048){
-        var sumText = wikiSummary.toString().split('\n')
+        let sumText = wikiSummary.toString().split('\n')
         wikiEmbed.setDescription(sumText.slice(0,2).join('\n'))
         wikiEmbed.addField('[...]',`*Plus d'info [ici](${wikiPage.raw.fullurl})*`)
     } else {

@@ -4,7 +4,7 @@ module.exports = {
     description: 'Ping!',
     cooldown: 1,
 	execute(message, args) {
-		var ping = Date.now() - message.createdTimestamp;
+		let ping = Date.now() - message.createdTimestamp;
 		const pingEmbed = new Discord.MessageEmbed()
                     .setColor('RANDOM')
 					.setTitle('🏓 Pong')

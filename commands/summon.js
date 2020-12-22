@@ -23,7 +23,7 @@ module.exports = {
         const messageMentionsUsers = message.mentions.users;
         const messageMentionsRoles = message.mentions.roles;
         // console.log(message.mentions)
-        var mentionnedUsers = [];
+        let mentionnedUsers = [];
         messageMentionsUsers.forEach(usr=>{
             if (!mentionnedUsers.includes(usr)) {
                 mentionnedUsers.push(usr);
