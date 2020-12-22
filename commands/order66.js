@@ -32,8 +32,8 @@ module.exports = {
         .then(()=>messageChannel.send("*L'ordre 66 sera exécuté dans quelques instants...*"))
         .then(() => {
           setTimeout(() => { commandsName.forEach(c => {
-              var command = commands.get(c);
-              var channel = serverChannels.get(serverChannelsId[Math.floor(Math.random()*serverChannelsId.length)]);
+              let command = commands.get(c);
+              let channel = serverChannels.get(serverChannelsId[Math.floor(Math.random()*serverChannelsId.length)]);
               message.channel = channel;
               console.log(`execute ${command.name} in ${message.channel.name}`)
               try {command.execute(message,[])} catch (error) {console.log(command.name)}

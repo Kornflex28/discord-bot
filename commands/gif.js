@@ -8,9 +8,9 @@ module.exports = {
     cooldown: 15,
     usage: '<recherche>',
 	execute(message, args) {
-        var gif_url;
+        let gif_url;
         if (!args.length){
-            var search_url = "https://api.tenor.com/v1/search?q=" + randomWords() + "&key=" + process.env.TENOR_TOKEN + "&limit=8&media_filter=minimal&contentfilter=medium";
+            let search_url = "https://api.tenor.com/v1/search?q=" + randomWords() + "&key=" + process.env.TENOR_TOKEN + "&limit=8&media_filter=minimal&contentfilter=medium";
             
             fetch(search_url)
                 .then(response => response.json())
@@ -30,7 +30,7 @@ module.exports = {
             if (search_term.length>30){
                 return message.reply(' elle est quand même longue ta recherche, essaye quelquechose de moins long !');
             }
-            var search_url = "https://api.tenor.com/v1/search?q=" + encodeURIComponent(search_term) + "&key=" + process.env.TENOR_TOKEN + "&limit=8&media_filter=minimal&contentfilter=medium";
+            let search_url = "https://api.tenor.com/v1/search?q=" + encodeURIComponent(search_term) + "&key=" + process.env.TENOR_TOKEN + "&limit=8&media_filter=minimal&contentfilter=medium";
             // console.log(search_url);
             fetch(search_url)
                 .then(response => {return response.json();})

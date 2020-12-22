@@ -4,7 +4,7 @@ const Discord = require('discord.js');
 module.exports = {
     process_message(NlpManager, message, messageContent) {
         const client = message.client;
-        var args =[];
+        let args =[];
         //         client.commands = new Discord.Collection();
         // const commandFiles = fs.readdirSync('../commands').filter(file => file.endsWith('.js'));
         // for (const file of commandFiles) {

@@ -3,8 +3,8 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const frNouns = './french_nouns.txt';
 const frVerbs = './french_verbs.txt';
-var hangman_init = process.env.HANGMAN;
-var hangman;
+let hangman_init = process.env.HANGMAN;
+let hangman;
 if (!hangman_init) {
     hangman = []
     hangman_init = true;
@@ -33,7 +33,7 @@ function clean_str(str) {
         ;
 };
 
-var frWords =[];
+let frWords =[];
 fs.readFile(frNouns ,'utf8', ((err, data) => {
     frWords = frWords.concat(data.split('\n').filter(str=>!(str.includes(';pl')||str.includes('-')||str.includes("'"))).map(str=>clean_str(str.split(';')[0])));
     })
@@ -45,9 +45,9 @@ fs.readFile(frVerbs ,'utf8', ((err, data) => {
 frWords.sort(() => Math.random() - 0.5);
 
 function boardWord(word, letters) {
-    var boardW = '';
+    let boardW = '';
 
-    for (var i = 0; i < word.length; i++) {
+    for (let i = 0; i < word.length; i++) {
         const ch = word[i]
         if (letters.includes(ch)) {
             boardW += `${ch} `;
@@ -71,7 +71,7 @@ module.exports = {
     execute(message, args) {
         const senderChannel = message.channel;
         const arg = clean_str(args[0]);
-        var game = hangman.find(game => game._channelId == senderChannel.id);
+        let game = hangman.find(game => game._channelId == senderChannel.id);
 
         if (arg === 'create') {
             if (game !== undefined) {
@@ -191,7 +191,7 @@ module.exports = {
                     .then(response => {return response.json()})
                     .then(json =>{
                             if (json.error){return;}
-                            var def_str = new Discord.MessageEmbed()
+                            let def_str = new Discord.MessageEmbed()
                             .setTitle(game._guessWord)
                             .setDescription('[Larousse](https://www.larousse.fr/)')
                             json.forEach(elem => {
@@ -210,7 +210,7 @@ module.exports = {
                     .then(response => {return response.json()})
                     .then(json =>{
                             if (json.error){return;}
-                            var def_str = new Discord.MessageEmbed()
+                            let def_str = new Discord.MessageEmbed()
                             .setTitle(game._guessWord)
                             .setDescription('[Larousse](https://www.larousse.fr/)')
                             json.forEach(elem => {

@@ -8,7 +8,7 @@ module.exports = {
         // message.guild.joined_at.fetch().then(ts => {console.log(ts)});
         message.guild.members.fetch().then(fetchedMembers => {
             const totalOnline = fetchedMembers.filter(member => member.presence.status === 'online');
-        var serverEmbed = new Discord.MessageEmbed()
+        let serverEmbed = new Discord.MessageEmbed()
         .setTitle(message.guild.name)
         .setColor('RANDOM')
         .setThumbnail(message.guild.iconURL())

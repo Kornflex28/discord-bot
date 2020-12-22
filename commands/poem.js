@@ -51,7 +51,7 @@ module.exports = {
         //    console.log(poem_url)
         //    console.log(url+poem_url)
            https.get(base_url+poem_url, function(res) {
-            var data = "";
+            let data = "";
             res.on('data', function (chunk) {
                 data += chunk;
             });
@@ -83,7 +83,7 @@ module.exports = {
                                 .replace(/ {2,}/g,'');
 
                 wiki_search = encodeURIComponent(poem_author.split(',')[0].slice(1));
-                var author_url = '';
+                let author_url = '';
 
                 console.log('!POEM WIKI SEARCH: '+ wiki_url + wiki_search)
                 
@@ -101,15 +101,15 @@ module.exports = {
                         return author_url;
                     })
                     .then(author_url => {
-                        var nl_indices = [],i=-1;
+                        let nl_indices = [],i=-1;
                         while((i=poem_content.indexOf("\n",i+1))>=0) nl_indices.push(i);
                         const field_lim = 900;
-                        var fields = [];
+                        let fields = [];
                         const n_blocks = Math.ceil(parseInt(nl_indices[nl_indices.length - 1])/field_lim);
                         // console.log(nl_indices,n_blocks);   
                         if (n_blocks > 1 ) {
-                            var prev_idx = 0
-                            for (var k=1;k<n_blocks;k++) {
+                            let prev_idx = 0
+                            for (let k=1;k<n_blocks;k++) {
                                 const diffArr = nl_indices.map(x => Math.abs(k*field_lim - x));
                                 // console.log(diffArr);
                                 const minIdx = diffArr.indexOf(Math.min(...diffArr));
@@ -137,7 +137,7 @@ module.exports = {
                         fetch(wiki_img_url)
                             .then(response => response.json())
                             .then(json => {
-                                var poemEmbed = new Discord.MessageEmbed()
+                                let poemEmbed = new Discord.MessageEmbed()
                                 .setColor('#0099ff')
                                 .setTitle(poem_title)
                                 .setURL(author_url)
@@ -157,7 +157,7 @@ module.exports = {
                                 message.channel.send(poemEmbed);
                             })
                         } else {
-                            var poemEmbed = new Discord.MessageEmbed()
+                            let poemEmbed = new Discord.MessageEmbed()
                                 .setColor('#0099ff')
                                 .setTitle(poem_title)
                                 .setAuthor(poem_author)

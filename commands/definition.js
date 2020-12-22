@@ -11,7 +11,7 @@ module.exports = {
     usage: '<mot>',
 	execute(message, args) {
         const senderChannel = message.channel;
-        var word = args[0]
+        let word = args[0]
         if (!args.length) {
             return message.reply('il me faut un MOT stp')
         } 
@@ -20,7 +20,7 @@ module.exports = {
                         .then(response => {return response.json()})
                         .then(json =>{
                                 if (json.error){return senderChannel.send('Désolé mais je n\'ai rien trouvé pour ce mot...')}
-                                var def_str = new Discord.MessageEmbed()
+                                let def_str = new Discord.MessageEmbed()
                                 .setTitle(word)
                                 .setDescription('[Larousse](https://www.larousse.fr/)')
                                 json.forEach(elem => {

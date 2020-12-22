@@ -19,7 +19,7 @@ module.exports = {
                 .setDescription(
                     `**\`${dilemma.txt1[0].toUpperCase() + dilemma.txt1.substring(1).replace(/&#039;/g,'\'')}\`**\nbut\n**\`${dilemma.txt2[0].toUpperCase() + dilemma.txt2.substring(1).replace(/&#039;/g,'\'')}\`**`
                     )
-                .setThumbnail('https://i.kym-cdn.com/entries/icons/original/000/019/571/dailystruggg.jpg')
+                .setThumbnail('https://i.redd.it/36beovu0v1q11.png')
                 .addField('Faites un choix, il n\'y a pas d\'autre solution...',`${message.author.username} seulement a le choix de son destin.`)
                 .addField('** **','*✅ Appuyer   ❌ Ne pas appuyer*')
                 .setColor('RANDOM')
