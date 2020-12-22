@@ -21,6 +21,7 @@
     "opusscript": "^0.0.7",
     "random-words": "^1.1.1",
     "twit": "^2.2.11",
+    "weather-js": "^2.0.0",
     "wikijs": "^6.0.1",
     "ytdl-core": "^4.2.1",
     "ytpl": "^2.0.3"

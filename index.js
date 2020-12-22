@@ -126,7 +126,7 @@ function addXpToActiveUsers(client) {
 }
 
 client.once('ready', () => {
-    client.user.setPresence({ activity: { name: `les dés`, type: 'LISTENING' }, status: 'online' });
+    client.user.setPresence({ activity: { name: `les dés | !help`, type: 'LISTENING' }, status: 'online' });
     console.log('Bot logged in!');
 
     startInterval(interval, client, process.env.OOPS_GENERAL_ID, msgs)
@@ -213,7 +213,7 @@ client.on('message', async (message) => {
 
     if (!message.author.bot) {
 
-        console.log(`${moment(message.createdAt).format('MMMM Do YYYY, h:mm:ss a')} ${message.guild.name}, #${message.channel.name}, ${message.author.username}: "${message.cleanContent}"`);
+        console.log(`${moment(message.createdAt).format('MMMM Do YYYY, h:mm:ss a')} ${message.channel.type === 'dm' ? '' : message.guild.name}, #${message.channel.type === 'dm' ? 'DM' : message.channel.name}, ${message.author.username}: "${message.cleanContent}"`);
 
         if (message.guild) {
             try {
