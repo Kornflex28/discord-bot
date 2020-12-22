@@ -32,7 +32,7 @@ module.exports = {
             .setTitle(`${target.user.username}`)
             .setDescription(`A rejoint le serveur le ${target.joinedAt.toLocaleDateString('fr-FR',{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`)
             .setThumbnail(`${target.user.displayAvatarURL({ format: "png", dynamic: true })}`)
-            .addField(`Niveau ${user.level}`,`Prochain niveau: ${user.xp.toLocaleString()}/${100*(user.level+1)**2} XP`)
+            .addField(`Niveau ${user.level}`,`Prochain niveau: ${user.xp.toLocaleString()}/${(100*(user.level+1)**2).toLocaleString()} XP`)
             .setTimestamp()
         message.channel.send(rankEmbed)
         // message.channel.send(`> ${target.username} est niveau **${user.level}**\n> *(Prochain niveau: ${user.xp.toLocaleString()}/${100*(user.level+1)**2} XP)*`); 
