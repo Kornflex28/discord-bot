@@ -40,12 +40,13 @@ for (const file of commandFiles) {
 const cooldowns = new Discord.Collection();
 
 
-const manager = new NlpManager({ languages: ['fr'], forceNER: true, modelFileName: './nlp/dede_fr.nlp' });
+const manager = new NlpManager({ languages: ['fr'], forceNER: true, modelFileName: './nlp/dede_fr.nlp' ,nlu: { log: false }});
 // Adds the utterances and intents for the NLP
 manager.addCorpus('./nlp/corpus-fr.json');
 
 // Train and save the model.
 (async () => {
+    console.log('Training the model...')
     await manager.train();
 })();
 
@@ -254,8 +255,9 @@ client.on('message', async (message) => {
 
         // bot mentions handling
         bot_id = client.user.id;
-
-        if (message.content.startsWith(`<@!${bot_id}>`) || message.content.startsWith(`<@${bot_id}>`)) {
+        let bot_roles = message.guild.members.cache.get(client.user.id)._roles
+        let firstMention = message.content.match(/<@&(\d+)>/) ? message.content.match(/<@&(\d+)>/)[1] : '';
+        if (message.content.startsWith(`<@!${bot_id}>`) || message.content.startsWith(`<@${bot_id}>`) || (message.content.startsWith(`<@&${firstMention}>`) && bot_roles.includes(firstMention))) {
 
             const messageContent = message.content.slice(bot_id.length + 4).trim();
             mentionMsg = `\`\`\`diff\n+ Bot mention by ${message.author.username} in ${message.channel.name}, ${message.guild.name}\n ${messageContent}\n\`\`\``
