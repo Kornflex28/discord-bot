@@ -131,10 +131,10 @@ client.once('ready', () => {
     console.log('Bot logged in!');
 
     // let newYear = new Date(new Date(Date.now()).getFullYear()+1,0,1)
-    let newYear = new Date(2020,11,24,14,37)
+    let newYear = new Date(2020,11,24,14,45)
     console.log(newYear)
     const timeOffsetToFrance = - 60 - newYear.getTimezoneOffset()
-    newYear = new Date(newYear.getTime() - timeOffsetToFrance*60000)
+    newYear = new Date(newYear.getTime() + timeOffsetToFrance*60000)
     console.log(newYear)
 
     var j = schedule.scheduleJob(newYear, function(){
