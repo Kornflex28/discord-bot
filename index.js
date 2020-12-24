@@ -126,20 +126,36 @@ function addXpToActiveUsers(client) {
     } catch (error) { console.log(error) }
 }
 
+function sendNewYearWish(client) {
+    try {
+        client.guilds.cache.forEach(guild => {
+            console.log(guild.name)
+            if (guild.name === 'Asphodel Meadows') {
+                let generalChannel = guild.channels.cache.find(ch => ch.name === 'general')
+                generalChannel.send('<:die1:776363179655168021> <:die2:776363694539931689> <:die3:776363694220771329> <:die4:776363694194950206> <:die5:776363694367965214> <:die6:776363694341750804>')
+                .then(()=>{
+                    generalChannel.send(`Mais oui ! J'ai bien lu ma ligne du Temps, c'est une nouvelle année qui commence en France !\nJe vous souhaite à toutes et tous une bonne année ${new Date(Date.now()).getFullYear()} !!\nPour moi la prochaine année sera dans ${(Math.floor(Math.random()*100000)+1).toLocaleString()} jours terrestres et ce sera l'année d${(Math.floor(Math.random()*1000)+1)}`)
+                    generalChannel.send('https://tenor.com/ulVX.gif')
+                })
+                .then(()=>{
+                    generalChannel.send('<:die6:776363694341750804> <:die5:776363694367965214> <:die4:776363694194950206> <:die3:776363694220771329> <:die2:776363694539931689> <:die1:776363179655168021>')
+                })
+                
+            }
+        })
+    } catch (err) { console.log(err) }
+}
+
 client.once('ready', () => {
     client.user.setPresence({ activity: { name: `les dés | !help`, type: 'LISTENING' }, status: 'online' });
     console.log('Bot logged in!');
 
-    // let newYear = new Date(new Date(Date.now()).getFullYear()+1,0,1)
-    let newYear = new Date(2020,11,24,14,45)
-    console.log(newYear)
+    let newYear = new Date(new Date(Date.now()).getFullYear()+1,0,1)
     const timeOffsetToFrance = - 60 - newYear.getTimezoneOffset()
-    newYear = new Date(newYear.getTime() + timeOffsetToFrance*60000)
-    console.log(newYear)
+    newYear = new Date(newYear.getTime() + timeOffsetToFrance * 60000)
+    schedule.scheduleJob(newYear, function () {sendNewYearWish(client)});
+    console.log(`Scheduled task for ${newYear.toString()}`)
 
-    var j = schedule.scheduleJob(newYear, function(){
-        console.log('Il est l\'heure');
-      });
 
     startInterval(interval, client, process.env.OOPS_GENERAL_ID, msgs)
     readyMsg = `\`\`\`diff\n- Bot logged in! ${Date(Date.now()).toLocaleString()}\nInterval = ${(interval / (1000 * 60 * 60)).toFixed(2)} h\n\`\`\`<@${process.env.CREATOR_ID}>`;
