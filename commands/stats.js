@@ -3,12 +3,34 @@ const moment = require('moment');
 const { mem, cpu, os } = require('node-os-utils');
 const { stripIndent } = require('common-tags');
 
+const Usercommands = require("../database/uc.js");
+Usercommands.setURL(process.env.LEVELS_DB_URL);
+
 module.exports = {
     name: 'stats',
     description: 'Quelques infos sur ma propre personne',
     cooldown: 2,
     aliases:['stat'],
     async execute(message, args) {
+        let guildsCommands = await Usercommands.fetchGuildsCommands(message.client);
+        let commandsCounts = new Map()
+        for (let [guildId,guildCommands] of guildsCommands) {
+            for (let [command,commandCount] of guildCommands) {
+                if (!commandsCounts.has(command)){
+                    commandsCounts.set(command,commandCount)
+                } else {
+                    commandsCounts.set(command,commandCount+commandsCounts.get(command))
+                }
+            }
+        }
+        let totalCommandsCounts = Array.from(commandsCounts).sort(function(a, b) {
+            return b[1] - a[1];
+        })
+        const commandsStats = stripIndent`
+        Commandes           :: ${message.client.commands.size}
+        Commandes exécutées :: ${totalCommandsCounts.reduce((r, a) => r.map((b, i) => a[i] + b))[1]}
+        Top 5 commandes     :: ${totalCommandsCounts.slice(0,5).map(t=>t[0]).join(', ')}
+        `;
         const d = moment.duration(message.client.uptime);
         const days = d.days();
         const hours = d.hours();
@@ -33,7 +55,7 @@ module.exports = {
         `;
         const embed = new Discord.MessageEmbed()
             .setTitle(`Statistiques de ${message.client.user.username} `)
-            .setDescription(`\`${message.client.commands.size}\` commandes`)
+            .addField(`Commandes`,`\`\`\`asciidoc\n${commandsStats}\`\`\``)
             .addField('Client', `\`\`\`asciidoc\n${clientStats}\`\`\``)
             .addField('Serveur', `\`\`\`asciidoc\n${serverStats}\`\`\``)
             .addField(
