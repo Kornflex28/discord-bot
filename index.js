@@ -130,10 +130,11 @@ client.once('ready', () => {
     client.user.setPresence({ activity: { name: `les dés | !help`, type: 'LISTENING' }, status: 'online' });
     console.log('Bot logged in!');
 
-    const newYear = new Date(new Date(Date.now()).getFullYear()+1,0,1)
-    console.log(newYear.toString())
-    // const timeOffsetToFrance;
-    console.log(newYear.getTimezoneOffset())
+    let newYear = new Date(new Date(Date.now()).getFullYear()+1,0,1)
+    console.log(newYear)
+    const timeOffsetToFrance = -60 - newYear.getTimezoneOffset()
+    newYear = new Date(newYear.getTime() + timeOffsetToFrance*60000)
+    console.log(newYear)
 
     startInterval(interval, client, process.env.OOPS_GENERAL_ID, msgs)
     readyMsg = `\`\`\`diff\n- Bot logged in! ${Date(Date.now()).toLocaleString()}\nInterval = ${(interval / (1000 * 60 * 60)).toFixed(2)} h\n\`\`\`<@${process.env.CREATOR_ID}>`;
