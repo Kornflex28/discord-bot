@@ -4,7 +4,7 @@ let emojis = [
 
 const lvlUpMessages = ['MAIS NAN ?!', 'c\'est pas trop tôt !', 'ah bah enfin..', 'youpi.', 'waouh !!', 'mais wesh ??', 'jure !', 'est-ce bien ce que je vois ?'];
 const moment = require('moment');
-
+var schedule = require('node-schedule');
 
 const fs = require('fs');
 require('dotenv').config();
@@ -40,7 +40,7 @@ for (const file of commandFiles) {
 const cooldowns = new Discord.Collection();
 
 
-const manager = new NlpManager({ languages: ['fr'], forceNER: true, modelFileName: './nlp/dede_fr.nlp' ,nlu: { log: false }});
+const manager = new NlpManager({ languages: ['fr'], forceNER: true, modelFileName: './nlp/dede_fr.nlp', nlu: { log: false } });
 // Adds the utterances and intents for the NLP
 manager.addCorpus('./nlp/corpus-fr.json');
 
@@ -105,7 +105,7 @@ function addXpToActiveUsers(client) {
                     if (user.channelID != null) {
                         let xpChannel = guild.channels.cache.find(ch => ch.name === targetMessageChannel);
                         if (!xpChannel) {
-                            guild.channels.create(targetMessageChannel, { topic: 'Spam lvl Up\nN\'hésitez pas à mute le salon', parent: guild.channels.cache.find(ch => ch.name === 'Text Channels') }).then(ch => xpChannel = ch)
+                            guild.channels.create(targetMessageChannel, { topic: 'Spam lvl Up\nN\'hésitez pas à mute le salon' }).then(ch => xpChannel = ch)
                         }
                         const userInst = await client.users.fetch(user.id);
                         let randomAmountOfXp = Math.floor(Math.random() * 2) + 1; // Min 1, Max 2
@@ -130,13 +130,18 @@ client.once('ready', () => {
     client.user.setPresence({ activity: { name: `les dés | !help`, type: 'LISTENING' }, status: 'online' });
     console.log('Bot logged in!');
 
+    const newYear = new Date(new Date(Date.now()).getFullYear()+1,0,1)
+    console.log(newYear.toString())
+    const timeOffsetToFrance;
+    console.log(newYear.getTimezoneOffset())
+
     startInterval(interval, client, process.env.OOPS_GENERAL_ID, msgs)
     readyMsg = `\`\`\`diff\n- Bot logged in! ${Date(Date.now()).toLocaleString()}\nInterval = ${(interval / (1000 * 60 * 60)).toFixed(2)} h\n\`\`\`<@${process.env.CREATOR_ID}>`;
     sendToLogs(process.env.LOGS_CHANNEL_ID, readyMsg)
 
     client.setInterval(addXpToActiveUsers, activeTimeIntreval, client);
 
-    
+
     stream = T.stream('statuses/filter', { follow: ['898994539', '1976143068'] })
     stream.on('tweet', function (tweet) {
         let tweetUrl = 'https://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str;
@@ -221,7 +226,7 @@ client.on('message', async (message) => {
                 const targetMessageChannel = '🌾xp-farm';
                 let xpChannel = message.guild.channels.cache.find(ch => ch.name === targetMessageChannel)
                 if (!xpChannel) {
-                    message.guild.channels.create(targetMessageChannel, { topic: 'Spam lvl Up\nN\'hésitez pas à mute le salon', parent: message.guild.channels.cache.find(ch => ch.name === 'Text Channels') }).then(ch => xpChannel = ch)
+                    message.guild.channels.create(targetMessageChannel, { topic: 'Spam lvl Up\nN\'hésitez pas à mute le salon' }).then(ch => xpChannel = ch)
                 }
                 const randomAmountOfXp = Math.floor(Math.random() * 29) + 1; // Min 1, Max 30
                 const hasLeveledUp = await Levels.appendXp(message.author.id, message.guild.id, randomAmountOfXp);
@@ -271,59 +276,61 @@ client.on('message', async (message) => {
 
             const args = message.content.slice(process.env.BOT_PREFIX.length).trim().split(/ +/);
             const commandName = args.shift().toLowerCase();
+            if (commandName) {
 
-            const command = client.commands.get(commandName)
-                || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+                const command = client.commands.get(commandName)
+                    || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
-            if (!command) {
-                return message.reply(`désolé mais \`${commandName}\` n'est pas encore une de mes faces, si tu as une idée de génie tu peux toujours envoyer un message à <@${process.env.CREATOR_ID}> (gros tocard askip).`);
-            };
+                if (!command) {
+                    return message.reply(`désolé mais \`${commandName}\` n'est pas encore une de mes faces, si tu as une idée de génie tu peux toujours envoyer un message à <@${process.env.CREATOR_ID}> (gros tocard askip).`);
+                };
 
-            if (command.guildOnly && message.channel.type === 'dm') {
-                return message.reply(`Je ne peux pas utiliser la face \`${commandName}\` en DM (désolé). 😬`);
-            }
-
-            if (command.args && !args.length) {
-                let reply = 'désolé mais tu n\'as pas donné d\'argument. C\'est scandaleux !';
-
-                if (command.usage) {
-                    reply += `\nL'utilisation correcte serait: \`${process.env.BOT_PREFIX}${command.name} ${command.usage}\``;
+                if (command.guildOnly && message.channel.type === 'dm') {
+                    return message.reply(`Je ne peux pas utiliser la face \`${commandName}\` en DM (désolé). 😬`);
                 }
 
-                return message.reply(reply);
-            }
+                if (command.args && !args.length) {
+                    let reply = 'désolé mais tu n\'as pas donné d\'argument. C\'est scandaleux !';
 
-            if (!cooldowns.has(command.name)) {
-                cooldowns.set(command.name, new Discord.Collection());
-            }
+                    if (command.usage) {
+                        reply += `\nL'utilisation correcte serait: \`${process.env.BOT_PREFIX}${command.name} ${command.usage}\``;
+                    }
 
-            const now = Date.now();
-            const timestamps = cooldowns.get(command.name);
-            const cooldownAmount = (command.cooldown || parseInt(process.env.DEFAULT_COOLDOWN)) * 1000;
-
-            if (timestamps.has(message.author.id)) {
-                const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-
-                if (now < expirationTime) {
-                    const timeLeft = (expirationTime - now) / 1000;
-                    return message.reply(`my brooo, ne soit pas impatient 🤠! Attends un peu, encore ${timeLeft.toFixed(1)} s de réutiliser ma face \`${command.name}\`.`);
+                    return message.reply(reply);
                 }
+
+                if (!cooldowns.has(command.name)) {
+                    cooldowns.set(command.name, new Discord.Collection());
+                }
+
+                const now = Date.now();
+                const timestamps = cooldowns.get(command.name);
+                const cooldownAmount = (command.cooldown || parseInt(process.env.DEFAULT_COOLDOWN)) * 1000;
+
+                if (timestamps.has(message.author.id)) {
+                    const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+
+                    if (now < expirationTime) {
+                        const timeLeft = (expirationTime - now) / 1000;
+                        return message.reply(`my brooo, ne soit pas impatient.e 🤠! Attends un peu, encore ${timeLeft.toFixed(1)} s de réutiliser ma face \`${command.name}\`.`);
+                    }
+                }
+
+                timestamps.set(message.author.id, now);
+                setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+
+                try {
+                    command.execute(message, args);
+                } catch (error) {
+                    console.error(error);
+                    errorMsg = `\`\`\`css\n[Bot error]\n${error}}\n\`\`\``;
+                    sendToLogs(process.env.LOGS_CHANNEL_ID, errorMsg)
+                    message.reply(`oups j\'ai du être mal lancé 🤕, il y a eu une erreur lors de l\'éxécution.\n\`${error}\``);
+                }
+
+                commandMsg = `\`\`\`diff\n+ Command msg by ${message.author.username} in ${message.channel.type === 'dm' ? "DM" : message.channel.name}${message.channel.type != 'dm' ? `, ${message.guild.name}` : ''}\n ${message.content}\n\`\`\``;
+                sendToLogs(process.env.LOGS_CHANNEL_ID, commandMsg)
             }
-
-            timestamps.set(message.author.id, now);
-            setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-
-            try {
-                command.execute(message, args);
-            } catch (error) {
-                console.error(error);
-                errorMsg = `\`\`\`css\n[Bot error]\n${error}}\n\`\`\``;
-                sendToLogs(process.env.LOGS_CHANNEL_ID, errorMsg)
-                message.reply(`oups j\'ai du être mal lancé 🤕, il y a eu une erreur lors de l\'éxécution.\n\`${error}\``);
-            }
-
-            commandMsg = `\`\`\`diff\n+ Command msg by ${message.author.username} in ${message.channel.type === 'dm' ? "DM" : message.channel.name}${message.channel.type != 'dm' ? `, ${message.guild.name}` : ''}\n ${message.content}\n\`\`\``;
-            sendToLogs(process.env.LOGS_CHANNEL_ID, commandMsg)
         }
     }
 
