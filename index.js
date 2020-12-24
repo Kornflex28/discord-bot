@@ -132,7 +132,7 @@ client.once('ready', () => {
 
     const newYear = new Date(new Date(Date.now()).getFullYear()+1,0,1)
     console.log(newYear.toString())
-    const timeOffsetToFrance;
+    // const timeOffsetToFrance;
     console.log(newYear.getTimezoneOffset())
 
     startInterval(interval, client, process.env.OOPS_GENERAL_ID, msgs)
