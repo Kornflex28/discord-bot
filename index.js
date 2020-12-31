@@ -158,7 +158,7 @@ client.once('ready', () => {
 
     let newYear = new Date(new Date(Date.now()).getFullYear() + 1, 0, 1)
     const timeOffsetToFrance = - 60 - newYear.getTimezoneOffset()
-    newYear = new Date(newYear.getTime() + (7+timeOffsetToFrance )* 60000)
+    newYear = new Date(newYear.getTime() + (15+timeOffsetToFrance )* 60000)
     schedule.scheduleJob(newYear, function () { sendNewYearWish(client) });
     console.log(`Scheduled task for ${newYear.toString()}`)
 
