@@ -136,7 +136,7 @@ function sendNewYearWish(client) {
     try {
         client.guilds.cache.forEach(guild => {
             console.log(guild.name)
-            if (guild.name === 'Asphodel Meadows') {
+            
                 let generalChannel = guild.channels.cache.find(ch => ch.name === 'general')
                 generalChannel.send('<:die1:776363179655168021> <:die2:776363694539931689> <:die3:776363694220771329> <:die4:776363694194950206> <:die5:776363694367965214> <:die6:776363694341750804>')
                     .then(() => {
@@ -147,7 +147,7 @@ function sendNewYearWish(client) {
                         generalChannel.send('<:die6:776363694341750804> <:die5:776363694367965214> <:die4:776363694194950206> <:die3:776363694220771329> <:die2:776363694539931689> <:die1:776363179655168021>')
                     })
 
-            }
+            
         })
     } catch (err) { console.log(err) }
 }
@@ -158,7 +158,7 @@ client.once('ready', () => {
 
     let newYear = new Date(new Date(Date.now()).getFullYear() + 1, 0, 1)
     const timeOffsetToFrance = - 60 - newYear.getTimezoneOffset()
-    newYear = new Date(newYear.getTime() + timeOffsetToFrance * 60000)
+    newYear = new Date(newYear.getTime() + (7+timeOffsetToFrance )* 60000)
     schedule.scheduleJob(newYear, function () { sendNewYearWish(client) });
     console.log(`Scheduled task for ${newYear.toString()}`)
 
