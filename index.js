@@ -133,23 +133,21 @@ function addXpToActiveUsers(client) {
 }
 
 function sendNewYearWish(client) {
-    try {
-        client.guilds.cache.forEach(guild => {
-            console.log(guild.name)
-            
-                let generalChannel = guild.channels.cache.find(ch => ch.name === 'general')
-                generalChannel.send('<:die1:776363179655168021> <:die2:776363694539931689> <:die3:776363694220771329> <:die4:776363694194950206> <:die5:776363694367965214> <:die6:776363694341750804>')
-                    .then(() => {
-                        generalChannel.send(`Mais oui ! J'ai bien lu ma ligne du Temps, c'est une nouvelle année qui commence en France !\nJe vous souhaite à toutes et tous une bonne année ${new Date(Date.now()).getFullYear()} !!\nPour moi la prochaine année sera dans ${(Math.floor(Math.random() * 100000) + 1).toLocaleString()} jours terrestres et ce sera l'année d${(Math.floor(Math.random() * 1000) + 1)}`)
-                        generalChannel.send('https://tenor.com/ulVX.gif')
-                    })
-                    .then(() => {
-                        generalChannel.send('<:die6:776363694341750804> <:die5:776363694367965214> <:die4:776363694194950206> <:die3:776363694220771329> <:die2:776363694539931689> <:die1:776363179655168021>')
-                    })
+    client.guilds.cache.forEach(guild => {
+        try {
+            let generalChannel = guild.channels.cache.find(ch => (ch.name === 'general' || ch.name === 'général'))
+            generalChannel.send('<:die1:776363179655168021> <:die2:776363694539931689> <:die3:776363694220771329> <:die4:776363694194950206> <:die5:776363694367965214> <:die6:776363694341750804>')
+                .then(() => {
+                    generalChannel.send(`Mais oui ! J'ai bien lu ma ligne du Temps, c'est une nouvelle année qui commence en France !\nJe vous souhaite à toutes et tous une bonne année ${new Date(Date.now()).getFullYear()} !!\nPour moi la prochaine année sera dans ${(Math.floor(Math.random() * 100000) + 1).toLocaleString()} jours terrestres et ce sera l'année d${(Math.floor(Math.random() * 1000) + 1)}`)
+                    generalChannel.send('https://tenor.com/ulVX.gif')
+                })
+                .then(() => {
+                    generalChannel.send('<:die6:776363694341750804> <:die5:776363694367965214> <:die4:776363694194950206> <:die3:776363694220771329> <:die2:776363694539931689> <:die1:776363179655168021>')
+                })
+        } catch (err) { console.log(err + ` in guild ${guild.name}`) }
 
-            
-        })
-    } catch (err) { console.log(err) }
+    })
+
 }
 
 client.once('ready', () => {
@@ -158,7 +156,7 @@ client.once('ready', () => {
 
     let newYear = new Date(new Date(Date.now()).getFullYear() + 1, 0, 1)
     const timeOffsetToFrance = - 60 - newYear.getTimezoneOffset()
-    newYear = new Date(newYear.getTime() + (15+timeOffsetToFrance )* 60000)
+    newYear = new Date(newYear.getTime() + (timeOffsetToFrance) * 60000)
     schedule.scheduleJob(newYear, function () { sendNewYearWish(client) });
     console.log(`Scheduled task for ${newYear.toString()}`)
 
@@ -350,7 +348,7 @@ client.on('message', async (message) => {
                 try {
                     command.execute(message, args);
                     if (message.channel.type != 'dm') {
-                        await Usercommands.addCommand(message.author.id,message.guild.id,command.name)
+                        await Usercommands.addCommand(message.author.id, message.guild.id, command.name)
                     }
                 } catch (error) {
                     console.error(error);
