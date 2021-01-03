@@ -25,6 +25,8 @@ module.exports = {
                     .addField(`À quel moment \`${char.docs[0].name}\` a dit`,`\`${quote.dialog}\``)
                     .addField('Choix','💍: La Communauté de l\'Anneau\n🗼: Les Deux Tours\n👑: Le Retour du Roi')
                     .setThumbnail('https://static.wikia.nocookie.net/lotr/images/8/8b/DOiAi2WUEAE3A1Y.0.jpg/revision/latest?cb=20200305221819')
+                    .setFooter(`Jeu sponsorisé par ${message.client.users.cache.get(process.env.CREATOR_ID).username}`,message.client.user.displayAvatarURL())
+                    .setTimestamp()
 
                     let sentEmbed;
                     message.channel.send(quoteEmbed).then(bot_msg =>{
