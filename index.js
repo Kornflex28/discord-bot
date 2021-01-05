@@ -188,7 +188,7 @@ client.once('ready', () => {
 
 // NEW MEMBER IN GUILD
 client.on('guildMemberAdd', member => {
-    const channel = member.guild.channels.cache.find(ch => ch.name === 'general');
+    const channel = member.guild.channels.cache.find(ch => (ch.name === 'general' || ch.name === 'général'));
     if (!channel) return;
     channel.send(`Bienvenue chez les fous, ${member} ! Que dirais tu d'un petit lancer de dés pour fêter ça ?!`);
     n_dice = 5;

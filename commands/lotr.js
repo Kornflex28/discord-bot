@@ -39,21 +39,21 @@ module.exports = {
                                 if (collected.first().emoji.name == '💍') {
                                     choice_str = `${message.author.username} a choisi d'attribuer cette citation à \`La Communauté de l'Anneau\`.`
                                     if (movie.docs[0]._id == '5cd95395de30eff6ebccde5c') {
-                                        choice_str+= `\n**Et c'est correct c'est incroyable !**`
+                                        choice_str+= `\n**Et c'est correct, c'est incroyable !**`
                                     } else {
                                         choice_str+= `\n**Et malheureusement c'est totalment faux**, c'était évident pourtant : \`${movies.get(movie.docs[0]._id)}\``
                                     }
                                 } else if (collected.first().emoji.name == '🗼'){
                                     choice_str = `${message.author.username} a choisi d'attribuer cette citation aux \`Deux Tours\`.`
                                     if (movie.docs[0]._id == '5cd95395de30eff6ebccde5b') {
-                                        choice_str+= `\n**Et c'est correct c'est incroyable !**`
+                                        choice_str+= `\n**Et c'est correct, c'est incroyable !**`
                                     } else {
                                         choice_str+= `\n**Et malheureusement c'est totalment faux**, c'était évident pourtant : \`${movies.get(movie.docs[0]._id)}\``
                                     }
                                 } else {
                                     choice_str = `${message.author.username} a choisi d'attribuer cette citation au \`Retour du Roi\`.`
                                     if (movie.docs[0]._id == '5cd95395de30eff6ebccde5d') {
-                                        choice_str+= `\n**Et c'est correct c'est incroyable !**`
+                                        choice_str+= `\n**Et c'est correct, c'est incroyable !**`
                                     } else {
                                         choice_str+= `\n**Et malheureusement c'est totalment faux**, c'était évident pourtant : \`${movies.get(movie.docs[0]._id)}\``
                                     }
