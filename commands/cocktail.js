@@ -28,7 +28,7 @@ async function formCocktailEmbed(message, drink) {
         ingrs.push(ingr.text);
     }
     cocktailEmbed.addField('Ingredients', `• ${ingrs.join('\n• ')}`)
-    cocktailEmbed.addField('Conversions', '1 once/oz ≈ 29.5 mL')
+    cocktailEmbed.addField('Conversions', '1 once/oz ≈ 29.5 mL\n1 lb ≈ 450 g\n1 gallon ≈ 3.8 L')
     return cocktailEmbed;
 }
 
