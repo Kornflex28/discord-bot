@@ -46,15 +46,21 @@ for (const file of commandFiles) {
 const cooldowns = new Discord.Collection();
 
 
-const manager = new NlpManager({ languages: ['fr'], forceNER: true, modelFileName: './nlp/dede_fr.nlp', nlu: { log: false } });
-// Adds the utterances and intents for the NLP
-manager.addCorpus('./nlp/corpus-fr.json');
+//const manager = new NlpManager({ languages: ['fr'], forceNER: true, modelFileName: './nlp/dede_fr_trained.nlp', nlu: { log: true }});
 
-// Train and save the model.
-(async () => {
-    console.log('Training the model...')
-    await manager.train();
-})();
+// manager.addCorpus('./nlp/corpus-fr-qna.json');
+
+// // Train and save the model.
+// (async () => {
+//     console.log('Training the model...')
+//     await manager.train();
+// })();
+
+let manager = new NlpManager();
+console.log('Loading NLP manager...')
+manager.load('./nlp/dede_fr.nlp');
+// Adds the utterances and intents for the NLP
+
 
 
 const minTime = 20 * 60 * 60 // 20 hours in s 
