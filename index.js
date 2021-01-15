@@ -245,7 +245,9 @@ client.on('message', async (message) => {
         })
     }
 
-    if (message.author.bot || message.channel.id != process.env.TESTING_CHANNEL_ID) { return; }
+    // TESTING
+    // if (message.author.bot || message.channel.id != process.env.TESTING_CHANNEL_ID) { return; }
+
     if (message.author.bot) { return; }
 
     if (!message.author.bot) {
