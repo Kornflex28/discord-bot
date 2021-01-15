@@ -31,9 +31,9 @@ module.exports = {
                     .then(collected => {
                         let choice_str
                         if (collected.first().emoji.name == '✅') {
-                            choice_str = `${message.author.username} a choisi d'appuyer sur le bouton comme ${dilemma.yes.toLocaleString('fr')} autres personnes alors que ${dilemma.no.toLocaleString('fr')} ont refusé.` 
+                            choice_str = `${message.author.username} a choisi d'appuyer sur le bouton comme ${dilemma.yes.toLocaleString('fr-FR')} autres personnes alors que ${dilemma.no.toLocaleString('fr-FR')} ont refusé.` 
                         } else {
-                            choice_str = `${message.author.username} a choisi de ne pas appuyer sur le bouton comme ${dilemma.no.toLocaleString('fr')} autres personnes alors que ${dilemma.yes.toLocaleString('fr')} ont accepté.` 
+                            choice_str = `${message.author.username} a choisi de ne pas appuyer sur le bouton comme ${dilemma.no.toLocaleString('fr-FR')} autres personnes alors que ${dilemma.yes.toLocaleString('fr-FR')} ont accepté.` 
                         }
                         buttonEmbed = msg.embeds[0].spliceFields(0,2)
                         .setTitle('Appuierez vous sur le bouton ?')
