@@ -14,6 +14,7 @@ module.exports = {
     async execute(message, args) {
         let guildsCommands = await Usercommands.fetchGuildsCommands(message.client);
         let commandsCounts = new Map()
+        let maxRAM = 512;
         for (let [guildId,guildCommands] of guildsCommands) {
             for (let [command,commandCount] of guildCommands) {
                 if (!commandsCounts.has(command)){
@@ -38,6 +39,7 @@ module.exports = {
         const seconds = d.seconds();
         let uptime = `${days > 0 ? `${days} ${days == 1 ? `jour, ` : 'jours, '}` : ``}${hours > 0 ? `${hours} ${hours == 1 ? 'heure, ' : 'heures, '}` : ``}${minutes > 0 ? `${minutes} ${minutes == 1 ? 'minute, ' : 'minutes, '}` : ``}${seconds} ${seconds > 1 ? 'secondes' : 'seconde'}`;
         const clientStats = stripIndent`
+        Version             :: ${process.env.HEROKU_RELEASE_VERSION?process.env.HEROKU_RELEASE_VERSION:'développement'}
         Serveurs       :: ${message.client.guilds.cache.size}
         Utilisateurs   :: ${message.client.users.cache.size}
         Salons         :: ${message.client.channels.cache.size}
