@@ -14,6 +14,7 @@ module.exports = {
     async execute(message, args) {
         let guildsCommands = await Usercommands.fetchGuildsCommands(message.client);
         let commandsCounts = new Map()
+        let maxRAM = 512;
         for (let [guildId,guildCommands] of guildsCommands) {
             for (let [command,commandCount] of guildCommands) {
                 if (!commandsCounts.has(command)){
@@ -27,6 +28,7 @@ module.exports = {
             return b[1] - a[1];
         })
         const commandsStats = stripIndent`
+        Version             :: ${process.env.HEROKU_RELEASE_VERSION?process.env.HEROKU_RELEASE_VERSION:'développement'}
         Commandes           :: ${message.client.commands.size}
         Commandes exécutées :: ${totalCommandsCounts.reduce((r, a) => r.map((b, i) => a[i] + b))[1]}
         Top 5 commandes     :: ${totalCommandsCounts.slice(0,5).map(t=>t[0]).join(', ')}

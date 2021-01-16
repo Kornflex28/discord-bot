@@ -317,14 +317,18 @@ client.on('message', async (message) => {
                 if (!command) {
                     message
                     if (Math.random()<=0.2){
+                        await message.react('❌');
                         await message.react('🇳');
                         await message.react('🇴');
-                        await message.react('❌');
+                        await message.react('🇵');
+                        await message.react('🇪');
                         return message.reply(`désolé mais \`${commandName}\` ${locales.commandError.random()} ${creatorUser}`);
                     } else {
+                        await message.react('❌');
                         await message.react('🇳');
                         await message.react('🇴');
-                        await message.react('❌');
+                        await message.react('🇵');
+                        await message.react('🇪');
                         return;
                     }
                 };
