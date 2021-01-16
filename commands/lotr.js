@@ -16,7 +16,7 @@ module.exports = {
                     let quote = json.docs[Math.floor(Math.random()*json.docs.length)]
                     let movie = await fetch(`${fetch_url}movie/${quote.movie}`, { headers: { 'Authorization': `Bearer ${process.env.LOTR_TOKEN}` } }).then(resp=>resp.json())
                     let char = await fetch(`${fetch_url}character/${quote.character}`, { headers: { 'Authorization': `Bearer ${process.env.LOTR_TOKEN}` } }).then(resp=>resp.json())
-                    console.log(quote.dialog,movie,char)
+                    // console.log(quote.dialog,movie,char)
 
                     let quoteEmbed = new Discord.MessageEmbed()
                     .setColor('RANDOM')
