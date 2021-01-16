@@ -28,7 +28,6 @@ module.exports = {
             return b[1] - a[1];
         })
         const commandsStats = stripIndent`
-        Version             :: ${process.env.HEROKU_RELEASE_VERSION?process.env.HEROKU_RELEASE_VERSION:'développement'}
         Commandes           :: ${message.client.commands.size}
         Commandes exécutées :: ${totalCommandsCounts.reduce((r, a) => r.map((b, i) => a[i] + b))[1]}
         Top 5 commandes     :: ${totalCommandsCounts.slice(0,5).map(t=>t[0]).join(', ')}
@@ -40,6 +39,7 @@ module.exports = {
         const seconds = d.seconds();
         let uptime = `${days > 0 ? `${days} ${days == 1 ? `jour, ` : 'jours, '}` : ``}${hours > 0 ? `${hours} ${hours == 1 ? 'heure, ' : 'heures, '}` : ``}${minutes > 0 ? `${minutes} ${minutes == 1 ? 'minute, ' : 'minutes, '}` : ``}${seconds} ${seconds > 1 ? 'secondes' : 'seconde'}`;
         const clientStats = stripIndent`
+        Version             :: ${process.env.HEROKU_RELEASE_VERSION?process.env.HEROKU_RELEASE_VERSION:'développement'}
         Serveurs       :: ${message.client.guilds.cache.size}
         Utilisateurs   :: ${message.client.users.cache.size}
         Salons         :: ${message.client.channels.cache.size}
