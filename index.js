@@ -354,7 +354,7 @@ client.on('message', async (message) => {
                 setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
                 try {
-                    await message.react(client.emojis.cache.find(emoji => emoji.name === `die4`));
+                    message.react(client.emojis.cache.find(emoji => emoji.name === `die4`));
                     command.execute(message, args);
                     if (message.channel.type != 'dm') {
                         await Usercommands.addCommand(message.author.id, message.guild.id, command.name)
