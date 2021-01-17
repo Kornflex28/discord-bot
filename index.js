@@ -316,21 +316,13 @@ client.on('message', async (message) => {
 
                 if (!command) {
                     message
-                    if (Math.random()<=0.2){
-                        await message.react('❌');
-                        await message.react('🇳');
-                        await message.react('🇴');
-                        await message.react('🇵');
-                        await message.react('🇪');
-                        return message.reply(`désolé mais \`${commandName}\` ${locales.commandError.random()} ${creatorUser}`);
-                    } else {
-                        await message.react('❌');
-                        await message.react('🇳');
-                        await message.react('🇴');
-                        await message.react('🇵');
-                        await message.react('🇪');
-                        return;
-                    }
+                    if (Math.random()<=0.2){message.reply(`désolé mais \`${commandName}\` ${locales.commandError.random()} ${creatorUser}`)}
+                    await message.react('❌');
+                    await message.react('🇳');
+                    await message.react('🇴');
+                    await message.react('🇵');
+                    await message.react('🇪');
+                    return;
                 };
 
                 if (command.guildOnly && message.channel.type === 'dm') {
