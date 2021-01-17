@@ -317,7 +317,7 @@ client.on('message', async (message) => {
                 if (!command) {
                     message
                     if (Math.random()<=0.2){message.reply(`désolé mais \`${commandName}\` ${locales.commandError.random()} ${creatorUser}`)}
-                    await message.react('❌');
+                    await message.react(client.emojis.cache.find(emoji => emoji.name === `die1`));
                     await message.react('🇳');
                     await message.react('🇴');
                     await message.react('🇵');
@@ -354,6 +354,7 @@ client.on('message', async (message) => {
                 setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
                 try {
+                    await message.react(client.emojis.cache.find(emoji => emoji.name === `die4`));
                     command.execute(message, args);
                     if (message.channel.type != 'dm') {
                         await Usercommands.addCommand(message.author.id, message.guild.id, command.name)
