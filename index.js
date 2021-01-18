@@ -2,7 +2,10 @@ require('dotenv').config();
 const moment = require('moment');
 let schedule = require('node-schedule');
 
-
+var leoProfanity = require('leo-profanity');
+var frenchBadwordsList = require('french-badwords-list');
+leoProfanity.clearList();
+leoProfanity.add(frenchBadwordsList.array);
 
 const Usercommands = require("./database/uc.js");
 Usercommands.setURL(process.env.LEVELS_DB_URL);
@@ -240,7 +243,7 @@ client.on('message', async (message) => {
             } else {
                 if (message.attachments.size) {
                     let files = message.attachments.map((att,id)=> att.url)
-                    message.channel.send(messageContent,{files:files})
+                    channel.send(messageContent,{files:files})
                 }
                 else {
                 channel.send(messageContent);
@@ -377,6 +380,10 @@ client.on('message', async (message) => {
                 commandMsg = `\`\`\`diff\n+ Command msg by ${message.author.username} in ${message.channel.type === 'dm' ? "DM" : message.channel.name}${message.channel.type != 'dm' ? `, ${message.guild.name}` : ''}\n ${message.content}\n\`\`\``;
                 sendToLogs(process.env.LOGS_CHANNEL_ID, commandMsg)
             }
+        }
+
+        if (leoProfanity.check(message.content)) {
+            message.reply(locales.profanityFilter.random())
         }
     }
 
