@@ -32,7 +32,7 @@ module.exports = {
 
             if(wikiSummary.length > 1024){
                 let sumText = wikiSummary.toString().split('\n')
-                quoteEmbed.addField('*Plus d\'infos*',sumText.slice(0,2).join('\n'))
+                quoteEmbed.addField('*Plus d\'infos*',sumText[0])
             } else {
                 quoteEmbed.addField('*Plus d\'infos*',wikiSummary.toString())
             }
