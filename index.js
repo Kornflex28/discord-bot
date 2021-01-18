@@ -235,18 +235,26 @@ client.on('message', async (message) => {
     if (message.content.startsWith('mergez') && message.author.id == process.env.CREATOR_ID) {
         const messageContent = message.content.slice('mergez'.length + 1).trim();
         client.channels.fetch(process.env.OOPS_GENERAL_ID).then(channel => {
-            if (messageContent === "") {
+            if (messageContent === "" && !message.attachments.size) {
                 channel.send(locales.thoughts.random());
             } else {
+                if (message.attachments.size) {
+                    let files = message.attachments.map((att,id)=> att.url)
+                    message.channel.send(messageContent,{files:files})
+                }
+                else {
                 channel.send(messageContent);
+                }
             }
             msg = `\`\`\`ini\n [mergez sent to ${channel.name}]\n\`\`\``
             sendToLogs(process.env.LOGS_CHANNEL_ID, msg)
         })
     }
 
-    // TESTING
-    // if (message.author.bot || message.channel.id != process.env.TESTING_CHANNEL_ID) { return; }
+    // DEVELOPMENT OR NOT 
+    if (!process.env.IS_HEROKU && message.channel.id != process.env.TESTING_CHANNEL_ID) { return; }
+
+    if (message.author.bot) { return; }
 
     if (message.author.bot) { return; }
 
