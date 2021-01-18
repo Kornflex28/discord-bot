@@ -15,26 +15,37 @@ module.exports = {
         fetch(fetch_url).then(response => response.json())
         .then(async json => {
 
+            let quoteEmbed;
             const quote = await translate(json.content,{client: 'gtx',from:'en',to:'fr'})
             const wikiSearch = await wiki({ apiUrl: 'https://fr.wikipedia.org/w/api.php' }).search(json.author);
             const wikiPage = await wiki({ apiUrl: 'https://fr.wikipedia.org/w/api.php' }).page(wikiSearch.results[0]);
-            const wikiSummary = await wikiPage.summary();
-            const wikiImage = await wikiPage.mainImage();
-            let quoteEmbed = new Discord.MessageEmbed()
-                .setColor('RANDOM')
-                .setTitle(json.content)
-                .setURL(wikiPage.raw.fullurl)
-                .setDescription(`*__Traduction:__ ${quote.text}*`)
-                .setAuthor(json.author)
-                .setThumbnail(wikiImage)
-                .setFooter('Données récupérées grâce à l\'érudition de Dédé',message.client.user.displayAvatarURL())
-                .setTimestamp();
+            if (wikiSearch.results) {
+                const wikiSummary = await wikiPage.summary();
+                const wikiImage = await wikiPage.mainImage();
+                quoteEmbed = new Discord.MessageEmbed()
+                    .setColor('RANDOM')
+                    .setTitle(json.content)
+                    .setURL(wikiPage.raw.fullurl)
+                    .setDescription(`*__Traduction:__ ${quote.text}*`)
+                    .setAuthor(json.author)
+                    .setThumbnail(wikiImage)
+                    .setFooter('Données récupérées grâce à l\'érudition de Dédé',message.client.user.displayAvatarURL())
+                    .setTimestamp();
 
-            if(wikiSummary.length > 1024){
-                let sumText = wikiSummary.toString().split('\n')
-                quoteEmbed.addField('*Plus d\'infos*',sumText[0])
+                if(wikiSummary.length > 1024){
+                    let sumText = wikiSummary.toString().split('\n')
+                    quoteEmbed.addField('*Plus d\'infos*',sumText[0])
+                } else {
+                    quoteEmbed.addField('*Plus d\'infos*',wikiSummary.toString())
+                } 
             } else {
-                quoteEmbed.addField('*Plus d\'infos*',wikiSummary.toString())
+                quoteEmbed = new Discord.MessageEmbed()
+                    .setColor('RANDOM')
+                    .setTitle(json.content)
+                    .setDescription(`*__Traduction:__ ${quote.text}*`)
+                    .setAuthor(json.author)
+                    .setFooter('Données récupérées grâce à l\'érudition de Dédé',message.client.user.displayAvatarURL())
+                    .setTimestamp();
             }
 
             return message.channel.send(quoteEmbed)
