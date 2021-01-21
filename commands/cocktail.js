@@ -46,6 +46,9 @@ module.exports = {
                     let drink = json.drinks[0]
                     let cocktailEmbed = await formCocktailEmbed(message, drink);
                     return message.channel.send(cocktailEmbed);
+                }).catch(error=>{
+                    console.log(error);
+                    return message.channel.send('Oh non, j\'ai renversé tous mes cokctails. Attends un peu, le temps de netttoyer');
                 })
         }
         else if (args[0] === 'sa') {
@@ -58,6 +61,9 @@ module.exports = {
                             let cocktailEmbed = await formCocktailEmbed(message, drink);
                             return message.channel.send(cocktailEmbed);
                         })
+                }).catch(error=>{
+                    console.log(error);
+                    return message.channel.send('Oh non, j\'ai renversé tous mes cokctails. Attends un peu, le temps de netttoyer');
                 })
         }
         else if (args[0] === 'aa') {
@@ -70,6 +76,9 @@ module.exports = {
                             let cocktailEmbed = await formCocktailEmbed(message, drink);
                             return message.channel.send(cocktailEmbed);
                         })
+                }).catch(error=>{
+                    console.log(error);
+                    return message.channel.send('Oh non, j\'ai renversé tous mes cokctails. Attends un peu, le temps de netttoyer');
                 })
         }
         else if (args[0] === 'avec') {
@@ -94,6 +103,9 @@ module.exports = {
                             let cocktailEmbed = await formCocktailEmbed(message, drink);
                             return message.channel.send(cocktailEmbed);
                         })
+                }).catch(error=>{
+                    console.log(error);
+                    return message.channel.send('Oh non, j\'ai renversé tous mes cokctails. Attends un peu, le temps de netttoyer');
                 })
         }
         else {
@@ -105,6 +117,9 @@ module.exports = {
                     let drink = json.drinks[0]
                     let cocktailEmbed = await formCocktailEmbed(message, drink);
                     return message.channel.send(cocktailEmbed);
+                }).catch(error=>{
+                    console.log(error);
+                    return message.channel.send('Oh non, j\'ai renversé tous mes cokctails. Attends un peu, le temps de netttoyer');
                 })
         }
 

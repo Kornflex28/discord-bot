@@ -12,7 +12,8 @@ module.exports = {
     aliases: ['ajd', 'history'],
     execute(message, args) {
         message.channel.send('Un moment je parcours la ligne du Temps...')
-        fetch(fetch_url).then(resp => resp.json())
+        console.log(moment().format("MM/DD"))
+        fetch(`${fetch_url}/${moment().format("MM/DD")}`).then(resp => resp.json())
             .then(async json => {
                 const source = json.data['Events']
                 const births = json.data['Births']
@@ -44,6 +45,9 @@ module.exports = {
                         .setFooter('Données fournies grâce à la face de visualisation de la ligne du Temps de l\'humain sur Terre', message.client.user.displayAvatarURL())
                     return message.channel.send(embed);
                 }
+            }).catch(error=> {
+                console.log(error);
+                return message.channel.send('Oups la ligne s\'est brisée, pas d\'inquiétude je m\'en occupe !');
             })
     }
 }

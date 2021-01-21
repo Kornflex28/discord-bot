@@ -256,6 +256,7 @@ client.on('message', async (message) => {
 
     // DEVELOPMENT OR NOT 
     if (!process.env.IS_HEROKU && message.channel.id != process.env.TESTING_CHANNEL_ID) { return; }
+    if (process.env.IS_HEROKU && message.channel.id == process.env.TESTING_CHANNEL_ID) { return; }
 
     if (message.author.bot) { return; }
 
@@ -367,7 +368,7 @@ client.on('message', async (message) => {
                 try {
                     message.react(client.emojis.cache.find(emoji => emoji.name === `die4`));
                     command.execute(message, args);
-                    if (message.channel.type != 'dm') {
+                    if (message.channel.type != 'dm' && process.env.IS_HEROKU) {
                         await Usercommands.addCommand(message.author.id, message.guild.id, command.name)
                     }
                 } catch (error) {
