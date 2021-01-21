@@ -49,6 +49,9 @@ module.exports = {
             }
 
             return message.channel.send(quoteEmbed)
+        }).catch(error => {
+            console.log(error);
+            return message.channel.send('Aie j\'aif fait tomber tous mes dés. Attends un peu.');
         })
         
 	},
