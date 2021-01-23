@@ -1,23 +1,9 @@
-const answers = [
-    'Pas d\'avis',
-    'C\'est ton destin',
-    'Le sort en est jeté',
-    'Une chance sur deux',
-    'D\'après moi oui',
-    'C\'est certain',
-    'Oui absolument',
-    'Tu peux compter dessus',
-    'Sans aucun doute',
-    'Très probable',
-    'Oui',
-    'C\'est bien parti',
-    'C\'est non',
-    'Peu probable',
-    'Faut pas rêver',
-    'N\'y compte pas',
-    'Impossible'
-];
-const Discord = require('discord.js');
+const fs = require('fs');
+const locales = JSON.parse(fs.readFileSync('./locales/fr-FR.json').toString());
+Array.prototype.random = function () {
+    return this[Math.floor((Math.random() * this.length))];
+}
+
 module.exports = {
 	name: '8ball',
     description: 'La boule magique !!',
@@ -26,6 +12,6 @@ module.exports = {
     usage: '<question>',
     args:true,
 	execute(message, args) {
-            message.channel.send(`🧙 *${answers[Math.floor(Math.random()*answers.length)]}* 🔮`);
+            message.channel.send(`🧙 *${locales.ballAnswers.random()}* 🔮`);
 	},
 };

@@ -9,7 +9,7 @@ function cryptoEmbed(coin, value, change24, message) {
         .setTitle(`💰 Valeur du ${coin} 💰`)
         .setDescription('Personne d\'autre que vous n\'est responsable de vos pertes ou même de vos gains.')
         .addField('Valeur en $USD', `\`$ ${value.toLocaleString('fr-FR')}\``, true)
-        .addField('Varation (par rapport à il y a 24 h)', `\`$ ${change24 >= 0 ? '+ ' + change24.toLocaleString('fr-FR') : `- ${(-change24).toLocaleString('fr-FR')}`}\``, true)
+        .addField('Varation (par rapport à il y a 24 h)', `\`$ ${change24 >= 0 ? '+' + Math.abs(change24).toLocaleString('fr-FR') : `-${(-change24).toLocaleString('fr-FR')}`}\``, true)
         .setTimestamp()
         .setFooter('Faites attention à la dépendance !', message.client.user.displayAvatarURL());
 }
@@ -49,11 +49,14 @@ module.exports = {
                 } else {
                     return undefined
                 }
+            }).catch(e => {
+                console.log(e)
+                return message.reply('Aie j\'ai perdu tous mes coins... Une minute')
             })
             .then(json => {
                 if (json) {
                     try {
-                        message.channel.send(cryptoEmbed(json.RAW.FROMSYMBOL, json.RAW.PRICE, json.RAW.CHANGE24HOUR.toFixed(2), message));
+                        message.channel.send(cryptoEmbed(json.RAW.FROMSYMBOL, json.RAW.PRICE, json.RAW.CHANGE24HOUR.toFixed(6), message));
                     } catch (error) {
                         console.log(error.message);
                         if (!checkStatusVar == 1) message.channel.send(`Des choses amusantes se sont produites lors de la tentative d'affichage des données. Réessaye plus tard. \nErreur: \`${error.message}\``);
@@ -62,6 +65,9 @@ module.exports = {
                 } else {
                     return;
                 }
+            }).catch(e => {
+                console.log(e)
+                return message.reply('Aie j\'ai perdu tous mes coins... Une minute')
             });
 
     },

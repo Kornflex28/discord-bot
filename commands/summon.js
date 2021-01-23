@@ -24,18 +24,18 @@ module.exports = {
         const messageMentionsRoles = message.mentions.roles;
         // console.log(message.mentions)
         let mentionnedUsers = [];
-        messageMentionsUsers.forEach(usr=>{
+        messageMentionsUsers.forEach(usr => {
             if (!mentionnedUsers.includes(usr)) {
                 mentionnedUsers.push(usr);
             }
         })
-        messageMentionsRoles.forEach(role=>{
-            role.members.forEach(usr =>{
+        messageMentionsRoles.forEach(role => {
+            role.members.forEach(usr => {
                 if (!mentionnedUsers.includes(usr)) {
                     mentionnedUsers.push(usr);
                 }
             })
-            
+
         })
         if (message.mentions.everyone) {
             return message.channel.send('Oula je ne vais pas envoyer un DM à tout le monde, déso pas déso comme vous dites !')

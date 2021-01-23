@@ -1,5 +1,4 @@
-const Discord = require('discord.js');
-const { getLyrics, getSong } = require('genius-lyrics-api');
+const { getLyrics } = require('genius-lyrics-api');
 require('dotenv').config();
 
 Array.prototype.random = function () {

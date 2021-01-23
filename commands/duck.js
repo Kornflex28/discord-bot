@@ -7,12 +7,19 @@ module.exports = {
     cooldown: 3,
     execute(message, args) {
         fetch(fetch_url).then(res => res.json())
+            .catch(e => {
+                console.log(e);
+                return message.reply('désolé mais il y a eu un QWACK')
+            })
             .then(json => {
                 if (json.url) {
                     message.channel.send(json.url)
                 } else {
                     message.channel.send('Désolé mais il y a eu un qwack ...')
                 }
+            }).catch(e => {
+                console.log(e);
+                return message.reply('désolé mais il y a eu un QWACK')
             })
     }
 }
