@@ -160,7 +160,7 @@ function sendNewYearWish(client) {
 client.once('ready', async () => {
 
     client.user.setPresence({ activity: { name: `les dés | !help`, type: 'LISTENING' }, status: 'online' });
-    console.log('Bot logged in!');
+    console.log(`Bot logged in! ${process.env.IS_HEROKU?'Deployment version':'Development version'}`);
     creatorUser = await client.users.fetch(process.env.CREATOR_ID);
     let newYear = new Date(new Date(Date.now()).getFullYear() + 1, 0, 1)
     const timeOffsetToFrance = - 60 - newYear.getTimezoneOffset()
@@ -290,7 +290,7 @@ client.on('message', async (message) => {
         const react_prob = Math.exp(-1);
 
         // reactions handling 
-        if (['vie', 'damso'].some(elem => message.content.toLowerCase().includes(elem))) {
+        if (['vie', 'damso','dems'].some(elem => message.content.toLowerCase().includes(elem))) {
             message.react('🖖');
         }
 
@@ -319,7 +319,7 @@ client.on('message', async (message) => {
         // commands handling
         if (message.content.startsWith(process.env.BOT_PREFIX)) {
 
-            const args = message.content.slice(process.env.BOT_PREFIX.length).trim().split(/ +/);
+            const args = message.content.slice(process.env.BOT_PREFIX.length).trim().split(/\s+/);
             const commandName = args.shift().toLowerCase();
             if (commandName) {
 
@@ -341,8 +341,12 @@ client.on('message', async (message) => {
                     return message.reply(`Je ne peux pas utiliser la face \`${commandName}\` en DM (désolé). 😬`);
                 }
 
+                if (command.creatorOnly && message.author.id != process.env.CREATOR_ID) {
+                    return message.reply(locales.commandPermission.random())
+                }
+
                 if (command.args && !args.length) {
-                    message.reply(`${locales.argsError.random()}${command.usage?`\nL'utilisation correcte serait: \`${process.env.BOT_PREFIX}${command.name} ${command.usage}\``:''}`);
+                    return message.reply(`${locales.argsError.random()}${command.usage?`\nL'utilisation correcte serait: \`${process.env.BOT_PREFIX}${command.name} ${command.usage}\``:''}`);
                 }
 
                 if (!cooldowns.has(command.name)) {

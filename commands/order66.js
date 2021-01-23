@@ -1,9 +1,6 @@
 require('dotenv').config();
-const Discord = require('discord.js');
-const fs = require('fs');
-const frNouns = './french_nouns.txt';
 
-excl_commands=['order66','8ball','hangman','guess','help','reload','definition'];
+
 
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -14,10 +11,10 @@ function shuffle(array) {
 
 module.exports = {
 	name: 'order66',
-    description: 'Exécute l\'Ordre 66.',
+  description: 'Exécute l\'Ordre 66.',
   aliases: ['ordre66','66'],
   guildOnly: true,
-	cooldown: 60,
+	cooldown: 600,
 	execute(message, args) {
         const client = message.client;
         const messageChannel = message.channel;
@@ -25,7 +22,7 @@ module.exports = {
         const commandsName = commands.map(c=>c.name)
         // console.log(commandsName)
         shuffle(commandsName)
-        const serverChannels = message.guild.channels.cache.filter(ch=>(ch.type == 'text' && ch.name !='🌾xp-farm'));
+        const serverChannels = message.guild.channels.cache.filter(ch=>(ch.type == 'text' && ch.name !='🌾xp-farm' && ch.name !='🥋macron-vs-sardoche'));
         serverChannelsId = serverChannels.map(ch=>ch.id)
         // console.log(serverChannelsId)
         messageChannel.send("https://tenor.com/N55Q.gif")

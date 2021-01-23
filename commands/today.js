@@ -33,7 +33,6 @@ module.exports = {
                     return message.channel.send(embed)
                 } else {
                     const event = source[Math.round(Math.random() * (source.length - 1))]
-                    console.log(event)
                     const ev = await translate(`${event.text}`, { client: 'gtx', from: 'en', to: 'fr' });
                     const embed = new Discord.MessageEmbed()
                         .setTitle(`Evenement historique du ${moment(message.createdAt).format('Do MMMM')}`)
