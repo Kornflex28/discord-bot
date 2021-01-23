@@ -46,7 +46,7 @@ module.exports = {
                     let drink = json.drinks[0]
                     let cocktailEmbed = await formCocktailEmbed(message, drink);
                     return message.channel.send(cocktailEmbed);
-                }).catch(error=>{
+                }).catch(error => {
                     console.log(error);
                     return message.channel.send('Oh non, j\'ai renversé tous mes cokctails. Attends un peu, le temps de netttoyer');
                 })
@@ -60,8 +60,11 @@ module.exports = {
                             let drink = data.drinks[0];
                             let cocktailEmbed = await formCocktailEmbed(message, drink);
                             return message.channel.send(cocktailEmbed);
+                        }).catch(error => {
+                            console.log(error);
+                            return message.channel.send('Oh non, j\'ai renversé tous mes cokctails. Attends un peu, le temps de netttoyer');
                         })
-                }).catch(error=>{
+                }).catch(error => {
                     console.log(error);
                     return message.channel.send('Oh non, j\'ai renversé tous mes cokctails. Attends un peu, le temps de netttoyer');
                 })
@@ -75,8 +78,11 @@ module.exports = {
                             let drink = data.drinks[0];
                             let cocktailEmbed = await formCocktailEmbed(message, drink);
                             return message.channel.send(cocktailEmbed);
+                        }).catch(error => {
+                            console.log(error);
+                            return message.channel.send('Oh non, j\'ai renversé tous mes cokctails. Attends un peu, le temps de netttoyer');
                         })
-                }).catch(error=>{
+                }).catch(error => {
                     console.log(error);
                     return message.channel.send('Oh non, j\'ai renversé tous mes cokctails. Attends un peu, le temps de netttoyer');
                 })
@@ -102,8 +108,11 @@ module.exports = {
                             let drink = data.drinks[0];
                             let cocktailEmbed = await formCocktailEmbed(message, drink);
                             return message.channel.send(cocktailEmbed);
+                        }).catch(error => {
+                            console.log(error);
+                            return message.channel.send('Oh non, j\'ai renversé tous mes cokctails. Attends un peu, le temps de netttoyer');
                         })
-                }).catch(error=>{
+                }).catch(error => {
                     console.log(error);
                     return message.channel.send('Oh non, j\'ai renversé tous mes cokctails. Attends un peu, le temps de netttoyer');
                 })
@@ -117,7 +126,7 @@ module.exports = {
                     let drink = json.drinks[0]
                     let cocktailEmbed = await formCocktailEmbed(message, drink);
                     return message.channel.send(cocktailEmbed);
-                }).catch(error=>{
+                }).catch(error => {
                     console.log(error);
                     return message.channel.send('Oh non, j\'ai renversé tous mes cokctails. Attends un peu, le temps de netttoyer');
                 })

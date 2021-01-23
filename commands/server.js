@@ -47,6 +47,9 @@ module.exports = {
                 .setFooter('Données fournies grâce à l\'omniprésence de Dédé', message.client.user.displayAvatarURL());
 
             message.channel.send(serverEmbed);
+        }).catch(error => {
+            console.log(error);
+            return message.channel.send('Aie j\'ai fait tomber tous mes dés. Attends un peu.');
         })
     }
 };

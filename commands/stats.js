@@ -10,27 +10,26 @@ module.exports = {
     name: 'stats',
     description: 'Quelques infos sur ma propre personne',
     cooldown: 2,
-    aliases:['stat'],
+    aliases: ['stat'],
     async execute(message, args) {
         let guildsCommands = await Usercommands.fetchGuildsCommands(message.client);
         let commandsCounts = new Map()
-        let maxRAM = 512;
-        for (let [guildId,guildCommands] of guildsCommands) {
-            for (let [command,commandCount] of guildCommands) {
-                if (!commandsCounts.has(command)){
-                    commandsCounts.set(command,commandCount)
+        for (let [_, guildCommands] of guildsCommands) {
+            for (let [command, commandCount] of guildCommands) {
+                if (!commandsCounts.has(command)) {
+                    commandsCounts.set(command, commandCount)
                 } else {
-                    commandsCounts.set(command,commandCount+commandsCounts.get(command))
+                    commandsCounts.set(command, commandCount + commandsCounts.get(command))
                 }
             }
         }
-        let totalCommandsCounts = Array.from(commandsCounts).sort(function(a, b) {
+        let totalCommandsCounts = Array.from(commandsCounts).sort(function (a, b) {
             return b[1] - a[1];
         })
         const commandsStats = stripIndent`
         Commandes           :: ${message.client.commands.size}
         Commandes exécutées :: ${totalCommandsCounts.reduce((r, a) => r.map((b, i) => a[i] + b))[1]}
-        Top 5 commandes     :: ${totalCommandsCounts.slice(0,5).map(t=>t[0]).join(', ')}
+        Top 5 commandes     :: ${totalCommandsCounts.slice(0, 5).map(t => t[0]).join(', ')}
         `;
         const d = moment.duration(message.client.uptime);
         const days = d.days();
@@ -39,7 +38,7 @@ module.exports = {
         const seconds = d.seconds();
         let uptime = `${days > 0 ? `${days} ${days == 1 ? `jour, ` : 'jours, '}` : ``}${hours > 0 ? `${hours} ${hours == 1 ? 'heure, ' : 'heures, '}` : ``}${minutes > 0 ? `${minutes} ${minutes == 1 ? 'minute, ' : 'minutes, '}` : ``}${seconds} ${seconds > 1 ? 'secondes' : 'seconde'}`;
         const clientStats = stripIndent`
-        Version        :: ${process.env.HEROKU_RELEASE_VERSION?process.env.HEROKU_RELEASE_VERSION:'développement'}
+        Version        :: ${process.env.HEROKU_RELEASE_VERSION ? process.env.HEROKU_RELEASE_VERSION : 'développement'}
         Serveurs       :: ${message.client.guilds.cache.size}
         Utilisateurs   :: ${message.client.users.cache.size}
         Salons         :: ${message.client.channels.cache.size}
@@ -57,7 +56,7 @@ module.exports = {
         `;
         const embed = new Discord.MessageEmbed()
             .setTitle(`Statistiques de ${message.client.user.username} `)
-            .addField(`Commandes`,`\`\`\`asciidoc\n${commandsStats}\`\`\``)
+            .addField(`Commandes`, `\`\`\`asciidoc\n${commandsStats}\`\`\``)
             .addField('Client', `\`\`\`asciidoc\n${clientStats}\`\`\``)
             .addField('Serveur', `\`\`\`asciidoc\n${serverStats}\`\`\``)
             .addField(
