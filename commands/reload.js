@@ -1,9 +1,13 @@
+require('dotenv').config();
+
 module.exports = {
 	name: 'reload',
     description: 'Recharge une face (commande)',
-    args: true,
+	args: true,
+	creatorOnly:true,
     usage:'<nom de commande>',
 	execute(message, args) {
+
 		const commandName = args[0].toLowerCase();
         const command = message.client.commands.get(commandName)
             || message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
