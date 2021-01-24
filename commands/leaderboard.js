@@ -16,7 +16,7 @@ module.exports = {
         const leaderboard = await Levels.computeLeaderboard(message.client, rawLeaderboard, true); // We process the leaderboard.
 
         const lbEmbed = new Discord.MessageEmbed()
-                    .setColor('RANDOM')
+                    .setColor(message.guild.me.displayHexColor)
                     .setTitle(`Leaderboard du serveur ${message.guild.name}`)
                     .setDescription(`Top ${n_user} des utilisateurs du serveur`)
                     .setThumbnail(`${message.guild.iconURL()}`)

@@ -5,7 +5,7 @@ const fetch_url = 'http://api.shruc.ml/saladlog/price'
 
 function cryptoEmbed(coin, value, change24, message) {
     return new Discord.MessageEmbed()
-        .setColor('RANDOM')
+        .setColor(message.guild.me.displayHexColor)
         .setTitle(`💰 Valeur du ${coin} 💰`)
         .setDescription('Personne d\'autre que vous n\'est responsable de vos pertes ou même de vos gains.')
         .addField('Valeur en $USD', `\`$ ${value.toLocaleString('fr-FR')}\``, true)

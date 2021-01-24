@@ -6,6 +6,7 @@ const { stripIndent } = require('common-tags');
 const Usercommands = require("../database/uc.js");
 Usercommands.setURL(process.env.LEVELS_DB_URL);
 
+const excludedCommands = ['reload'];
 module.exports = {
     name: 'stats',
     description: 'Quelques infos sur ma propre personne',
@@ -16,10 +17,12 @@ module.exports = {
         let commandsCounts = new Map()
         for (let [_, guildCommands] of guildsCommands) {
             for (let [command, commandCount] of guildCommands) {
-                if (!commandsCounts.has(command)) {
-                    commandsCounts.set(command, commandCount)
-                } else {
-                    commandsCounts.set(command, commandCount + commandsCounts.get(command))
+                if (!excludedCommands.includes(command)) {
+                    if (!commandsCounts.has(command)) {
+                        commandsCounts.set(command, commandCount)
+                    } else {
+                        commandsCounts.set(command, commandCount + commandsCounts.get(command))
+                    }
                 }
             }
         }
@@ -65,7 +68,7 @@ module.exports = {
             )
             .setFooter('Statistiques garanties sans Aléa grâce à PreviCorp ©', message.client.user.displayAvatarURL({ dynamic: true }))
             .setTimestamp()
-            .setColor('RANDOM');
+            .setColor(message.guild.me.displayHexColor);
         message.channel.send(embed);
 
     },

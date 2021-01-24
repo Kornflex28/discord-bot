@@ -5,7 +5,7 @@ const translate = require('@vitalets/google-translate-api');
 
 async function formCocktailEmbed(message, drink) {
     cocktailEmbed = new Discord.MessageEmbed()
-        .setColor('RANDOM')
+        .setColor(message.guild.me.displayHexColor)
         .setFooter('Données obtenues grâce aux connaissances en mixologie de Dédé. L\'abus d\'alcool est dangereux pour la santé', message.client.user.displayAvatarURL())
         .setTitle(drink.strDrink + ' :cocktail:')
         .setImage(`${drink.strDrinkThumb ? drink.strDrinkThumb : ''}`)

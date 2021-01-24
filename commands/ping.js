@@ -6,7 +6,7 @@ module.exports = {
 	execute(message, args) {
 		let ping = Date.now() - message.createdTimestamp;
 		const pingEmbed = new Discord.MessageEmbed()
-                    .setColor('RANDOM')
+                    .setColor(message.guild.me.displayHexColor)
 					.setTitle('🏓 Pong')
 					.addFields(
 						{name:':timer: Ton ping',value:`${ping} ms`,inline:true},

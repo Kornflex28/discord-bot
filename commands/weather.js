@@ -40,7 +40,7 @@ module.exports = {
                     .setTitle(`🌦️ | Prévisions météo de ${message.client.user.username}`)
                     .setDescription(result[0].location.name)
                     .addFields(fields)
-                    .setColor('RANDOM')
+                    .setColor(message.guild.me.displayHexColor)
                     .setTimestamp()
                     .setFooter('Données fournies grâce aux connexions intergalactiques de Dédé sujettes à l\'Aléa', message.client.user.displayAvatarURL())
                 await message.channel.send(weatherEmbed);

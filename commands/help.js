@@ -43,13 +43,12 @@ module.exports = {
     let commandEmbed = new Discord.MessageEmbed()
     .setTitle(`Commande: ${command.name}`)
     .setDescription(`${command.description}`)
-    .setColor('RANDOM')
+    .setColor(message.guild.me.displayHexColor)
     .setTimestamp()
-    .setFooter('Documentation officielle de Dédé');
+    .setFooter('Documentation officielle de Dédé',message.client.user.displayAvatarURL());
     if (command.aliases) commandEmbed.addField('Alias', `${command.aliases.join(', ')}`);
     // if (command.description) data.push(`**Description:** ${command.description}`);
     if (command.usage) commandEmbed.addField('Utilisation', `\`${process.env.BOT_PREFIX}${command.name} ${command.usage}\``);
-
     commandEmbed.addField('Cooldown', `${command.cooldown || parseInt(process.env.DEFAULT_COOLDOWN)} s`);
     message.channel.send(commandEmbed);
     },

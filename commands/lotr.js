@@ -29,7 +29,7 @@ module.exports = {
                     // console.log(quote.dialog,movie,char)
 
                     let quoteEmbed = new Discord.MessageEmbed()
-                        .setColor('RANDOM')
+                        .setColor(message.guild.me.displayHexColor)
                         .setTitle('Devine le film de la Trilogie')
                         .setDescription('*Ash nazg durbatulûk, ash nazg gimbatul, ash nazg thrakatulûk, agh burzum-ishi krimpatul*')
                         .addField(`À quel moment \`${char.docs[0].name}\` a dit`, `\`${quote.dialog.trim()}\``)
@@ -84,7 +84,7 @@ module.exports = {
                                         msg.edit(quoteEmbed);
                                     }).catch(e => {
                                         console.log(e);
-                                        return message.reply('Désolé je ne trouve plus mon anneau...')
+                                        return message.reply('Terrible tu n\'as pas voulu me répondre sur Le Seigneur des Anneaux')
                                     })
                             }).catch(e => {
                                 console.log(e);

@@ -3,6 +3,7 @@ const moment = require('moment')
 
 const Usercommands = require("../database/uc.js");
 Usercommands.setURL(process.env.LEVELS_DB_URL);
+const excludedCommands = ['reload'];
 
 module.exports = {
     name: 'server',
@@ -16,9 +17,11 @@ module.exports = {
         for (let userGuild of guildCommands) {
             let userCommandsCount = 0
             for (let [com, value] of userGuild.commands) {
-                if (!totalGuildCommandsCount.has(com)) { totalGuildCommandsCount.set(com, value) }
-                else { totalGuildCommandsCount.set(com, value + totalGuildCommandsCount.get(com)) }
-                userCommandsCount += value
+                if (!excludedCommands.includes(com)) {
+                    if (!totalGuildCommandsCount.has(com)) { totalGuildCommandsCount.set(com, value) }
+                    else { totalGuildCommandsCount.set(com, value + totalGuildCommandsCount.get(com)) }
+                    userCommandsCount += value
+                }
             }
             totalUserCommandsCount.set(userGuild.userID, userCommandsCount)
         }
@@ -35,7 +38,7 @@ module.exports = {
             const totalIdle = fetchedMembers.filter(member => member.presence.status === 'idle');
             let serverEmbed = new Discord.MessageEmbed()
                 .setTitle(message.guild.name)
-                .setColor('RANDOM')
+                .setColor(message.guild.me.displayHexColor)
                 .setThumbnail(message.guild.iconURL())
                 .setDescription(`*créé le : ${moment(message.guild.createdAt).format('DD/MM/YYYY à hh:mm:ss')} par ${message.guild.owner.user.username}*`)
                 .addField(`${message.guild.memberCount} membres`, `:satellite: ${totalOnline.size} en ligne\n:crescent_moon: ${totalIdle.size} inactif${totalIdle.size > 1 ? 's' : ''}`, true)

@@ -23,7 +23,7 @@ module.exports = {
             .then(json => {
                 // console.log(json)
                 let apodEmbed = new Discord.MessageEmbed()
-                    .setColor('#0099ff')
+                    .setColor(message.guild.me.displayHexColor)
                     .setTitle(json.title)
                     .setDescription(json.explanation)
                     .setImage(json.hdurl)
