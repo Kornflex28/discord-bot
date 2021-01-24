@@ -27,7 +27,7 @@ module.exports = {
                     const wikiSummary = await wikiPage.summary();
                     const wikiImage = await wikiPage.mainImage();
                     quoteEmbed = new Discord.MessageEmbed()
-                        .setColor('RANDOM')
+                        .setColor(message.guild.me.displayHexColor)
                         .setTitle(json.content)
                         .setURL(wikiPage.raw.fullurl)
                         .setDescription(`*__Traduction:__ ${quote.text}*`)
@@ -44,7 +44,7 @@ module.exports = {
                     }
                 } else {
                     quoteEmbed = new Discord.MessageEmbed()
-                        .setColor('RANDOM')
+                        .setColor(message.guild.me.displayHexColor)
                         .setTitle(json.content)
                         .setDescription(`*__Traduction:__ ${quote.text}*`)
                         .setAuthor(json.author)

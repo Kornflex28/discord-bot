@@ -28,7 +28,7 @@ module.exports = {
                     message.channel.send(`Désolé mais je n'ai rien d'enregistré de marquant pour le ${moment(message.createdAt).format('Do MMMM')}...`)
                     const embed = new Discord.MessageEmbed()
                         .setTitle(`Evenement historique du ${moment(message.createdAt).format('Do MMMM')}`)
-                        .setColor('RANDOM')
+                        .setColor(message.guild.me.displayHexColor)
                         .setDescription(`A toi de marquer l'histoire aujourd'hui !`)
                         .addField('Naissance', `${birth.year}: ${br.text.includes('[') ? br.text.substring(0, br.text.indexOf('[')) : br.text}`)
                         .addField('❯\u2000\Plus d\'infos:', `${birth.links.map(l => `[${l.title}](${l.link})`).join(', ')}`)
@@ -40,7 +40,7 @@ module.exports = {
                     const ev = await translate(`${event.text}`, { client: 'gtx', from: 'en', to: 'fr' });
                     const embed = new Discord.MessageEmbed()
                         .setTitle(`Evenement historique du ${moment(message.createdAt).format('Do MMMM')}`)
-                        .setColor('RANDOM')
+                        .setColor(message.guild.me.displayHexColor)
                         .setDescription(ev.text)
                         .addField('Naissance', `${birth.year}: ${br.text.includes('[') ? br.text.substring(0, br.text.indexOf('[')) : br.text}`)
                         .addField('❯\u2000\Plus d\'infos:', `${event.links.map(l => `[${l.title}](${l.link})`).join(', ')}, ${birth.links.map(l => `[${l.title}](${l.link})`).join(', ')}`)

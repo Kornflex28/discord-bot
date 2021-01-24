@@ -151,7 +151,7 @@ module.exports = {
                                         })
                                         .then(json => {
                                             let poemEmbed = new Discord.MessageEmbed()
-                                                .setColor('#0099ff')
+                                                .setColor(message.guild.me.displayHexColor)
                                                 .setTitle(poem_title)
                                                 .setURL(author_url)
                                                 .setAuthor(poem_author)
@@ -174,7 +174,7 @@ module.exports = {
                                         })
                                 } else {
                                     let poemEmbed = new Discord.MessageEmbed()
-                                        .setColor('#0099ff')
+                                        .setColor(message.guild.me.displayHexColor)
                                         .setTitle(poem_title)
                                         .setAuthor(poem_author)
                                         .addFields(

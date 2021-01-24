@@ -22,7 +22,7 @@ module.exports = {
                         .setThumbnail('https://i.redd.it/36beovu0v1q11.png')
                         .addField('Faites un choix, il n\'y a pas d\'autre solution...', `${message.author.username} seulement a le choix de son destin.`)
                         .addField('** **', '*✅ Appuyer   ❌ Ne pas appuyer*')
-                        .setColor('RANDOM')
+                        .setColor(message.guild.me.displayHexColor)
                         .setTimestamp()
                         .setFooter('Selon l\'Organisation mondiale de la Santé l\'addiction aux jeux vidéo est reconnue comme une maladie au même titre que l\'addiction aux drogues et au tabac.', message.client.user.displayAvatarURL());
                     message.channel.send(buttonEmbed).then(bot_msg => { bot_msg.react('✅'); bot_msg.react('❌'); return bot_msg })
@@ -48,7 +48,7 @@ module.exports = {
                                     msg.edit(buttonEmbed);
                                 }).catch((e) => {
                                     console.log(e)
-                                    return message.reply('Le bouton s\'est cassé...')
+                                    return message.reply('Terrible tu n\'as pas voulu choisir d\'appuyer sur le bouton, tout le monde est mort du coup.')
                                 });
                         }).catch((e) => {
                             console.log(e)

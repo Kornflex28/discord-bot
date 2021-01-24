@@ -13,7 +13,7 @@ module.exports = {
         const target = message.mentions.members.first() || message.member;
         if (target.id === process.env.BOT_ID) {
             const rankEmbed = new Discord.MessageEmbed()
-                .setColor('RANDOM')
+                .setColor(message.guild.me.displayHexColor)
                 .setTitle(`${target.user.username}`)
                 .setDescription(`A rejoint le serveur le ${target.joinedAt.toLocaleDateString()}`)
                 .setThumbnail(`${target.user.displayAvatarURL({ format: "png", dynamic: true })}`)
@@ -26,7 +26,7 @@ module.exports = {
         if (!user) return message.channel.send("Il semble que cette personne n'existe pas ou n'a pas encore décidé de gagner de l'experience..");
 
         const rankEmbed = new Discord.MessageEmbed()
-            .setColor('RANDOM')
+            .setColor(message.guild.me.displayHexColor)
             .setTitle(`${target.user.username}`)
             .setDescription(`A rejoint le serveur le ${target.joinedAt.toLocaleDateString('fr', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`)
             .setThumbnail(`${target.user.displayAvatarURL({ format: "png", dynamic: true })}`)

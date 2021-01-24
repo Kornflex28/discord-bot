@@ -371,7 +371,6 @@ client.on('message', async (message) => {
 
                 try {
                     if (command.name != 'hangman'){message.react(client.emojis.cache.find(emoji => emoji.name === `die4`))};
-                    console.log(args)
                     command.execute(message, args);
                     if (message.channel.type != 'dm' && process.env.IS_HEROKU) {
                         await Usercommands.addCommand(message.author.id, message.guild.id, command.name)
