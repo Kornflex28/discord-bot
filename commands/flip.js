@@ -45,7 +45,7 @@ module.exports = {
             const mentionnedUser = message.mentions.users.first();
             if (!mentionnedUser) {
                 if (!userFlip) {
-                    return message.channel.send('Il me semble que tu n\'as pas encore tenté ta chance au lancé de dé à deux faces essaye `!flip`')
+                    return message.channel.send('Il me semble que tu n\'as pas encore tenté ta chance au lancer de dé à deux faces essaye `!flip`')
                 }
                 else {
                     return message.channel.send(`Ton score actuel est **${userFlip.score}** et ton meilleur score est **${userFlip.best}**.`)
@@ -56,7 +56,7 @@ module.exports = {
                 }
                 userFlip = await Userflip.fetch(mentionnedUser.id, message.guild.id)
                 if (!userFlip) {
-                    return message.channel.send(`Il me semble que ${mentionnedUser} n\'as pas encore tenté ta chance au lancé de dé à deux faces.`)
+                    return message.channel.send(`Il me semble que ${mentionnedUser} n\'as pas encore tenté ta chance au lancer de dé à deux faces.`)
                 }
                 else {
                     return message.channel.send(`Le score actuel de ${mentionnedUser} est **${userFlip.score}** et son meilleur score est **${userFlip.best}**.`)
