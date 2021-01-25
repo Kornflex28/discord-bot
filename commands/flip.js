@@ -13,7 +13,7 @@ module.exports = {
     name: 'flip',
     description: 'Lance un dé à deux faces (une pièce). Si ça tombe sur Face tu gagnes un point, sinon ton score retombe à zéro (0).Tu ne peux faire qu\'un lancer par 24h',
     aliases: ['coin', 'pile', 'face'],
-    usage: '<> pour jouer ou <"score" @user> pour avoir le score d\'un joueur ou <"lb"> pour le leaderboard de la guilde',
+    usage: '<> pour jouer ou <"score" @user> pour avoir le score d\'un.e joueur.euse ou <"lb"> pour le leaderboard du serveur',
     guildOnly: true,
     cooldown: 2,
     async execute(message, args) {
@@ -64,6 +64,15 @@ module.exports = {
             }
         }
         else {
+            if (!userFlip) {
+                if (Math.random() <= .5) {
+                    userFlip = await Userflip.addFlip(message.author.id, message.guild.id, 1, msgTimestamp)
+                    return message.channel.send(`🌕 **Face !**\nCoup de chance c'est ${userFlip.score < 2 ? 'ta première face d\'une longue lignée' : `ta **${userFlip.score}ème Face de suite**`} !`)
+                } else {
+                    userFlip = await Userflip.addFlip(message.author.id, message.guild.id, 0, msgTimestamp)
+                    return message.channel.send(`🌑 **Pile !**\nDommage... Ton plus grand nombre de Face à la suite est **${userFlip.best}**.`)
+                }
+            }
             const timeDifference = moment(message.createdTimestamp).diff(userFlip.lastUpdated, 'milliseconds')
             if (timeDifference >= interval) {
                 if (Math.random() <= .5) {
