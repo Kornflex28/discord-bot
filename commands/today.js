@@ -30,19 +30,20 @@ module.exports = {
                         .setTitle(`Evenement historique du ${moment(message.createdAt).format('Do MMMM')}`)
                         .setColor(message.guild.me.displayHexColor)
                         .setDescription(`A toi de marquer l'histoire aujourd'hui !`)
-                        .addField('Naissance', `${birth.year}: ${br.text.includes('[') ? br.text.substring(0, br.text.indexOf('[')) : br.text}`)
+                        .addField('Naissance', `**${birth.year}:** ${br.text.includes('[') ? br.text.substring(0, br.text.indexOf('[')) : br.text}`)
                         .addField('❯\u2000\Plus d\'infos:', `${birth.links.map(l => `[${l.title}](${l.link})`).join(', ')}`)
                         .setTimestamp()
                         .setFooter('Données fournies grâce à la face de visualisation de la ligne du Temps de l\'humain sur Terre', message.client.user.displayAvatarURL())
                     return message.channel.send(embed)
                 } else {
                     const event = source[Math.round(Math.random() * (source.length - 1))]
+                    console.log(event)
                     const ev = await translate(`${event.text}`, { client: 'gtx', from: 'en', to: 'fr' });
                     const embed = new Discord.MessageEmbed()
                         .setTitle(`Evenement historique du ${moment(message.createdAt).format('Do MMMM')}`)
                         .setColor(message.guild.me.displayHexColor)
-                        .setDescription(ev.text)
-                        .addField('Naissance', `${birth.year}: ${br.text.includes('[') ? br.text.substring(0, br.text.indexOf('[')) : br.text}`)
+                        .setDescription(`**${event.year}:** ${ev.text}`)
+                        .addField('Naissance', `**${birth.year}:** ${br.text.includes('[') ? br.text.substring(0, br.text.indexOf('[')) : br.text}`)
                         .addField('❯\u2000\Plus d\'infos:', `${event.links.map(l => `[${l.title}](${l.link})`).join(', ')}, ${birth.links.map(l => `[${l.title}](${l.link})`).join(', ')}`)
                         .setTimestamp()
                         .setFooter('Données fournies grâce à la face de visualisation de la ligne du Temps de l\'humain sur Terre', message.client.user.displayAvatarURL())
