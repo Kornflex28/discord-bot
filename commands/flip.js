@@ -6,7 +6,6 @@ const moment = require('moment');
 const interval = 24 * 3600 * 1000 //ms
 
 const Discord = require('discord.js');
-const leaderboard = require('./leaderboard.js');
 
 
 module.exports = {

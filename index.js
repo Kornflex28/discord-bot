@@ -27,7 +27,6 @@ let stream;
 
 const { NlpManager } = require('node-nlp');
 const nlpTools = require('./nlp/nlp_process.js')
-const thoughts = './nlp/thoughts.txt';
 
 const Levels = require('discord-xp');
 Levels.setURL(process.env.LEVELS_DB_URL);
