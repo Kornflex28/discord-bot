@@ -32,8 +32,8 @@ module.exports = {
         let cv = canvas.createCanvas(400, 40);
         let ctx = cv.getContext('2d');
         ctx.fillStyle = '#000000'; ctx.fillRect(0, 0, 400, 40); 
-        ctx.fillStyle = '#747f8d'; ctx.fillRect(5, 5, 390, 30);
-        ctx.fillStyle = '#43b581'; ctx.fillRect(5, 5, (Math.floor(390 / 100 * getProgress(date))), 30); 
+        ctx.fillStyle = '#747f8d'; ctx.fillRect(3, 3, 394, 34);
+        ctx.fillStyle = '#43b581'; ctx.fillRect(3, 3, (Math.floor(394 / 100 * getProgress(date))), 34); 
         message.channel.send(`L'année **${date.getUTCFullYear()}** est à ce moment **${getProgress(date)} %** complétée.`, { files: [{ attachment: cv.toBuffer(), name: 'yearprogress.jpg' }] });
     },
 };
