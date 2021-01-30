@@ -14,7 +14,7 @@ module.exports = {
   description: 'Exécute l\'Ordre 66. Enfin... il y a une chance sur 2 pour que ça marche',
   aliases: ['ordre66', '66'],
   guildOnly: true,
-  cooldown: 600,
+  cooldown: 24*3600,
   execute(message, args) {
     if (Math.random()<=0.5) {
       return message.reply(`Aie pas de chance, il y avait 50% chance d\'échec... Il te faudra attendre \`${this.cooldown} s\` avant de réessayer`)
