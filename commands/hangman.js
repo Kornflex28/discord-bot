@@ -1,8 +1,8 @@
 require('dotenv').config();
 const Discord = require('discord.js');
 const fs = require('fs');
-const frNouns = './french_nouns.txt';
-const frVerbs = './french_verbs.txt';
+const frNouns = './locales/french_nouns.txt';
+const frVerbs = './locales/french_verbs.txt';
 let hangman_init = process.env.HANGMAN;
 let hangman;
 if (!hangman_init) {
