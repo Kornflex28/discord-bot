@@ -34,7 +34,7 @@ module.exports = {
         ctx.fillStyle = '#000000'; ctx.fillRect(0, 0, 400, 40); 
         ctx.fillStyle = '#747f8d'; ctx.fillRect(3, 3, 394, 34);
         ctx.fillStyle = '#43b581'; ctx.fillRect(3, 3, (Math.floor(394 / 100 * getProgress(date))), 34); 
-        message.channel.send(`L'année **${date.getUTCFullYear()}** est à ce moment **${getProgress(date)} %** complétée.`, { files: [{ attachment: cv.toBuffer(), name: 'yearprogress.jpg' }] });
+        message.channel.send(`À cet instant, l'année **${date.getUTCFullYear()}** est complète à **${getProgress(date)} %**. :earth_africa:`, { files: [{ attachment: cv.toBuffer(), name: 'yearprogress.jpg' }] });
     },
 };
 
