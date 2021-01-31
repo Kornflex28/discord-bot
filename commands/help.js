@@ -17,9 +17,7 @@ module.exports = {
         .setColor(message.guild.me.displayHexColor)
         .setTimestamp()
         .setFooter('Documentation officielle de Dédé', message.client.user.displayAvatarURL());
-        // data.push('Voici une liste de toutes mes faces (commandes):');
         commandEmbed.addField('Commandes disponibles','```' + commands.map(command => command.name).join(', ')+'```');
-        // data.push(`Tu peux envoyer \`${process.env.BOT_PREFIX}help <nom de commande>\` pour les infos specifiques à celle ci !`);
 
         return message.author.send(commandEmbed)
             .then(() => {
@@ -39,7 +37,6 @@ module.exports = {
         return message.reply(`\`${name}\` n\'est pas encore une de mes faces (commande), si tu as une idée de génie tu peux toujours envoyer un message à <@${process.env.CREATOR_ID}> (gros tocard askip).`);
     }
 
-    // data.push(`**Nom:** ${command.name}`);
     let commandEmbed = new Discord.MessageEmbed()
     .setTitle(`Commande: ${command.name}`)
     .setDescription(`${command.description}`)
@@ -47,7 +44,6 @@ module.exports = {
     .setTimestamp()
     .setFooter('Documentation officielle de Dédé',message.client.user.displayAvatarURL());
     if (command.aliases) commandEmbed.addField('Alias', `${command.aliases.join(', ')}`);
-    // if (command.description) data.push(`**Description:** ${command.description}`);
     if (command.usage) commandEmbed.addField('Utilisation', `\`${process.env.BOT_PREFIX}${command.name} ${command.usage}\``);
     commandEmbed.addField('Cooldown', `${command.cooldown || parseInt(process.env.DEFAULT_COOLDOWN)} s`);
     message.channel.send(commandEmbed);

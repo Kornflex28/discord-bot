@@ -188,7 +188,6 @@ module.exports = {
             senderChannel.send(gameEmbed).then(bot_message => {
                 game._lastMessage.delete();
                 game._lastMessage = bot_message;
-                // message.react('🎲');
             }).catch(e => {
                 console.log(e);
                 return message.channel.send('Aie le pendu s\'est échappé, désolé...')

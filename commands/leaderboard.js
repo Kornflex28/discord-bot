@@ -11,9 +11,9 @@ module.exports = {
     usage: '',
 	async execute(message, args) {
         const n_user = 10;
-        const rawLeaderboard = await Levels.fetchLeaderboard(message.guild.id, n_user); // We grab top 10 users with most xp in the current server.
+        const rawLeaderboard = await Levels.fetchLeaderboard(message.guild.id, n_user); 
         if (rawLeaderboard.length < 1) return reply("Personne n'est dans le leaderboard encore et c'est bien triste..");
-        const leaderboard = await Levels.computeLeaderboard(message.client, rawLeaderboard, true); // We process the leaderboard.
+        const leaderboard = await Levels.computeLeaderboard(message.client, rawLeaderboard, true);
 
         const lbEmbed = new Discord.MessageEmbed()
                     .setColor(message.guild.me.displayHexColor)

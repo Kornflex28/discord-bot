@@ -12,7 +12,6 @@ module.exports = {
         messageChannel.send('J\'ouvre mon dictionnaire...')
         fetch(dict_url + process.env.DICO_TOKEN).then(response => response.json())
             .then(json => {
-                // console.log(json);
                 return json[0].mot
             }).catch(e => {
                 console.log(e)
@@ -21,7 +20,6 @@ module.exports = {
             .then(word => {
                 fetch("https://api.dicolink.com/v1/mot/" + `${word}/definitions?limite=3&source=larousse&api_key=` + process.env.DICO_TOKEN).then(response => response.json())
                     .then(json => {
-                        // console.log(json)
                         if (json.error) { return message.reply('désolé mais mon dictionnaire s\'est déchiré on dirait... Réessaye si tu veux') }
 
                         let def_str = new Discord.MessageEmbed()

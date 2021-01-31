@@ -8,7 +8,6 @@ module.exports = {
     name: 'lotr',
     description: 'Dédé agite ses dés et trouve une citation de l\'iconique trilogie de J.R.R Tolkien',
     cooldown: 2,
-    // aliases: ['ajd', 'history'],
     execute(message, args) {
         if (!args.length || args[0] != 'perso') {
             fetch(`${fetch_url}quote?limit=2390`, { headers: { 'Authorization': `Bearer ${process.env.LOTR_TOKEN}` } }).then(resp => resp.json())
@@ -26,7 +25,6 @@ module.exports = {
                         console.log(e);
                         return message.reply('Désolé je ne trouve plus mon anneau...')
                     })
-                    // console.log(quote.dialog,movie,char)
 
                     let quoteEmbed = new Discord.MessageEmbed()
                         .setColor(message.guild.me.displayHexColor)
