@@ -15,7 +15,6 @@ module.exports = {
             return message.reply(`Désolé mais je n'ai pas trouvé la commande \`${commandName}\` ...`)
         } else {
             let file = await fs.readFileSync(`./commands/${command.name}.js`, 'utf8')
-            console.log(file.length)
             let nl_indices = [], i = -1;
             while ((i = file.indexOf("\n", i + 1)) >= 0) nl_indices.push(i);
             const field_lim = 1930;
