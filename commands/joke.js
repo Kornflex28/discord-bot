@@ -39,7 +39,6 @@ module.exports = {
                     return message.reply('Désolé je ne trouve plus mon carnet de blague')
                 })
                 .then(data => {
-                    // console.log(data)
                     message.channel.send(`**${data.joke}**\n*${data.answer}*`)
                     return data;
                 }).catch(e => {

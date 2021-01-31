@@ -49,8 +49,6 @@ module.exports = {
 
         https.get(url, (response => {
             const poem_url = response.rawHeaders[response.rawHeaders.indexOf("Location") + 1];
-            //    console.log(poem_url)
-            //    console.log(url+poem_url)
             https.get(base_url + poem_url, function (res) {
                 let data = "";
                 res.on('data', function (chunk) {
@@ -61,14 +59,12 @@ module.exports = {
 
                     const poem_content = decodeString(root.querySelector(".poem__content").toString())
                         .replace(/<br>/g, '\n')
-                        //.replace(/\*/g,'')
                         .replace('<div class="poem__content">', '').replace('</div>', '');
 
                     const poem_title = decodeString(root.querySelector(".poem__title").toString())
                         .replace('<h3 class="poem__title">', '')
                         .replace('\n', '')
                         .replace('</h3>', '');
-                    // console.log(decodeString(root.querySelector(".poem__author").toString()))
 
                     const poem_author = decodeString(root.querySelector(".poem__author").toString())
                         .replace('<h3 class="poem__author flag flag--big flag--france">', '')
@@ -86,9 +82,7 @@ module.exports = {
                     wiki_search = encodeURIComponent(poem_author.split(',')[0].slice(1));
                     let author_url = '';
 
-                    // console.log('!POEM WIKI SEARCH: '+ wiki_url + wiki_search)
 
-                    // console.log(poem_content.length);
                     if (poem_content.length > 5500) {
                         message.reply(' j\'ai trouvé un poème mais il est vraiment trop long... Relance moi si tu en veux un autre!');
                     } else {
@@ -101,7 +95,6 @@ module.exports = {
                             .then(json => {
                                 try {
                                     author_url = json[3][0];
-                                    // console.log(author_url);
                                 } catch (error) { console.log('Erreur avec le lien wiki de l\'auteur du poeme', error) }
                                 return author_url;
                             })
@@ -115,23 +108,15 @@ module.exports = {
                                 const field_lim = 900;
                                 let fields = [];
                                 const n_blocks = Math.ceil(parseInt(nl_indices[nl_indices.length - 1]) / field_lim);
-                                // console.log(nl_indices,n_blocks);   
                                 if (n_blocks > 1) {
                                     let prev_idx = 0
                                     for (let k = 1; k < n_blocks; k++) {
                                         const diffArr = nl_indices.map(x => Math.abs(k * field_lim - x));
-                                        // console.log(diffArr);
                                         const minIdx = diffArr.indexOf(Math.min(...diffArr));
-                                        // console.log(minIdx,poem_content.slice(0,nl_indices[minIdx]),"---",poem_content.slice(nl_indices[minIdx]))
                                         fields.push({ name: `** **`, value: poem_content.slice(prev_idx, nl_indices[minIdx]) });
                                         prev_idx = nl_indices[minIdx];
                                     }
                                     fields.push({ name: `** **`, value: poem_content.slice(prev_idx) });
-                                    // const index = diffArr.findIndex(x => x === minNumber);
-                                    // fields = [
-                                    //     {name: '** **', value: 1},
-                                    //     {name: '** **', value: 2}
-                                    // ];
                                 }
                                 else {
                                     fields = [
@@ -140,9 +125,7 @@ module.exports = {
                                 }
                                 if (author_url) {
                                     const author_split = author_url.split('/');
-                                    // console.log(author_split)
                                     const wiki_img_url = "https://en.wikipedia.org/w/api.php?action=query&prop=pageimages&format=json&piprop=original&titles=" + author_split[author_split.length - 1];
-                                    // console.log(wiki_img_url)
                                     fetch(wiki_img_url)
                                         .then(response => response.json())
                                         .catch(e => {
@@ -165,8 +148,6 @@ module.exports = {
                                                 poemEmbed.setThumbnail(`${img_url}`)
 
                                             } catch (error) { console.log('Erreur avec image de l\'auteur du poeme', error) }
-
-                                            // console.log(fields)
                                             message.channel.send(poemEmbed);
                                         }).catch(e => {
                                             console.log(e);
@@ -191,6 +172,5 @@ module.exports = {
         )
         return;
 
-        // message.channel.send(`Arguments: ${args}\nArguments length: ${args.length}`);
     },
 };
