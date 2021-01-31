@@ -6,9 +6,9 @@ Levels.setURL(process.env.LEVELS_DB_URL);
 module.exports = {
     name: 'rank',
     description: 'Niveau d\'un utilisateur dans ce serveur ou celui de l\'auteur.e du message si aucun n\'est donné.',
-    aliases: ['lvl', 'xp', 'profile', , 'profil', 'user-info'],
+    aliases: ['lvl', 'xp', 'profile', 'profil', 'user-info'],
     guildOnly: true,
-    usage: '@utilisateur ou rien',
+    usage: '<@utilisateur.trice> ou rien',
     async execute(message, args) {
         const target = message.mentions.members.first() || message.member;
         if (target.id === process.env.BOT_ID) {
