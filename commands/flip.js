@@ -3,9 +3,15 @@ const Userflip = require("../database/uf.js");
 Userflip.setURL(process.env.LEVELS_DB_URL);
 
 const moment = require('moment');
-const interval = 24 * 3600 * 1000 //ms
+const interval = process.env.IS_HEROKU ? 24 * 3600 * 1000 : 1000//ms
+
 
 const Discord = require('discord.js');
+const fs = require('fs');
+const locales = JSON.parse(fs.readFileSync('./locales/fr-FR.json').toString());
+Array.prototype.random = function () {
+    return this[Math.floor((Math.random() * this.length))];
+}
 
 
 module.exports = {
@@ -16,6 +22,7 @@ module.exports = {
     guildOnly: true,
     cooldown: 2,
     async execute(message, args) {
+
         const msgTimestamp = Date(message.createdTimestamp)
         let userFlip = await Userflip.fetch(message.author.id, message.guild.id)
 
@@ -58,20 +65,20 @@ module.exports = {
             if (!userFlip) {
                 if (Math.random() <= .5) {
                     userFlip = await Userflip.addFlip(message.author.id, message.guild.id, 1, msgTimestamp)
-                    return message.channel.send(`🌕 **Face !**\nCoup de chance c'est ${userFlip.score < 2 ? 'ta première face d\'une longue lignée' : `ta **${userFlip.score}ème Face de suite**`} !`)
+                    return message.channel.send(`🌕 **${locales.flips.heads.random()} !**\nCoup de chance c'est ${userFlip.score < 2 ? 'ta première face d\'une longue lignée' : `ta **${userFlip.score}ème Face de suite**`} !`)
                 } else {
                     userFlip = await Userflip.addFlip(message.author.id, message.guild.id, 0, msgTimestamp)
-                    return message.channel.send(`🌑 **Pile !**\nDommage... Ton plus grand nombre de Face à la suite est **${userFlip.best}**.`)
+                    return message.channel.send(`🌑 **${locales.flips.tails.random()} !**\nDommage... Ton plus grand nombre de Face à la suite est **${userFlip.best}**.`)
                 }
             }
             const timeDifference = moment(message.createdTimestamp).diff(userFlip.lastUpdated, 'milliseconds')
             if (timeDifference >= interval) {
                 if (Math.random() <= .5) {
                     userFlip = await Userflip.addFlip(message.author.id, message.guild.id, 1, msgTimestamp)
-                    return message.channel.send(`🌕 **Face !**\nCoup de chance c'est ${userFlip.score < 2 ? 'ta première face d\'une longue lignée' : `ta **${userFlip.score}ème Face de suite**`} !`)
+                    return message.channel.send(`🌕 **${locales.flips.heads.random()} !**\nCoup de chance c'est ${userFlip.score < 2 ? 'ta première face d\'une longue lignée' : `ta **${userFlip.score}ème Face de suite**`} !`)
                 } else {
                     userFlip = await Userflip.addFlip(message.author.id, message.guild.id, 0, msgTimestamp)
-                    return message.channel.send(`🌑 **Pile !**\nDommage... Ton plus grand nombre de Face à la suite est **${userFlip.best}**.`)
+                    return message.channel.send(`🌑 **${locales.flips.tails.random()} !**\nDommage... Ton plus grand nombre de Face à la suite est **${userFlip.best}**.`)
                 }
             } else {
                 const d = moment.duration(interval - timeDifference);
