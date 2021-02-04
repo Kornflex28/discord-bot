@@ -18,7 +18,7 @@ module.exports = {
             if (!guildRole) {
                 guildRole = await guildRoles.create({ data: userRole.data, reason: 'rôle lié au lvl d\'xp' });
             }
-            let guildMember = message.guild.members.cache.find(us => us.id == user.userID);
+            let guildMember = await message.guild.members.fetch(user.userID);
             if (!guildMember.roles.cache.find(r => r.name == userRole.data.name)) {
                 guildMember.roles.add(guildRole.id)
                 message.channel.send(`*Rôle ${guildRole.name} attribué à ${guildMember.user.username}*`)
