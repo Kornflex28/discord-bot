@@ -44,16 +44,16 @@ for (const file of commandFiles) {
 const cooldowns = new Discord.Collection();
 
 
-const manager = new NlpManager({ languages: ['fr'], forceNER: true, modelFileName: './nlp/dede_fr_trained.nlp', nlu: { log: false }});
+const manager = new NlpManager({ languages: ['fr'], forceNER: true, modelFileName: './nlp/dede_fr_trained.nlp', nlu: { log: false } });
 
 // manager.addCorpus('./nlp/corpus-fr-qna.json');
 manager.addCorpus('./nlp/corpus-fr.json');
 
 // Train and save the model.
- (async () => {
-     console.log('Training the model...')
-     await manager.train();
- })();
+(async () => {
+    console.log('Training the model...')
+    await manager.train();
+})();
 
 // let manager = new NlpManager();
 // console.log('Loading NLP manager...')
@@ -71,7 +71,7 @@ const activeTimeIntreval = 10 * 1000;
 
 
 Array.prototype.random = function () {
-    return this[Math.floor((Math.random()*this.length))];
+    return this[Math.floor((Math.random() * this.length))];
 }
 
 
@@ -159,7 +159,7 @@ function sendNewYearWish(client) {
 client.once('ready', async () => {
 
     client.user.setPresence({ activity: { name: `les dés | !help`, type: 'LISTENING' }, status: 'online' });
-    console.log(`Bot logged in! ${process.env.IS_HEROKU?'Deployment version':'Development version'}`);
+    console.log(`Bot logged in! ${process.env.IS_HEROKU ? 'Deployment version' : 'Development version'}`);
     creatorUser = await client.users.fetch(process.env.CREATOR_ID);
     let newYear = new Date(new Date(Date.now()).getFullYear() + 1, 0, 1)
     const timeOffsetToFrance = - 60 - newYear.getTimezoneOffset()
@@ -241,11 +241,11 @@ client.on('message', async (message) => {
                 channel.send(locales.thoughts.random());
             } else {
                 if (message.attachments.size) {
-                    let files = message.attachments.map((att,id)=> att.url)
-                    channel.send(messageContent,{files:files})
+                    let files = message.attachments.map((att, id) => att.url)
+                    channel.send(messageContent, { files: files })
                 }
                 else {
-                channel.send(messageContent);
+                    channel.send(messageContent);
                 }
             }
             msg = `\`\`\`ini\n [mergez sent to ${channel.name}]\n\`\`\``
@@ -289,7 +289,7 @@ client.on('message', async (message) => {
         const react_prob = Math.exp(-1);
 
         // reactions handling 
-        if (['vie', 'damso','dems'].some(elem => message.content.toLowerCase().includes(elem))) {
+        if (['vie', 'damso', 'dems'].some(elem => message.content.toLowerCase().includes(elem))) {
             message.react('🖖');
         }
 
@@ -327,7 +327,7 @@ client.on('message', async (message) => {
 
                 if (!command) {
                     message
-                    if (Math.random()<=0.2){message.reply(`désolé mais \`${commandName}\` ${locales.commandError.random()} ${creatorUser}`)}
+                    if (Math.random() <= 0.2) { message.reply(`désolé mais \`${commandName}\` ${locales.commandError.random()} ${creatorUser}`) }
                     await message.react(client.emojis.cache.find(emoji => emoji.name === `die1`));
                     await message.react('🇳');
                     await message.react('🇴');
@@ -345,7 +345,7 @@ client.on('message', async (message) => {
                 }
 
                 if (command.args && !args.length) {
-                    return message.reply(`${locales.argsError.random()}${command.usage?`\nL'utilisation correcte serait: \`${process.env.BOT_PREFIX}${command.name} ${command.usage}\``:''}`);
+                    return message.reply(`${locales.argsError.random()}${command.usage ? `\nL'utilisation correcte serait: \`${process.env.BOT_PREFIX}${command.name} ${command.usage}\`` : ''}`);
                 }
 
                 if (!cooldowns.has(command.name)) {
@@ -369,7 +369,7 @@ client.on('message', async (message) => {
                 setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
                 try {
-                    if (command.name != 'hangman'){message.react(client.emojis.cache.find(emoji => emoji.name === `die4`))};
+                    if (command.name != 'hangman') { message.react(client.emojis.cache.find(emoji => emoji.name === `die4`)) };
                     command.execute(message, args);
                     if (message.channel.type != 'dm' && process.env.IS_HEROKU) {
                         await Usercommands.addCommand(message.author.id, message.guild.id, command.name)

@@ -3,7 +3,7 @@ const Userflip = require("../database/uf.js");
 Userflip.setURL(process.env.LEVELS_DB_URL);
 
 const moment = require('moment');
-const interval = process.env.IS_HEROKU ? 24 * 3600 * 1000 : 1000//ms
+const interval = process.env.IS_HEROKU ? 24 * 3600 * 1000 : 1000 //ms
 
 
 const Discord = require('discord.js');
@@ -87,7 +87,7 @@ module.exports = {
                 const minutes = d.minutes();
                 const seconds = d.seconds();
                 let time = `${days > 0 ? `${days} ${days == 1 ? `jour, ` : 'jours, '}` : ``}${hours > 0 ? `${hours} ${hours == 1 ? 'heure, ' : 'heures, '}` : ``}${minutes > 0 ? `${minutes} ${minutes == 1 ? 'minute, ' : 'minutes, '}` : ``}${seconds} ${seconds > 1 ? 'secondes' : 'seconde'}`
-                return message.reply(`Addict.e ?! Désolé mais il te faut attendre encore **${time}** avant de retenter ta chance !`)
+                return message.reply(`${locales.flips.time.random()} Désolé mais il te faut attendre encore **${time}** avant de retenter ta chance !`)
             }
 
         }
