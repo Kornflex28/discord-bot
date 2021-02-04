@@ -1,4 +1,69 @@
 {
+    "xpRoles": [
+        {
+            "data": {
+                "name": "Mineur.se de Dés",
+                "color": "#AAAAAA"
+            },
+            "lvlId": 0
+        },
+        {
+            "data": {
+                "name": "Cultivateur.trice de Dés",
+                "color": "#1FA5FF"
+            },
+            "lvlId": 1
+        },
+        {
+            "data": {
+                "name": "Polisseur.se de Dés",
+                "color": "#00DBB3"
+            },
+            "lvlId": 2
+        },
+        {
+            "data": {
+                "name": "Amateur.trice de Dés",
+                "color": "#FF33C9"
+            },
+            "lvlId": 3
+        },
+        {
+            "data": {
+                "name": "Collectionneur.euse de Dés",
+                "color": "#0F00DB"
+            },
+            "lvlId": 4
+        },
+        {
+            "data": {
+                "name": "Trader.euse de Dés",
+                "color": "#FF8929"
+            },
+            "lvlId": 5
+        },
+        {
+            "data": {
+                "name": "Donnateur.trice de Dés",
+                "color": "#FF2929"
+            },
+            "lvlId": 6
+        },
+        {
+            "data": {
+                "name": "Inventeur.trice de Dés",
+                "color": "#74FF29"
+            },
+            "lvlId": 7
+        },
+        {
+            "data": {
+                "name": "Créateur.trice de Dés",
+                "color": "#FFDB29"
+            },
+            "lvlId": 8
+        }
+    ],
     "welcome": [
         "Wallah t'es qui",
         "youhou... voilà... ahem...",
