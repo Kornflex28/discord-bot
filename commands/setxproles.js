@@ -11,7 +11,7 @@ module.exports = {
     creatorOnly: true,
     async execute(message, args) {
         let guildRoles = message.guild.roles;
-        let users = await Levels.fetchGuild(message.guild.id);
+        let users = await Levels.fetchLeaderboard(message.guild.id,limit=message.guild.members.cache.size);
         for (let user of users) {
             let userRole = locales.xpRoles.find(xpRole => xpRole.lvlId == Math.floor(user.level / 3))
             let guildRole = guildRoles.cache.find(r => r.name === userRole.data.name);
