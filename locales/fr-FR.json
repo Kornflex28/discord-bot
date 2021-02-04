@@ -31,6 +31,21 @@
         "euh désolé mais je ne comprends pas...",
         "désolé mais tu n'as pas donné d'argument. C'est scandaleux !"
     ],
+    "flips": {
+        "heads": [
+            "Face",
+            "FACE",
+            "FACEile pour toi",
+            "HEAD en anglais"
+        ],
+        "tails": [
+            "Pile",
+            "PILE",
+            "tout Pile",
+            "Pile poil",
+            "TAIL en anglais"
+        ]
+    },
     "levelUp": [
         "MAIS NAN ?!",
         "c'est pas trop tôt !",
@@ -140,7 +155,8 @@
         "bah dis donc, c'est pas gentil de parler comme ça",
         "oh bah ça alors, les dés m'en tombent, quel langage...",
         "hop là c'est pas joli tout ça",
-        "ah ouais... tu parles comme ça toi, je retiens."
+        "ah ouais... tu parles comme ça toi, je retiens.",
+        "mes yeux en dés saignent"
     ],
     "emojis": [
         "😄",

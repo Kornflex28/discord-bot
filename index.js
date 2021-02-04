@@ -72,7 +72,7 @@ const activeTimeIntreval = 10 * 1000;
 
 Array.prototype.random = function () {
     return this[Math.floor((Math.random()*this.length))];
-  }
+}
 
 
 function startInterval(_interval, client, channelId, msgs) {
