@@ -32,6 +32,17 @@
         "désolé mais tu n'as pas donné d'argument. C'est scandaleux !"
     ],
     "flips": {
+        "time": [
+            "Addict.e ?!",
+            "Bah alors ?",
+            "Ih! tu m'as fait peur !",
+            "As tu bien regardé l'heure ?",
+            "Nope.",
+            "STOP !",
+            "HALTE Là !",
+            "🌕 **Face**... nan je rigole.",
+            "🌑 **Pile**... pardon mauvaise blague."
+        ],
         "heads": [
             "Face",
             "FACE",
