@@ -25,7 +25,7 @@ module.exports = {
 
         const msgTimestamp = Date(message.createdTimestamp)
         let userFlip = await Userflip.fetch(message.author.id, message.guild.id)
-
+        let prevScore = userFlip.score;
         if (args[0] == 'lb') {
             let scores = await Userflip.fetchGuildFlips(message.guild.id);
             scores.sort((userFlipA, userFlipB) => userFlipB['best'] - userFlipA['best'])
@@ -68,7 +68,7 @@ module.exports = {
                     return message.channel.send(`🌕 **${locales.flips.heads.random()} !**\nCoup de chance c'est ${userFlip.score < 2 ? 'ta première face d\'une longue lignée' : `ta **${userFlip.score}ème Face de suite**`} !`)
                 } else {
                     userFlip = await Userflip.addFlip(message.author.id, message.guild.id, 0, msgTimestamp)
-                    return message.channel.send(`🌑 **${locales.flips.tails.random()} !**\nDommage... Ton plus grand nombre de Face à la suite est **${userFlip.best}**.`)
+                    return message.channel.send(`🌑 **${locales.flips.tails.random()} !**\nDommage... Tu en étais à ${prevScore} Face à la suite et ton meilleur score est **${userFlip.best}**.`)
                 }
             }
             const timeDifference = moment(message.createdTimestamp).diff(userFlip.lastUpdated, 'milliseconds')
@@ -78,7 +78,7 @@ module.exports = {
                     return message.channel.send(`🌕 **${locales.flips.heads.random()} !**\nCoup de chance c'est ${userFlip.score < 2 ? 'ta première face d\'une longue lignée' : `ta **${userFlip.score}ème Face de suite**`} !`)
                 } else {
                     userFlip = await Userflip.addFlip(message.author.id, message.guild.id, 0, msgTimestamp)
-                    return message.channel.send(`🌑 **${locales.flips.tails.random()} !**\nDommage... Ton plus grand nombre de Face à la suite est **${userFlip.best}**.`)
+                    return message.channel.send(`🌑 **${locales.flips.tails.random()} !**\nDommage... Tu en étais à ${prevScore} Face à la suite et ton meilleur score est **${userFlip.best}**.`)
                 }
             } else {
                 const d = moment.duration(interval - timeDifference);
