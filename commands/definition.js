@@ -25,7 +25,10 @@ module.exports = {
                 .then(json => {
                     if (json.error) { return senderChannel.send('Désolé mais je n\'ai rien trouvé pour ce mot...') }
                     let def_str = new Discord.MessageEmbed()
+                        .setColor(message.guild.me.displayHexColor)
+                        .setFooter('Le mot juste aiguise la pensée',message.client.user.displayAvatarURL())
                         .setTitle(word)
+                        .setTimestamp()
                         .setDescription('[Larousse](https://www.larousse.fr/)')
                     json.forEach(elem => {
 

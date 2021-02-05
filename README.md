@@ -3,3 +3,21 @@
 
 Dédé le Robot is a french multifunction bot for Discord made for fun using Node.js.
 
+## Command examples
+Dédé has now **41** commands available and a server XP ranking system.
+
+### !poem 
+Give a random french poem.
+
+![](img/poem_example.png) 
+
+### !wiki
+Perform a wikipedia search
+
+![](img/wiki_example.png) 
+
+### !defintion
+Give the definition of a french word
+
+![](img/definition_example.png)
+
