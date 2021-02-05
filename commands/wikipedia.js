@@ -9,6 +9,7 @@ async function sendWikiEmbed(message, wikiSearch) {
     }
     let wikiEmbed = new Discord.MessageEmbed()
         .setThumbnail('https://upload.wikimedia.org/wikipedia/commons/7/75/Wikipedia_mobile_app_logo.png')
+        .setColor(message.guild.me.displayHexColor)
         .setTimestamp()
         .setFooter('Données fournies grâce à la face Wikipedia de Dédé. N\'oubliez pas que n\'importe qui peut modifier une page Wikipédia.', message.client.user.displayAvatarURL());
     try {

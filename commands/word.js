@@ -23,6 +23,8 @@ module.exports = {
                         if (json.error) { return message.reply('désolé mais mon dictionnaire s\'est déchiré on dirait... Réessaye si tu veux') }
 
                         let def_str = new Discord.MessageEmbed()
+                            .setColor(message.guild.me.displayHexColor)
+                            .setFooter('Le mot juste aiguise la pensée',message.client.user.displayAvatarURL())
                             .setTitle(word)
                             .setDescription('[Larousse](https://www.larousse.fr/)')
                         json.forEach(elem => {

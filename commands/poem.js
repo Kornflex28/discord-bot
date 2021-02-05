@@ -135,6 +135,7 @@ module.exports = {
                                         .then(json => {
                                             let poemEmbed = new Discord.MessageEmbed()
                                                 .setColor(message.guild.me.displayHexColor)
+                                                .setFooter('Le poème, cette hésitation prolongée entre le son et le sens',message.client.user.displayAvatarURL())
                                                 .setTitle(poem_title)
                                                 .setURL(author_url)
                                                 .setAuthor(poem_author)
@@ -156,6 +157,7 @@ module.exports = {
                                 } else {
                                     let poemEmbed = new Discord.MessageEmbed()
                                         .setColor(message.guild.me.displayHexColor)
+                                        .setFooter('Le poème, cette hésitation prolongée entre le son et le sens',message.client.user.displayAvatarURL())
                                         .setTitle(poem_title)
                                         .setAuthor(poem_author)
                                         .addFields(
