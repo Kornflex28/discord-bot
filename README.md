@@ -16,7 +16,7 @@ Perform a wikipedia search
 
 ![](img/wiki_example.png) 
 
-### !defintion
+### !definition
 Give the definition of a french word
 
 ![](img/definition_example.png)
