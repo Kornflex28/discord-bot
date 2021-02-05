@@ -32,6 +32,7 @@ const Levels = require('discord-xp');
 Levels.setURL(process.env.LEVELS_DB_URL);
 
 const Discord = require('discord.js');
+const { isError } = require('util');
 const client = new Discord.Client();
 
 client.commands = new Discord.Collection();
@@ -120,10 +121,23 @@ function addXpToActiveUsers(client) {
                             guild.channels.create(targetMessageChannel, { topic: 'Spam lvl Up\nN\'hésitez pas à mute le salon' }).then(ch => xpChannel = ch)
                         }
                         const userInst = await client.users.fetch(user.id);
+                        const userGuild = await guild.members.fetch(user.id)
                         let randomAmountOfXp = Math.floor(Math.random() * 2) + 1; // Min 1, Max 2
                         const hasLeveledUp = await Levels.appendXp(user.id, user.guild.id, randomAmountOfXp);
                         if (hasLeveledUp) {
                             const usr = await Levels.fetch(user.id, user.guild.id);
+                            let xpRole = locales.xpRoles.find(r => r.lvlId == Math.floor(usr.level / 3));
+                            let guildRole = guild.roles.cache.find(r => r.name === xpRole.data.name);
+                            if (!guildRole) {
+                                guildRole = await guild.roles.create({ data: xpRole.data, reason: 'rôle lié au lvl d\'xp' });
+                            }
+                            if (!userGuild.roles.cache.find(r => r.name == xpRole.data.name)) {
+                                let currentXpRoles = userGuild.roles.cache.filter(r => r.name.includes('de Dés'));
+                                if (currentXpRoles) {
+                                    await userGuild.roles.remove(currentXpRoles);
+                                }
+                                await userGuild.roles.add(guildRole.id)
+                            }
                             xpChannel.send(`**${userInst.username}**, ${locales.levelUp.random()} Tu as gagné un niveau, tu es desormais niveau **${usr.level}**. :tada:`);
                             if (!(usr.level % 5)) {
                                 const generalChannel = guild.channels.cache.find(ch => ch.name === 'general');
@@ -276,6 +290,18 @@ client.on('message', async (message) => {
                 const hasLeveledUp = await Levels.appendXp(message.author.id, message.guild.id, randomAmountOfXp);
                 if (hasLeveledUp) {
                     const user = await Levels.fetch(message.author.id, message.guild.id);
+                    let xpRole = locales.xpRoles.find(r => r.lvlId == Math.floor(user.level / 3));
+                    let guildRole = message.guild.roles.cache.find(r => r.name === xpRole.data.name);
+                    if (!guildRole) {
+                        guildRole = await message.guild.roles.create({ data: xpRole.data, reason: 'rôle lié au lvl d\'xp' });
+                    }
+                    if (!message.member.roles.cache.find(r => r.name == xpRole.data.name)) {
+                        let currentXpRoles = message.member.roles.cache.filter(r => r.name.includes('de Dés'));
+                        if (currentXpRoles) {
+                            await message.member.roles.remove(currentXpRoles);
+                        }
+                        await message.member.roles.add(guildRole.id)
+                    }
                     xpChannel.send(`**${message.author.username}**, ${locales.levelUp.random()} Tu as gagné un niveau, tu es desormais niveau **${user.level}**. :tada:`);
                     if (!(user.level % 5)) {
                         const generalChannel = message.guild.channels.cache.find(ch => ch.name === 'general');
