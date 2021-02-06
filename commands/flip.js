@@ -25,7 +25,7 @@ module.exports = {
 
         const msgTimestamp = Date(message.createdTimestamp)
         let userFlip = await Userflip.fetch(message.author.id, message.guild.id)
-        let prevScore = userFlip.score;
+        let prevScore = userFlip?userFlip.score:0;
         if (args[0] == 'lb') {
             let scores = await Userflip.fetchGuildFlips(message.guild.id);
             scores.sort((userFlipA, userFlipB) => userFlipB['best'] - userFlipA['best'])
