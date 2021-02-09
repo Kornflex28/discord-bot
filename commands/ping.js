@@ -12,6 +12,7 @@ module.exports = {
 						{name:':timer: Ton ping',value:`${ping} ms`,inline:true},
 						{name:':heartbeat: Mon ping',value:`${message.client.ws.ping} ms`,inline:true}
 					)
+					.setFooter('PING PONG',message.client.user.displayAvatarURL())
 					.setTimestamp()
 		message.channel.send(pingEmbed);
 	},
