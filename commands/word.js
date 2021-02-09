@@ -26,6 +26,7 @@ module.exports = {
                             .setColor(message.guild.me.displayHexColor)
                             .setFooter('Le mot juste aiguise la pensée',message.client.user.displayAvatarURL())
                             .setTitle(word)
+                            .setTimestamp()
                             .setDescription('[Larousse](https://www.larousse.fr/)')
                         json.forEach(elem => {
                             if (elem.nature && elem.definition) {
