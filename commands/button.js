@@ -47,8 +47,8 @@ module.exports = {
                                         .setFooter('Selon l\'Organisation mondiale de la Santé l\'addiction aux jeux vidéo est reconnue comme une maladie au même titre que l\'addiction aux drogues et au tabac.', message.client.user.displayAvatarURL());
                                     msg.edit(buttonEmbed);
                                 }).catch((e) => {
-                                    console.log(e)
-                                    return message.reply('Terrible tu n\'as pas voulu choisir d\'appuyer sur le bouton, tout le monde est mort du coup.')
+                                    // console.log(e)
+                                    // return message.reply('Terrible tu n\'as pas voulu choisir d\'appuyer sur le bouton, tout le monde est mort du coup.')
                                 });
                         }).catch((e) => {
                             console.log(e)

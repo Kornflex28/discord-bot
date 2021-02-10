@@ -28,6 +28,9 @@ module.exports = {
         let prevScore = userFlip?userFlip.score:0;
         if (args[0] == 'lb') {
             let scores = await Userflip.fetchGuildFlips(message.guild.id);
+            if (!scores.length) {
+                return message.reply('Il semble que personne n\'ai joué dans ce serveur...')
+            }
             scores.sort((userFlipA, userFlipB) => userFlipB['best'] - userFlipA['best'])
             let leaderboard = new Discord.MessageEmbed()
                 .setTitle(`Leaderboard de ${message.guild.name} au lancer de dé à deux faces`)
