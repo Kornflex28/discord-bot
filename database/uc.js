@@ -103,8 +103,11 @@ class Usercommands {
     return user;
   }
 
-
-
+  static async fetchAll(){
+    var users = await userCommands.find().exec();
+    return users
+  }
+  
   /**
   * @param {string} [guildId] - Discord guild id.
   */
