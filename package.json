@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "@vitalets/google-translate-api": "^4.0.0",
-    "canvas": "^2.6.1",
     "common-tags": "^1.8.0",
     "discord-xp": "^1.1.7",
     "discord-ytdl-core": "^5.0.0",
@@ -17,6 +16,7 @@
     "lzma-native": "^6.0.1",
     "md5": "^2.3.0",
     "moment": "^2.29.1",
+    "mustache": "^4.1.0",
     "node-fetch": "^2.6.1",
     "node-html-parser": "^2.0.0",
     "node-nlp": "^4.15.0",
