@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "@vitalets/google-translate-api": "^4.0.0",
-    "canvas": "^2.6.1",
     "common-tags": "^1.8.0",
     "discord-xp": "^1.1.7",
     "discord-ytdl-core": "^5.0.0",
