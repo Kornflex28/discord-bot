@@ -3,9 +3,9 @@ name: README build
 on:
   push:
     branches:
-      - tests
+      - master
   schedule:
-    - cron: '0 */6 * * *'
+    - cron: '28 2 * * *'
 
 jobs:
   build:
@@ -33,4 +33,4 @@ jobs:
         uses: mikeal/publish-to-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH_NAME: 'tests'
+          BRANCH_NAME: 'master'
