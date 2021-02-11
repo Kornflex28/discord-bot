@@ -16,7 +16,7 @@ module.exports = {
             let userRole = locales.xpRoles.find(xpRole => xpRole.lvlId == Math.floor(user.level / 3))
             let guildRole = guildRoles.cache.find(r => r.name === userRole.data.name);
             if (!guildRole) {
-                guildRole = await guildRoles.create({ data: userRole.data, reason: 'rôle lié au lvl d\'xp' });
+                guildRole = await guildRoles.create({ data: userRole.data, hoist:true, reason: 'rôle lié au lvl d\'xp' });
             }
             let guildMember = await message.guild.members.fetch(user.userID);
             let currentXpRoles = guildMember.roles.cache.filter(r => r.name.includes('de Dés'));
