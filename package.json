@@ -5,6 +5,7 @@
     "dotenv": "^8.2.0",
     "https": "^1.0.0",
     "md5": "^2.3.0",
+    "mustache": "^4.1.0",
     "node-fetch": "^2.6.1",
     "node-html-parser": "^2.0.0",
     "node-nlp": "^4.15.0",
