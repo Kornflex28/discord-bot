@@ -4,15 +4,15 @@
 ![Heroku](https://img.shields.io/badge/Heroku%20-%23430098.svg?&style=flat-square&logo=heroku&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?&style=flat-square&logo=mongodb&logoColor=white)
 <br>
-[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?style=flat-square)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
-[![GitHub last commit](https://img.shields.io/github/last-commit/google/skia.svg?style=flat-square)]()
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://github.com/Kornflex28/discord-bot/blob/main/LICENSE)
+![GitHub last commit](https://img.shields.io/github/last-commit/Kornflex28/discord-bot?style=flat-square)
 
 Dédé le Robot is a french multifunction bot for Discord made for fun using Node.js.
 
 >Dédé has curently **41** commands available and a server XP ranking system.<br>
 >Dédé has excuted **1796** commands for now.
 >
-> *This was last dynamically generated on Thursday, February 11, 1:12 PM GMT+1.*
+> *This was last dynamically generated on Thursday, February 11, 4:12 PM GMT+1.*
 
 ## Command examples
 ### !poem 
