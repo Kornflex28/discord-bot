@@ -4,14 +4,15 @@ module.exports = {
     description: 'Ping!',
     cooldown: 1,
 	execute(message, args) {
-		var ping = Date.now() - message.createdTimestamp;
+		let ping = Date.now() - message.createdTimestamp;
 		const pingEmbed = new Discord.MessageEmbed()
-                    .setColor('RANDOM')
+                    .setColor(message.guild.me.displayHexColor)
 					.setTitle('🏓 Pong')
 					.addFields(
 						{name:':timer: Ton ping',value:`${ping} ms`,inline:true},
 						{name:':heartbeat: Mon ping',value:`${message.client.ws.ping} ms`,inline:true}
 					)
+					.setFooter('PING PONG',message.client.user.displayAvatarURL())
 					.setTimestamp()
 		message.channel.send(pingEmbed);
 	},

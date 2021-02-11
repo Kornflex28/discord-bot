@@ -4,7 +4,7 @@ const Discord = require('discord.js');
 module.exports = {
     process_message(NlpManager, message, messageContent) {
         const client = message.client;
-        var args =[];
+        let args =[];
         //         client.commands = new Discord.Collection();
         // const commandFiles = fs.readdirSync('../commands').filter(file => file.endsWith('.js'));
         // for (const file of commandFiles) {
@@ -13,7 +13,7 @@ module.exports = {
         // }
         NlpManager.process('fr', messageContent)
             .then(response => {
-                console.log(response);
+                // console.log(response);
                 message.reply(response.answer);
                 const intent = response.intent;
                 if (intent === 'agent.birthday') {

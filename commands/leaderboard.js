@@ -7,16 +7,16 @@ module.exports = {
 	name: 'leaderboard',
     description: 'Leaderboard des utilisateurs dans ce serveur',
     guildOnly:true,
+    aliases:['lb'],
     usage: '',
 	async execute(message, args) {
         const n_user = 10;
-        const rawLeaderboard = await Levels.fetchLeaderboard(message.guild.id, n_user); // We grab top 10 users with most xp in the current server.
+        const rawLeaderboard = await Levels.fetchLeaderboard(message.guild.id, n_user); 
         if (rawLeaderboard.length < 1) return reply("Personne n'est dans le leaderboard encore et c'est bien triste..");
-        const leaderboard = await Levels.computeLeaderboard(message.client, rawLeaderboard, true); // We process the leaderboard.
-        const lb = leaderboard.map(e => `${e.position}. ${e.username}#${e.discriminator}\nLevel: ${e.level}\nXP: ${e.xp.toLocaleString()}`); // We map the outputs.
+        const leaderboard = await Levels.computeLeaderboard(message.client, rawLeaderboard, true);
 
         const lbEmbed = new Discord.MessageEmbed()
-                    .setColor('RANDOM')
+                    .setColor(message.guild.me.displayHexColor)
                     .setTitle(`Leaderboard du serveur ${message.guild.name}`)
                     .setDescription(`Top ${n_user} des utilisateurs du serveur`)
                     .setThumbnail(`${message.guild.iconURL()}`)

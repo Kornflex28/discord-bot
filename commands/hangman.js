@@ -1,10 +1,10 @@
 require('dotenv').config();
 const Discord = require('discord.js');
 const fs = require('fs');
-const frNouns = './french_nouns.txt';
-const frVerbs = './french_verbs.txt';
-var hangman_init = process.env.HANGMAN;
-var hangman;
+const frNouns = './locales/french_nouns.txt';
+const frVerbs = './locales/french_verbs.txt';
+let hangman_init = process.env.HANGMAN;
+let hangman;
 if (!hangman_init) {
     hangman = []
     hangman_init = true;
@@ -19,35 +19,35 @@ function clean_str(str) {
         .replace(/é/g, 'e')
         .replace(/è/g, 'e')
         .replace(/ê/g, 'e')
-        .replace(/ë/g,'e')
+        .replace(/ë/g, 'e')
         .replace(/à/g, 'a')
-        .replace(/ä/g,'a')
-        .replace(/ï/g,'i')
-        .replace(/î/g,'i')
-        .replace(/ô/g,'o')
-        .replace(/ö/g,'o')
-        .replace(/û/g,'u')
-        .replace(/ü/g,'u')
-        .replace(/ù/g,'u')
-        .replace(/ç/g,'c')
+        .replace(/ä/g, 'a')
+        .replace(/ï/g, 'i')
+        .replace(/î/g, 'i')
+        .replace(/ô/g, 'o')
+        .replace(/ö/g, 'o')
+        .replace(/û/g, 'u')
+        .replace(/ü/g, 'u')
+        .replace(/ù/g, 'u')
+        .replace(/ç/g, 'c')
         ;
 };
 
-var frWords =[];
-fs.readFile(frNouns ,'utf8', ((err, data) => {
-    frWords = frWords.concat(data.split('\n').filter(str=>!(str.includes(';pl')||str.includes('-')||str.includes("'"))).map(str=>clean_str(str.split(';')[0])));
-    })
+let frWords = [];
+fs.readFile(frNouns, 'utf8', ((err, data) => {
+    frWords = frWords.concat(data.split('\n').filter(str => !(str.includes(';pl') || str.includes('-') || str.includes("'"))).map(str => clean_str(str.split(';')[0])));
+})
 );
-fs.readFile(frVerbs ,'utf8', ((err, data) => {
-    frWords = frWords.concat(data.split('\n').filter(str=>!(str.includes('-')||str.includes("'"))).map(str=>clean_str(str.split(';')[0])));
-    })
+fs.readFile(frVerbs, 'utf8', ((err, data) => {
+    frWords = frWords.concat(data.split('\n').filter(str => !(str.includes('-') || str.includes("'"))).map(str => clean_str(str.split(';')[0])));
+})
 );
 frWords.sort(() => Math.random() - 0.5);
 
 function boardWord(word, letters) {
-    var boardW = '';
+    let boardW = '';
 
-    for (var i = 0; i < word.length; i++) {
+    for (let i = 0; i < word.length; i++) {
         const ch = word[i]
         if (letters.includes(ch)) {
             boardW += `${ch} `;
@@ -71,13 +71,13 @@ module.exports = {
     execute(message, args) {
         const senderChannel = message.channel;
         const arg = clean_str(args[0]);
-        var game = hangman.find(game => game._channelId == senderChannel.id);
+        let game = hangman.find(game => game._channelId == senderChannel.id);
 
         if (arg === 'create') {
             if (game !== undefined) {
                 return message.reply('désolé mais une partie est déjà en cours dans ce channel !')
             } else {
-                const word = frWords[Math.floor(Math.random()*frWords.length)];
+                const word = frWords[Math.floor(Math.random() * frWords.length)];
                 const lives = 7;
                 const gameEmbed = new Discord.MessageEmbed()
                     .setColor(`RANDOM`)
@@ -85,17 +85,17 @@ module.exports = {
                     .setFooter(`channel: ${senderChannel.name ? senderChannel.name : 'DM'}`)
                     .setTimestamp()
                     .setDescription("```"
-                    + "|‾‾‾‾‾‾|   \n|     "
-                    + (lives < 7 ? "🎩" : " ")
-                    + "   \n|     "
-                    + (lives < 6 ? "😟" : " ")
-                    + "   \n|   "
-                    + (lives < 5 ? ( lives < 4 ? (lives < 3 ? "🖖👕🖕" : "🖖👕") : "  👕") : " ")
-                    + "   \n|     "
-                    + (lives < 2 ? "🩳" : " ")
-                    + "   \n|    "
-                    + (lives < 1 ? "👞👞" : " ")
-                     + "   \n|     \n|__________\n\n"+ "```")
+                        + "|‾‾‾‾‾‾|   \n|     "
+                        + (lives < 7 ? "🎩" : " ")
+                        + "   \n|     "
+                        + (lives < 6 ? "😟" : " ")
+                        + "   \n|   "
+                        + (lives < 5 ? (lives < 4 ? (lives < 3 ? "🖖👕🖕" : "🖖👕") : "  👕") : " ")
+                        + "   \n|     "
+                        + (lives < 2 ? "🩳" : " ")
+                        + "   \n|    "
+                        + (lives < 1 ? "👞👞" : " ")
+                        + "   \n|     \n|__________\n\n" + "```")
                     .addFields(
                         { name: 'Mot', value: `${boardWord(word, [])}`, inline: true },
                         { name: 'Lettres testées', value: `Aucune`, inline: true }
@@ -111,6 +111,9 @@ module.exports = {
                         "_lastMessage": bot_message
                     };
                     hangman.push(game);
+                }).catch(e => {
+                    console.log(e);
+                    return message.channel.send('Aie le pendu s\'est échappé, désolé...')
                 });
 
             }
@@ -134,6 +137,9 @@ module.exports = {
                 senderChannel.send(gameEmbed).then(bot_message => {
                     game._lastMessage.delete();
                     game._lastMessage = bot_message;
+                }).catch(e => {
+                    console.log(e);
+                    return message.channel.send('Aie le pendu s\'est échappé, désolé...')
                 })
             }
         }
@@ -151,7 +157,7 @@ module.exports = {
                 message.reply(`tu as déjà essayé la lettre ${arg}...`)
                 if (senderChannel.name) {
                     return message.delete()
-                } else {return ;}
+                } else { return; }
             }
             if (senderChannel.name) {
                 message.delete()
@@ -164,17 +170,17 @@ module.exports = {
             if (!game._guessWord.includes(arg)) {
                 game._livesRemaining += -1;
                 gameEmbed.setDescription("```"
-                + "|‾‾‾‾‾‾|   \n|     "
-                + (game._livesRemaining < 7 ? "🎩" : " ")
-                + "   \n|     "
-                + (game._livesRemaining < 6 ? "😟" : " ")
-                + "   \n|   "
-                + (game._livesRemaining < 5 ? ( game._livesRemaining < 4 ? (game._livesRemaining < 3 ? "🖖👕🖕" : "🖖👕") : "  👕") : " ")
-                + "   \n|     "
-                + (game._livesRemaining < 2 ? "🩳" : " ")
-                + "   \n|    "
-                + (game._livesRemaining < 1 ? "👞👞" : " ")
-                + "   \n|     \n|__________\n\n"+ "```")
+                    + "|‾‾‾‾‾‾|   \n|     "
+                    + (game._livesRemaining < 7 ? "🎩" : " ")
+                    + "   \n|     "
+                    + (game._livesRemaining < 6 ? "😟" : " ")
+                    + "   \n|   "
+                    + (game._livesRemaining < 5 ? (game._livesRemaining < 4 ? (game._livesRemaining < 3 ? "🖖👕🖕" : "🖖👕") : "  👕") : " ")
+                    + "   \n|     "
+                    + (game._livesRemaining < 2 ? "🩳" : " ")
+                    + "   \n|    "
+                    + (game._livesRemaining < 1 ? "👞👞" : " ")
+                    + "   \n|     \n|__________\n\n" + "```")
             } else {
                 gameEmbed.fields[0].value = boardWord(game._guessWord, game._guesses);
             }
@@ -182,42 +188,56 @@ module.exports = {
             senderChannel.send(gameEmbed).then(bot_message => {
                 game._lastMessage.delete();
                 game._lastMessage = bot_message;
-                // message.react('🎲');
+            }).catch(e => {
+                console.log(e);
+                return message.channel.send('Aie le pendu s\'est échappé, désolé...')
             })
 
             if (!game._livesRemaining) {
                 senderChannel.send(`aie aie ça dégage ! Juste au cas où, le mot était *${game._guessWord}*`).then(() => {
-                    fetch(dict_url+`${game._guessWord}/definitions?limite=3&source=larousse&api_key=`+process.env.DICO_TOKEN)
-                    .then(response => {return response.json()})
-                    .then(json =>{
-                            if (json.error){return;}
-                            var def_str = new Discord.MessageEmbed()
-                            .setTitle(game._guessWord)
-                            .setDescription('[Larousse](https://www.larousse.fr/)')
+                    fetch(dict_url + `${game._guessWord}/definitions?limite=3&source=larousse&api_key=` + process.env.DICO_TOKEN)
+                        .then(response => { return response.json() }).catch(e => {
+                            console.log(e);
+                            return message.channel.send('Aie le pendu s\'est échappé, désolé...')
+                        })
+                        .then(json => {
+                            if (json.error) { return; }
+                            let def_str = new Discord.MessageEmbed()
+                                .setTitle(game._guessWord)
+                                .setDescription('[Larousse](https://www.larousse.fr/)')
                             json.forEach(elem => {
-                                
+
                                 def_str.addField(elem.nature, elem.definition);
                             });
-                            senderChannel.send(`Voilà ce que j'ai trouvé pour ce mot:`).then(()=>senderChannel.send(def_str))
+                            senderChannel.send(`Voilà ce que j'ai trouvé pour ce mot:`).then(() => senderChannel.send(def_str))
+                        }).catch(e => {
+                            console.log(e);
+                            return message.channel.send('Aie le pendu s\'est échappé, désolé...')
                         });
                     const gameIndex = hangman.indexOf(game);
                     hangman.splice(gameIndex, 1);
                 })
             }
-            if (!game._lastMessage.embeds[0].fields[0].value.includes('\\_')){
+            if (!game._lastMessage.embeds[0].fields[0].value.includes('\\_')) {
                 senderChannel.send(`MAIS NAN ?! Bravo (c'était facile)`).then(() => {
-                    fetch(dict_url+`${game._guessWord}/definitions?limite=3&source=larousse&api_key=`+process.env.DICO_TOKEN)
-                    .then(response => {return response.json()})
-                    .then(json =>{
-                            if (json.error){return;}
-                            var def_str = new Discord.MessageEmbed()
-                            .setTitle(game._guessWord)
-                            .setDescription('[Larousse](https://www.larousse.fr/)')
+                    fetch(dict_url + `${game._guessWord}/definitions?limite=3&source=larousse&api_key=` + process.env.DICO_TOKEN)
+                        .then(response => { return response.json() }).catch(e => {
+                            console.log(e);
+                            return message.channel.send('Aie le pendu s\'est échappé, désolé...')
+                        })
+                        .then(json => {
+                            if (json.error) { return; }
+                            let def_str = new Discord.MessageEmbed()
+                                .setTitle(game._guessWord)
+                                .setDescription('[Larousse](https://www.larousse.fr/)')
                             json.forEach(elem => {
-                                
+
                                 def_str.addField(elem.nature, elem.definition);
                             });
-                            senderChannel.send(`Voilà ce que j'ai trouvé pour ce mot:`).then(()=>senderChannel.send(def_str))
+                            senderChannel.send(`Voilà ce que j'ai trouvé pour ce mot:`).then(() => senderChannel.send(def_str))
+                        }).catch(e => {
+                            console.log(e);
+                            return message.channel.send('Aie le pendu s\'est échappé, désolé...')
                         });
                     const gameIndex = hangman.indexOf(game);
                     hangman.splice(gameIndex, 1);

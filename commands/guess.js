@@ -1,9 +1,9 @@
 require('dotenv').config();
 
-var _guessMin = parseInt(process.env.GUESS_MIN);
-var _guessMax = parseInt(process.env.GUESS_MAX);
-var _guessChosen = process.env.GUESS_CHOSEN;
-var _guessN = parseInt(process.env.GUESS_N);
+let _guessMin = parseInt(process.env.GUESS_MIN);
+let _guessMax = parseInt(process.env.GUESS_MAX);
+let _guessChosen = process.env.GUESS_CHOSEN;
+let _guessN = parseInt(process.env.GUESS_N);
 module.exports = {
 	name: 'guess',
     description: 'Jeu pour tester ton QI où il faut deviner le nombre que j\'ai choisi entre 2 nombres.',
@@ -22,7 +22,7 @@ module.exports = {
             return message.reply('ton premier argument n\'est pas un nombre. (Einstein, 1913)');
         }
         else if (user_guess < _guessMin || user_guess > _guessMax) {
-            return message.reply(`allo ca va 🥴??! Mon nombre est entre **${_guessMin}** et **${_guessMax}**`).then((bot_message) => bot_message.react('🧠'));
+            return message.reply(`allo ca va 🥴??! Mon nombre est entre **${_guessMin}** et **${_guessMax}**`).then((bot_message) => bot_message.react('🧠')).catch(e=>console.log(e));
         }
         else if (user_guess > _guessN){
             message.channel.send(`Mon nombre est **plus petit que ${user_guess}**`);
@@ -32,7 +32,7 @@ module.exports = {
         }
         else if (user_guess == _guessN){
             _guessChosen = false;
-            message.channel.send(`Incroyable ${message.author} tu as deviné ! **Mon nombre était ${user_guess}**`).then((bot_message) => bot_message.react('🤯'));
+            message.channel.send(`Incroyable ${message.author} tu as deviné ! **Mon nombre était ${user_guess}**`).then((bot_message) => bot_message.react('🤯')).catch(e=>console.log(e));
         }
         return;
 	},
