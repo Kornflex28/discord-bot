@@ -32,7 +32,6 @@ const Levels = require('discord-xp');
 Levels.setURL(process.env.LEVELS_DB_URL);
 
 const Discord = require('discord.js');
-const { isError } = require('util');
 const client = new Discord.Client();
 
 client.commands = new Discord.Collection();
