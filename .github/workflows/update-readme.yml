@@ -37,7 +37,7 @@ jobs:
           date > generated.txt
           git config user.name Kornflex28
           git config user.email chauvet.louis@gmail.com
-          git add .
+          git add ./README.md
           git commit -m "generated"
           git push
 
