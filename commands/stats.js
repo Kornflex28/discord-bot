@@ -41,7 +41,7 @@ module.exports = {
         const seconds = d.seconds();
         let uptime = `${days > 0 ? `${days} ${days == 1 ? `jour, ` : 'jours, '}` : ``}${hours > 0 ? `${hours} ${hours == 1 ? 'heure, ' : 'heures, '}` : ``}${minutes > 0 ? `${minutes} ${minutes == 1 ? 'minute, ' : 'minutes, '}` : ``}${seconds} ${seconds > 1 ? 'secondes' : 'seconde'}`;
         const clientStats = stripIndent`
-        Version        :: ${process.env.HEROKU_RELEASE_VERSION ? process.env.HEROKU_RELEASE_VERSION/2 : 'développement'}
+        Version        :: ${process.env.HEROKU_RELEASE_VERSION ? parseInt(process.env.HEROKU_RELEASE_VERSION)/2 : 'développement'}
         Serveurs       :: ${message.client.guilds.cache.size}
         Utilisateurs   :: ${message.client.users.cache.size}
         Salons         :: ${message.client.channels.cache.size}
