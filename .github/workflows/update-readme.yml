@@ -34,11 +34,10 @@ jobs:
         with:
           ref: 'local'
       - run: |
-          date > generated.txt
           git config user.name Kornflex28
           git config user.email chauvet.louis@gmail.com
           git add ./README.md
-          git commit -m "generated"
+          git commit -m "Auto-update README"
           git push
 
       # - name: Commit and Push new README.md to the repository
