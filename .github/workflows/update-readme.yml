@@ -32,7 +32,7 @@ jobs:
 
       - uses: actions/checkout@v2
         with:
-          ref:'local'
+          ref: 'local'
       - run: |
           date > generated.txt
           git config user.name Kornflex28
