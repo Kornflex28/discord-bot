@@ -25,20 +25,23 @@ jobs:
           key: ${{ runner.os }}-js-${{ hashFiles('package-lock.json') }}
       - name: Install dependencies
         run: npm install
-      - name: Generate README file
-        run: node generate-readme.js
-        env:
-          LEVELS_DB_URL: ${{ secrets.LEVELS_DB_URL }}
+      # - name: Generate README file
+      #   run: node generate-readme.js
+      #   env:
+      #     LEVELS_DB_URL: ${{ secrets.LEVELS_DB_URL }}
 
       - uses: actions/checkout@v2
         with:
           ref: 'local'
       - run: |
+          node generate-readme.js
           git config user.name Kornflex28
           git config user.email chauvet.louis@gmail.com
           git add ./README.md
           git commit -m "Auto-update README"
           git push
+        env:
+          LEVELS_DB_URL: ${{ secrets.LEVELS_DB_URL }}
 
       # - name: Commit and Push new README.md to the repository
       #   uses: mikeal/publish-to-github-action@master
