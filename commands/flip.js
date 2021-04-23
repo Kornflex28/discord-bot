@@ -2,12 +2,16 @@ require('dotenv').config();
 const Userflip = require("../database/uf.js");
 Userflip.setURL(process.env.LEVELS_DB_URL);
 
+const Usercommands = require("../database/uc.js");
+Usercommands.setURL(process.env.LEVELS_DB_URL);
+
 const moment = require('moment');
 const interval = process.env.IS_HEROKU ? 24 * 3600 * 1000 : 1000 //ms
 
 
 const Discord = require('discord.js');
 const fs = require('fs');
+const userCommands = require('../database/user-commands.js');
 const locales = JSON.parse(fs.readFileSync('./locales/fr-FR.json').toString());
 Array.prototype.random = function () {
     return this[Math.floor((Math.random() * this.length))];
@@ -49,7 +53,8 @@ module.exports = {
                     return message.channel.send('Il me semble que tu n\'as pas encore tenté ta chance au lancer de dé à deux faces essaye `!flip`')
                 }
                 else {
-                    return message.channel.send(`Ton score actuel est **${userFlip.score}** et ton meilleur score est **${userFlip.best}**.`)
+                    let user_commands = await Usercommands.fetch(message.author.id,message.guild.id);
+                    return message.channel.send(`Ton score actuel est **${userFlip.score}** et ton meilleur score est **${userFlip.best}**. Tu as fait ${user_commands.commands.get('flip')} lancers au total!`)
                 }
             } else {
                 if (message.guild.me.id === mentionnedUser.id) {
@@ -60,7 +65,8 @@ module.exports = {
                     return message.channel.send(`Il me semble que ${mentionnedUser} n\'as pas encore tenté ta chance au lancer de dé à deux faces.`)
                 }
                 else {
-                    return message.channel.send(`Le score actuel de ${mentionnedUser} est **${userFlip.score}** et son meilleur score est **${userFlip.best}**.`)
+                    let user_commands = await Usercommands.fetch(mentionnedUser.id,message.guild.id);
+                    return message.channel.send(`Le score actuel de ${mentionnedUser} est **${userFlip.score}** et son meilleur score est **${userFlip.best}**. Avec un total de ${user_commands.commands.get('flip')} lancers!`)
                 }
             }
         }
@@ -70,8 +76,8 @@ module.exports = {
                     userFlip = await Userflip.addFlip(message.author.id, message.guild.id, 1, msgTimestamp)
                     return message.channel.send(`🌕 **${locales.flips.heads.random()} !**\nCoup de chance c'est ${userFlip.score < 2 ? 'ta première face d\'une longue lignée' : `ta **${userFlip.score}ème Face de suite**`} !`)
                 } else {
-                    userFlip = await Userflip.addFlip(message.author.id, message.guild.id, 0, msgTimestamp)
-                    return message.channel.send(`🌑 **${locales.flips.tails.random()} !**\nDommage... Tu en étais à ${prevScore} Face à la suite et ton meilleur score est **${userFlip.best}**.`)
+                    userFlip = await Userflip.addFlip(message.author.id, message.guild.id, -1, msgTimestamp)
+                    return message.channel.send(`🌑 **${locales.flips.tails.random()} !**\nDommage...\nTu en étais à ${prevScore} Face à la suite et ton meilleur score est **${userFlip.best}**.`)
                 }
             }
             const timeDifference = moment(message.createdTimestamp).diff(userFlip.lastUpdated, 'milliseconds')
@@ -80,8 +86,8 @@ module.exports = {
                     userFlip = await Userflip.addFlip(message.author.id, message.guild.id, 1, msgTimestamp)
                     return message.channel.send(`🌕 **${locales.flips.heads.random()} !**\nCoup de chance c'est ${userFlip.score < 2 ? 'ta première face d\'une longue lignée' : `ta **${userFlip.score}ème Face de suite**`} !`)
                 } else {
-                    userFlip = await Userflip.addFlip(message.author.id, message.guild.id, 0, msgTimestamp)
-                    return message.channel.send(`🌑 **${locales.flips.tails.random()} !**\nDommage... Tu en étais à ${prevScore} Face à la suite et ton meilleur score est **${userFlip.best}**.`)
+                    userFlip = await Userflip.addFlip(message.author.id, message.guild.id, -1, msgTimestamp)
+                    return message.channel.send(`🌑 **${locales.flips.tails.random()} !**\nDommage... ${userFlip.score_bad > 1 ? `Vraiment pas de chance c\'est la ${userFlip.score_bad}ème fois de suite que tu rates` : ''}\nTu en étais à ${prevScore} Face à la suite et ton meilleur score est **${userFlip.best}**.`)
                 }
             } else {
                 const d = moment.duration(interval - timeDifference);

@@ -5,6 +5,8 @@ const UserFlipSchema = new mongoose.Schema({
   guildID: { type: String },
   score: { type: Number },
   best: {type : Number},
+  score_bad: { type: Number, default: 0},
+  best_bad: {type : Number, default: 0},
   lastUpdated: { type: Date }
 });
 
