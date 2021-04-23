@@ -81,6 +81,7 @@
         "Patience et longueur de temps font plus que force ni que rage."
     ],
     "commandError": [
+        "ALERTE AU GOGOLE, j'appelle",
         "ça n'existe pas ok alors réveille toi et previens",
         "n'aboutit à rien, on peut toujours essayer de voir avec",
         "n'est pas enregistrée dans mes faces, essaye de voir avec",
@@ -98,6 +99,14 @@
     ],
     "flips": {
         "time": [
+            "Tu pousses le bouchon là",
+            "Bon c'est pas la première fois hein ???",
+            "Qui ose troubler mon repos ?",
+            "Vous savez lire ? Je suis fermé",
+            "Puis-je vous conseiller quelques montres ?",
+            "Oh oui juste là, sexy motherfu... Oups ! Ahem... va-t-en c'est pas l'heure",
+            "T'étais pas en cure de désintox toi ?",
+            "Oui bon, il s'agirait de régler une addiction",
             "Addict.e ?!",
             "Bah alors ?",
             "Ih! tu m'as fait peur !",
@@ -109,12 +118,26 @@
             "🌑 **Pile**... pardon mauvaise blague."
         ],
         "heads": [
+            "Ah oui oui oui ouiiiiiii",
+            "Mais que c'est beauuu",
+            "face ! CHAMPAGNE",
+            "fafafafaface",
+            "F.A.C.E",
+            "Face allez barre toi",
+            "FFFFFFFFFFFFACE",
+            "Jolie face",
             "Face",
             "FACE",
             "FACEile pour toi",
             "HEAD en anglais"
         ],
         "tails": [
+            "Terrible nouvelle...",
+            "C'est non.",
+            "pipipipile",
+            "PILE TIENS PRENDS TA DAUBE ET TIRE TOI",
+            "ET BAM PILE AHAHAHAHAHA",
+            "Pile, solide perf de pile dis donc",
             "Pile",
             "PILE",
             "tout Pile",
@@ -189,7 +212,7 @@
         "⚰️ **PRESS F** ⚰️",
         "⚰️⚰️⚰️",
         "🥀 RIP 🥀",
-        "NB ne pas oublier de les jeter ⚱️",
+        "Toutes mes condoléances",
         "https://tenor.com/x5XP.gif",
         "https://tenor.com/bil0o.gif"
     ],

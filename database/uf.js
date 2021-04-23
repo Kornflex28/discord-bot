@@ -77,6 +77,8 @@ class Userflip {
                 guildID: guildId,
                 score: result > 0 ? 1 : 0,
                 best: result > 0 ? 1 : 0,
+                score_bad: result < 0 ? 1 : 0,
+                best_bad: result < 0 ? 1 : 0,
                 lastUpdated: timestamp
             });
 
@@ -87,10 +89,11 @@ class Userflip {
 
         user.score = result > 0 ? user.score + 1 : 0
         user.best = (user.score) > user.best ? user.score : user.best
+        user.score_bad = result < 0 ? user.score_bad + 1 : 0
+        user.best_bad = (user.score_bad) > user.best_bad ? user.score_bad : user.best_bad
         user.lastUpdated = timestamp;
 
-        await user.save().catch(e => console.log(`Failed to append xp: ${e}`));
-
+        await user.save().catch(e => console.log(`Failed to flip: ${e}`));
         return user;
     }
 
