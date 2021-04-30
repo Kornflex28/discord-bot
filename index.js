@@ -352,7 +352,7 @@ client.on('message', async (message) => {
 
                 if (!command) {
                     message
-                    if (Math.random() <= 0.2) { message.reply(`désolé mais \`${commandName}\` ${locales.commandError.random()} ${creatorUser}`) }
+                    if (Math.random() <= 0.33) { message.reply(`désolé mais \`${commandName}\` ${locales.commandError.random()} ${creatorUser}`) }
                     await message.react(client.emojis.cache.find(emoji => emoji.name === `die1`));
                     await message.react('🇳');
                     await message.react('🇴');
