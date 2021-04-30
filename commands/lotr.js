@@ -12,6 +12,7 @@ LotrScores.setURL(process.env.LEVELS_DB_URL);
 module.exports = {
     name: 'lotr',
     description: 'Dédé agite ses dés et trouve une citation de l\'iconique trilogie de J.R.R Tolkien',
+    usage: '<> pour jouer ou <"score" @user> pour avoir le score d\'un.e joueur.euse ou <"lb"> pour le leaderboard du serveur',
     cooldown: 2,
     async execute(message, args) {
         if (args[0] === 'lb') {

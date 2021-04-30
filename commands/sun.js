@@ -5,7 +5,8 @@ lightspeed = 299792458; // m/s
 
 module.exports = {
     name: 'sun',
-    description: 'Je lance ma face téléscope pour voir à quelle distance se trouve le Soleil !',
+    description: 'Je lance ma face téléscope pour voir à quelle distance de la Terre se trouve le Soleil !',
+    aliases: ['soleil'],
     async execute(message, args) {
         message.channel.send('Laisse moi mettre mes lunettes de soleil un instant... (cf L.D.S de Vald)')
         https.get(infos_url, function (res) {
