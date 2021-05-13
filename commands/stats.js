@@ -23,7 +23,7 @@ module.exports = {
                     if (!totalGuildCommandsCount.has(com)) { totalGuildCommandsCount.set(com, [value,[[userGuild.userID,value]]]) }
                     else { 
                         [old_val,userList] = totalGuildCommandsCount.get(com);
-                        userList.push([userGuild.userID,valu])
+                        userList.push([userGuild.userID,value])
                         totalGuildCommandsCount.set(com, [value + old_val, userList]) 
                     }
                     userCommandsCount += value
