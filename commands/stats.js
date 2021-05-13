@@ -1,75 +1,221 @@
-const Discord = require('discord.js');
-const moment = require('moment');
-const { mem, cpu, os } = require('node-os-utils');
-const { stripIndent } = require('common-tags');
 
+const { ChartJSNodeCanvas } = require('chartjs-node-canvas');
+// require('chartjs-plugin-datalabels');
 const Usercommands = require("../database/uc.js");
 Usercommands.setURL(process.env.LEVELS_DB_URL);
 
-const excludedCommands = ['reload'];
+const excludedCommands = ['reload','stats'];
 module.exports = {
     name: 'stats',
-    description: 'Quelques infos sur ma propre personne',
+    description: 'Quelques infos sur les échanges entre moi-même et le serveur',
     cooldown: 2,
+    usage: '<> pour des stats sur toutes les commandes ou <"members"> pour des stats sur les membres du serveur',
     aliases: ['stat'],
     async execute(message, args) {
-        let guildsCommands = await Usercommands.fetchGuildsCommands(message.client);
-        let commandsCounts = new Map()
-        for (let [_, guildCommands] of guildsCommands) {
-            for (let [command, commandCount] of guildCommands) {
-                if (!excludedCommands.includes(command)) {
-                    if (!commandsCounts.has(command)) {
-                        commandsCounts.set(command, commandCount)
-                    } else {
-                        commandsCounts.set(command, commandCount + commandsCounts.get(command))
+
+        let guildCommands = await Usercommands.fetchGuildCommands(message.guild.id)
+        let totalGuildCommandsCount = new Map()
+        let totalUserCommandsCount = new Map()
+        for (let userGuild of guildCommands) {
+            let userCommandsCount = 0
+            for (let [com, value] of userGuild.commands) {
+                if (!excludedCommands.includes(com)) {
+                    if (!totalGuildCommandsCount.has(com)) { totalGuildCommandsCount.set(com, [value,[[userGuild.userID,value]]]) }
+                    else { 
+                        [old_val,userList] = totalGuildCommandsCount.get(com);
+                        userList.push([userGuild.userID,valu])
+                        totalGuildCommandsCount.set(com, [value + old_val, userList]) 
                     }
+                    userCommandsCount += value
                 }
             }
+            totalUserCommandsCount.set(userGuild.userID, userCommandsCount)
         }
-        let totalCommandsCounts = Array.from(commandsCounts).sort(function (a, b) {
+
+        let totalCommandsCounts_ = Array.from(totalGuildCommandsCount).sort(function (a, b) {
+            return b[1][0] - a[1][0];
+        })
+        let totalUserCommandsCounts_ = Array.from(totalUserCommandsCount).sort(function (a, b) {
             return b[1] - a[1];
         })
-        const commandsStats = stripIndent`
-        Commandes           :: ${message.client.commands.size}
-        Commandes exécutées :: ${totalCommandsCounts.reduce((r, a) => r.map((b, i) => a[i] + b))[1]}
-        Top 5 commandes     :: ${totalCommandsCounts.slice(0, 5).map(t => t[0]).join(', ')}
-        `;
-        const d = moment.duration(message.client.uptime);
-        const days = d.days();
-        const hours = d.hours();
-        const minutes = d.minutes();
-        const seconds = d.seconds();
-        let uptime = `${days > 0 ? `${days} ${days == 1 ? `jour, ` : 'jours, '}` : ``}${hours > 0 ? `${hours} ${hours == 1 ? 'heure, ' : 'heures, '}` : ``}${minutes > 0 ? `${minutes} ${minutes == 1 ? 'minute, ' : 'minutes, '}` : ``}${seconds} ${seconds > 1 ? 'secondes' : 'seconde'}`;
-        const clientStats = stripIndent`
-        Version        :: ${process.env.HEROKU_RELEASE_VERSION ? parseInt(process.env.HEROKU_RELEASE_VERSION.substring(1))/2 : 'développement'}
-        Serveurs       :: ${message.client.guilds.cache.size}
-        Utilisateurs   :: ${message.client.users.cache.size}
-        Salons         :: ${message.client.channels.cache.size}
-        WebSocket Ping :: ${Math.round(message.client.ws.ping)} ms
-        Uptime         :: ${uptime}
-        `;
-        const { totalMemMb, usedMemMb } = await mem.info();
-        const serverStats = stripIndent`
-        OS              :: ${await os.oos()}
-        CPU             :: ${cpu.model()}
-        Coeurs          :: ${cpu.count()}
-        Utilisation CPU :: ${await cpu.usage()} %
-        RAM             :: ${totalMemMb} MB
-        Utilisation RAM :: ${usedMemMb} MB 
-        `;
-        const embed = new Discord.MessageEmbed()
-            .setTitle(`Statistiques de ${message.client.user.username} `)
-            .addField(`Commandes`, `\`\`\`asciidoc\n${commandsStats}\`\`\``)
-            .addField('Client', `\`\`\`asciidoc\n${clientStats}\`\`\``)
-            .addField('Serveur', `\`\`\`asciidoc\n${serverStats}\`\`\``)
-            .addField(
-                'Lien',
-                `**[GitHub](https://github.com/Kornflex28/discord-bot)** | **[Invite moi sur ton serveur](https://discord.com/api/oauth2/authorize?client_id=775672151549149194&permissions=8&scope=bot)**`
-            )
-            .setFooter('Statistiques garanties sans Aléa grâce à PreviCorp ©', message.client.user.displayAvatarURL({ dynamic: true }))
-            .setTimestamp()
-            .setColor(message.guild.me.displayHexColor);
-        message.channel.send(embed);
+
+        // console.log(totalCommandsCounts_)
+        // console.log(totalUserCommandsCounts_.map(el=>message.guild.members.cache.get(el[0]).user.username))
+
+        const width = 1920; //px
+        const height = 1080; //px
+        const bg = {
+            id: 'custom_canvas_background_color',
+            beforeDraw: (chart) => {
+                const ctx = chart.canvas.getContext('2d');
+                ctx.save();
+                ctx.globalCompositeOperation = 'destination-over';
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, chart.width, chart.height);
+                ctx.restore();
+            }
+        };
+
+        barColor = 360*Math.random()
+        let configuration;
+        let canvasRenderService;
+        if (!args.length) {
+            canvasRenderService = new ChartJSNodeCanvas({ width, height });
+            configuration = {
+                type: 'bar',
+                data: {
+                    labels: totalCommandsCounts_.map(x => x[0]),
+                    datasets: [{
+                        label: 'Nombre d\'appel',
+                        data: totalCommandsCounts_.map(x => x[1][0]),
+                        backgroundColor:`hsl(${barColor},100%,70%)`,
+                        borderColor:`hsl(${barColor},100%,25%)`,
+                        borderWidth: 3,
+                        borderRadius:10,
+                    }]
+                },
+                plugins: [bg],
+                options: {
+                    plugins: {
+                        title : {
+                            display: true,
+                            text:`Nombre d'appels par commande sur ${message.guild.name}`,
+                            font : {
+                                weight : 'bold',
+                                size: 40
+                            }
+                        },
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                font : {
+                                    size: 20
+                                }
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                font : {
+                                    size: 40
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+        } else if (args[0] === 'members') {
+            canvasRenderService = new ChartJSNodeCanvas({ width, height });
+            configuration = {
+                type: 'bar',
+                data: {
+                    labels: totalUserCommandsCounts_.map(el=>message.guild.members.cache.get(el[0]).user.username),
+                    datasets: [{
+                        label: 'Nombre d\'appel',
+                        data: totalUserCommandsCounts_.map(x => x[1]),
+                        backgroundColor:`hsl(${barColor},100%,70%)`,
+                        borderColor:`hsl(${barColor},100%,25%)`,
+                        borderWidth: 3,
+                        borderRadius:10,
+                    }]
+                },
+                plugins: [bg],
+                options: {
+                    plugins: {
+                        title : {
+                            display: true,
+                            text:`Nombre d'appels par membre de ${message.guild.name}`,
+                            font : {
+                                weight : 'bold',
+                                size: 40
+                            }
+                        },
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                font : {
+                                    size: 20
+                                }
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                font : {
+                                    size: 40
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+        }
+        else {
+            const commandName = args[0].toLowerCase();
+		    const command = message.client.commands.get(commandName)
+			|| message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+            if (!command) return message.channel.send(`Je n'ai pas de face avec le nom ou l'alias \`${commandName}\` ! (N\'hésite pas à tenter \`!help stats\`)`);
+
+            commandStats = totalCommandsCounts_.find(e=>e[0]===command.name)[1][1];
+            // console.log(commandStats)
+            canvasRenderService = new ChartJSNodeCanvas({ 
+                width:height, 
+                height:height, 
+                // plugins: {
+                //     requireLegacy: ['chartjs-plugin-datalabels']
+                // }
+            });
+            configuration = {
+                type: 'doughnut',
+                data: {
+                    labels: commandStats.map(el=>message.guild.members.cache.get(el[0]).user.username),
+                    datasets: [{
+                        label: 'Nombre d\'appel',
+                        data: commandStats.map(x => x[1]),
+                        // backgroundColor:`hsl(${barColor},100%,70%)`,
+                        // borderColor:`hsl(${barColor},100%,25%)`,
+                        borderWidth: 3,
+                        borderRadius:10,
+                    }]
+                },
+                plugins: [bg],
+                options: {
+                    plugins: {
+                        title : {
+                            display: true,
+                            text:`Répartition des appels de ${command.name} sur ${message.guild.name}`,
+                            font : {
+                                weight : 'bold',
+                                size: 40
+                            }
+                        },
+                        legend: {
+                            display: true,
+                            labels:{
+                                font : {
+                                    size: 30
+                                }
+                            }
+                        },
+                        // labels: {
+                        //     render: 'percentage',
+                        //     fontColor: '#fff',
+                        // }
+                    },
+                }
+            };
+
+        }
+        const image = await canvasRenderService.renderToBuffer(configuration);
+        message.channel.send({
+            files: [image]
+        })
 
     },
 };

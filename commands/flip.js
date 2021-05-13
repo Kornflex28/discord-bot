@@ -40,8 +40,8 @@ module.exports = {
                 .setTitle(`Leaderboard de ${message.guild.name} au lancer de dé à deux faces`)
                 .setColor(message.guild.me.displayHexColor)
                 .setThumbnail(message.guild.iconURL())
-                .addField('Meilleurs scores', scores.slice(0, 10).map(uf => `${message.guild.members.cache.get(uf['userID']).user.username}: ${uf['best']}`).join('\n'), true)
-                .addField('Scores actuels', scores.sort((userFlipA, userFlipB) => userFlipB['score'] - userFlipA['score']).slice(0, 10).map(uf => `${message.guild.members.cache.get(uf['userID']).user.username}: ${uf['score']}`).join('\n'), true)
+                .addField('Meilleurs scores', scores.slice(0, 10).map(uf => `${message.guild.members.cache.get(uf['userID']).user.username}: 🌕 ${uf['best']} / 🌑 ${uf['best_bad']}`).join('\n'), false)
+                .addField('Scores actuels', scores.sort((userFlipA, userFlipB) => userFlipB['score'] - userFlipA['score']).slice(0, 10).map(uf => `${message.guild.members.cache.get(uf['userID']).user.username}: 🌕 ${uf['score']} / 🌑 ${uf['score_bad']}`).join('\n'), false)
                 .setFooter('Le hasard bavarde, le génie écoute.', message.client.user.displayAvatarURL())
 
             message.channel.send(leaderboard)

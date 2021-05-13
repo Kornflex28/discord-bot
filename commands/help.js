@@ -4,7 +4,7 @@ require('dotenv').config()
 module.exports = {
 	name: 'help',
 	description: 'Liste de toutes mes faces (commandes) ou infos à propos d\'une face spécifique.',
-	aliases: ['commands','info','infos'],
+	aliases: ['commands','h','mama'],
 	usage: '<command name>',
 	cooldown: 5,
 	execute(message, args) {
