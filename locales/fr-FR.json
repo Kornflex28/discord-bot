@@ -99,14 +99,14 @@
     ],
     "flips": {
         "time": [
-            "Tu pousses le bouchon là",
+            "Tu pousses le bouchon là !",
             "Bon c'est pas la première fois hein ???",
             "Qui ose troubler mon repos ?",
-            "Vous savez lire ? Je suis fermé",
+            "Vous savez lire ? Je suis fermé! ",
             "Puis-je vous conseiller quelques montres ?",
-            "Oh oui juste là, sexy motherfu... Oups ! Ahem... va-t-en c'est pas l'heure",
+            "Oh oui juste là, sexy motherfu... Oups ! Ahem... va-t-en c'est pas l'heure.",
             "T'étais pas en cure de désintox toi ?",
-            "Oui bon, il s'agirait de régler une addiction",
+            "Oui bon, il s'agirait de régler une addiction.",
             "Addict.e ?!",
             "Bah alors ?",
             "Ih! tu m'as fait peur !",
@@ -129,7 +129,16 @@
             "Face",
             "FACE",
             "FACEile pour toi",
-            "HEAD en anglais"
+            "HEAD en anglais",
+            "MAIS NAN",
+            "Pas mal",
+            "Ow shit",
+            "Et ca continue !",
+            "On change pas une équipe qui gagne",
+            "Incroyable",
+            "Pro player",
+            "Sérieusment t'en as pas marre ?",
+            "Quel bon choix de relancer"
         ],
         "tails": [
             "Terrible nouvelle...",
@@ -142,7 +151,18 @@
             "PILE",
             "tout Pile",
             "Pile poil",
-            "TAIL en anglais"
+            "TAIL en anglais",
+            "F...",
+            "RIP",
+            "MAIS NAN ?",
+            "Aie coup dur",
+            "No rage",
+            "Désolé...",
+            "Aie aie c'est le jeu",
+            "Sérieusment t'en as pas marre ?",
+            "Pourquoi tu rejoues pour faire ça ?",
+            "De retour pour la longue attente",
+            "Ouuhhh ca doit faire mal"
         ]
     },
     "levelUp": [

@@ -29,7 +29,7 @@ module.exports = {
                 .setTitle(`Leaderboard de ${message.guild.name} au jeu LOTR`)
                 .setColor(message.guild.me.displayHexColor)
                 .setThumbnail(message.guild.iconURL())
-                .addField('Meilleurs winrates', scores.slice(0, 10).map(us => `${message.guild.members.cache.get(us['userID']).user.username}: ${(100 * us['wins'] / us['total']).toFixed(2)}% (${us['wins']}/${us['total']})`).join('\n'), true)
+                .addField('Meilleurs winrates', scores.slice(0, 10).map(us => `${message.guild.members.cache.get(us['userID']).user.username}: **${(100 * us['wins'] / us['total']).toFixed(2)}%** (${us['wins']}/${us['total']})`).join('\n'), true)
                 .setFooter('Ne vous mêlez pas des affaires des magiciens, car ils sont subtils et prompts à la colère.', message.client.user.displayAvatarURL())
                 .setTimestamp()
 
@@ -69,7 +69,8 @@ module.exports = {
             let movie = movies.get(quote.movie);
             let char = char_table.find(char => char._id === quote.character);
 
-            console.log(char)
+            // console.log(char)
+
             let quoteEmbed = new Discord.MessageEmbed()
                 .setColor(message.guild.me.displayHexColor)
                 .setTitle('Devine le film de la Trilogie')

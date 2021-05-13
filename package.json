@@ -1,6 +1,9 @@
 {
   "dependencies": {
     "@vitalets/google-translate-api": "^4.0.0",
+    "chart.js": "^3.2.1",
+    "chartjs-node-canvas": "^3.1.0",
+    "chartjs-plugin-datalabels": "^1.0.0",
     "common-tags": "^1.8.0",
     "discord-xp": "^1.1.7",
     "discord-ytdl-core": "^5.0.0",
