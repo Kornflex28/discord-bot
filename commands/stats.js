@@ -62,7 +62,7 @@ module.exports = {
                         ctx = chart.chart.ctx;
 
                     ctx.restore();
-                    var fontSize = (height / 400).toFixed(2);
+                    var fontSize = (height / 800).toFixed(2);
                     ctx.font = fontSize + "em sans-serif";
                     ctx.textBaseline = "middle";
                     var text = chart.config.centerText.text,
@@ -257,7 +257,7 @@ module.exports = {
                             formatter: function (value, context) {
                                 return `${value} - ${Math.round(100 * (value / context.dataset.data.reduce((a, b) => a + b, 0)))} %`;
                             },
-                            anchor: 'start',
+                            anchor: 'center',
                             font: {
                                 size: 20,
                                 weight: 'bold'
