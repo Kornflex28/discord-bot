@@ -300,10 +300,10 @@ module.exports = {
                 }
             };
         }
-        // All executions of one command by users
-        else if (message.mentions.roles) {
+        else if (message.mentions.roles.size) {
             return message.channel.send('Des statistiques selon les rôles ? Hmm peut-être un jour')
         }
+        // All executions of one command by users
         else {
             const commandName = args[0].toLowerCase();
             const command = message.client.commands.get(commandName)
