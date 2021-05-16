@@ -4,8 +4,8 @@ const md5 = require('md5')
 const fetch = require("node-fetch");
 const Discord = require('discord.js');
 htmlparser = require('node-html-parser');
-const url = "https://poesie.webnet.fr/lesgrandsclassiques/Poemes";
-const base_url = "https://poesie.webnet.fr";
+const url = "https://www.bonjourpoesie.fr/lesgrandsclassiques/Poemes";
+const base_url = "https://www.bonjourpoesie.fr";
 const wiki_url = "https://fr.wikipedia.org/w/api.php?action=opensearch&search=";
 
 function decodeString(str) {

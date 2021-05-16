@@ -11,6 +11,7 @@ module.exports = {
     cooldown: 2,
     usage: '<> pour des stats sur toutes les commandes ou <"members"> pour des stats sur les membres du serveur',
     aliases: ['stat'],
+    guildOnly: true,
     async execute(message, args) {
 
         let guildCommands = await Usercommands.fetchGuildCommands(message.guild.id)
@@ -19,15 +20,15 @@ module.exports = {
         for (let userGuild of guildCommands) {
             let userCommandsCount = 0
             for (let [com, value] of userGuild.commands) {
-                if (!excludedCommands.includes(com)) {
                     if (!totalGuildCommandsCount.has(com)) { totalGuildCommandsCount.set(com, [value, [[userGuild.userID, value]]]) }
                     else {
                         [old_val, userList] = totalGuildCommandsCount.get(com);
                         userList.push([userGuild.userID, value])
                         totalGuildCommandsCount.set(com, [value + old_val, userList])
                     }
-                    userCommandsCount += value
-                }
+                    if (!excludedCommands.includes(com)){
+                        userCommandsCount += value
+                    }
             }
             totalUserCommandsCount.set(userGuild.userID, userCommandsCount)
         }
@@ -35,7 +36,10 @@ module.exports = {
         let totalCommandsCounts_ = Array.from(totalGuildCommandsCount).sort(function (a, b) {
             return b[1][0] - a[1][0];
         })
-        let totalUserCommandsCounts_ = Array.from(totalUserCommandsCount).sort(function (a, b) {
+        let totalCommandsCounts_withoutexcluded = Array.from(totalGuildCommandsCount).filter(el => !excludedCommands.includes(el[0])).sort(function (a, b) {
+            return b[1][0] - a[1][0];
+        })
+        let totalUserCommandsCounts__withoutexcluded = Array.from(totalUserCommandsCount).sort(function (a, b) {
             return b[1] - a[1];
         })
 
@@ -67,7 +71,7 @@ module.exports = {
                     ctx.textBaseline = "middle";
                     var text = chart.config.centerText.text,
                         textX = Math.round((width - ctx.measureText(text).width) / 2),
-                        textY = chart.config.options.layout.padding + height / 2;
+                        textY = chart.config.options.layout.padding + Math.round((height + ctx.measureText(text).emHeightAscent) / 2);
 
                     ctx.fillText(text, textX, textY);
                     ctx.save();
@@ -78,6 +82,9 @@ module.exports = {
         barColor = 360 * Math.random()
         let configuration;
         let canvasRenderService;
+        const userTarget = message.mentions.members.first();
+
+        // All executions on server by command
         if (!args.length) {
             canvasRenderService = new ChartJSNodeCanvas({
                 width,
@@ -87,10 +94,10 @@ module.exports = {
             configuration = {
                 type: 'bar',
                 data: {
-                    labels: totalCommandsCounts_.map(x => x[0]),
+                    labels: totalCommandsCounts_withoutexcluded.map(x => x[0]),
                     datasets: [{
-                        label: 'Nombre d\'appel',
-                        data: totalCommandsCounts_.map(x => x[1][0]),
+                        label: 'Nombre d\'éxécution',
+                        data: totalCommandsCounts_withoutexcluded.map(x => x[1][0]),
                         backgroundColor: `hsl(${barColor},100%,70%)`,
                         borderColor: `hsl(${barColor},100%,25%)`,
                         borderWidth: 3,
@@ -123,7 +130,7 @@ module.exports = {
                     },
                     title: {
                         display: true,
-                        text: `Nombre d'appels par commande sur ${message.guild.name}`,
+                        text: `Nombre d'éxécutions par commande sur ${message.guild.name}`,
                         fontSize: 40,
                         fontStyle: 'bold',
                     }
@@ -145,6 +152,7 @@ module.exports = {
                     }
                 }
             };
+        // All executions on server by members    
         } else if (args[0] === 'members') {
             canvasRenderService = new ChartJSNodeCanvas({
                 width,
@@ -154,10 +162,10 @@ module.exports = {
             configuration = {
                 type: 'bar',
                 data: {
-                    labels: totalUserCommandsCounts_.map(el => message.guild.members.cache.get(el[0]).user.username),
+                    labels: totalUserCommandsCounts__withoutexcluded.map(el => message.guild.members.cache.get(el[0]).user.username),
                     datasets: [{
-                        label: 'Nombre d\'appel',
-                        data: totalUserCommandsCounts_.map(x => x[1]),
+                        label: 'Nombre d\'éxécution',
+                        data: totalUserCommandsCounts__withoutexcluded.map(x => x[1]),
                         backgroundColor: `hsl(${barColor},100%,70%)`,
                         borderColor: `hsl(${barColor},100%,25%)`,
                         borderWidth: 3,
@@ -191,7 +199,7 @@ module.exports = {
 
                     title: {
                         display: true,
-                        text: `Nombre d'appels par membre de ${message.guild.name}`,
+                        text: `Nombre d'éxécutions par membre de ${message.guild.name}`,
                         fontStyle: 'bold',
                         fontSize: 40
                     },
@@ -213,6 +221,89 @@ module.exports = {
                 }
             };
         }
+        // All executions for one mentioned user
+        else if (userTarget) {
+            if (message.guild.me.id === userTarget.id) {
+                return message.channel.send('Quelle drôle d\'idée...')
+            }
+            let userCommands = guildCommands.find(el => el.userID === userTarget.id);
+            if (!userCommands) {
+                return message.channel.send(`Désolé mais on dirait bien que ${userTarget.user.username} n'a jamais fait appel à moi...`)
+            }
+            userCommands = Array.from(userCommands.commands).sort(function (a, b) {
+                return b[1] - a[1];
+            })
+            canvasRenderService = new ChartJSNodeCanvas({
+                width,
+                height,
+                plugins: { requireLegacy: ['chartjs-plugin-datalabels'] }
+            });
+            configuration = {
+                type: 'bar',
+                data: {
+                    labels: userCommands.map(x => x[0]),
+                    datasets: [{
+                        label: 'Nombre d\'éxécution',
+                        data: userCommands.map(x => x[1]),
+                        backgroundColor: `hsl(${barColor},100%,70%)`,
+                        borderColor: `hsl(${barColor},100%,25%)`,
+                        borderWidth: 3,
+                        // borderRadius:10,
+                    }]
+                },
+                plugins: [bg],
+                options: {
+                    plugins: {
+                        datalabels: {
+                            backgroundColor: function (context) {
+                                col = context.dataset.backgroundColor.slice(0, context.dataset.backgroundColor.length - 4)
+                                col = col + '85%)';
+                                return col;
+                            },
+                            borderColor: function (context) {
+                                return context.dataset.borderColor;
+                            },
+                            borderRadius: 50,
+                            borderWidth: 2,
+                            color: function (context) {
+                                return context.dataset.borderColor;
+                            },
+                            anchor: 'end',
+                            font: {
+                                size: 20,
+                                weight: 'bold'
+                            },
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: `Exécutions de ${userTarget.user.username} sur ${message.guild.name}`,
+                        fontSize: 40,
+                        fontStyle: 'bold',
+                    }
+                    ,
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                fontSize: 20
+                            }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                fontSize: 40
+                            }
+                        }]
+                    }
+                }
+            };
+        }
+        // All executions of one command by users
+        else if (message.mentions.roles) {
+            return message.channel.send('Des statistiques selon les rôles ? Hmm peut-être un jour')
+        }
         else {
             const commandName = args[0].toLowerCase();
             const command = message.client.commands.get(commandName)
@@ -233,7 +324,7 @@ module.exports = {
                 data: {
                     labels: commandStats.map(el => message.guild.members.cache.get(el[0]).user.username),
                     datasets: [{
-                        label: 'Nombre d\'appel',
+                        label: 'Nombre d\'éxécution',
                         data: commandStats.map(x => x[1]),
                         backgroundColor: [...Array(commandStats.length).keys()].map(n => `hsl(${360 * n / commandStats.length},100%,70%)`),
                         borderColor: [...Array(commandStats.length).keys()].map(n => `hsl(${360 * n / commandStats.length},100%,25%)`),
@@ -269,7 +360,7 @@ module.exports = {
                     },
                     title: {
                         display: true,
-                        text: `Répartition des appels de ${command.name} sur ${message.guild.name}`,
+                        text: `Répartition des éxécutions de !${command.name} sur ${message.guild.name}`,
                         fontStyle: 'bold',
                         fontSize: 40
                     },
@@ -283,7 +374,7 @@ module.exports = {
                 },
                 centerText: {
                     display: true,
-                    text: `${commandStats.map(x => x[1]).reduce((a, b) => a + b, 0)} appel${commandStats.map(x => x[1]).reduce((a, b) => a + b, 0)>1?'s':''}`
+                    text: `${commandStats.map(x => x[1]).reduce((a, b) => a + b, 0)} éxécution${commandStats.map(x => x[1]).reduce((a, b) => a + b, 0)>1?'s':''}`
                 }
             }
         }
