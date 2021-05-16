@@ -40,8 +40,12 @@ module.exports = {
                 .setTitle(`Leaderboard de ${message.guild.name} au lancer de dé à deux faces`)
                 .setColor(message.guild.me.displayHexColor)
                 .setThumbnail(message.guild.iconURL())
-                .addField('Meilleurs scores', scores.slice(0, 10).map(uf => `${message.guild.members.cache.get(uf['userID']).user.username}: 🌕 ${uf['best']} / 🌑 ${uf['best_bad']}`).join('\n'), false)
-                .addField('Scores actuels', scores.sort((userFlipA, userFlipB) => userFlipB['score'] - userFlipA['score']).slice(0, 10).map(uf => `${message.guild.members.cache.get(uf['userID']).user.username}: 🌕 ${uf['score']} / 🌑 ${uf['score_bad']}`).join('\n'), false)
+                .addField('Meilleurs scores', scores.slice(0, 10).map(uf => `${message.guild.members.cache.get(uf['userID']).user.username}:`).join('\n'), true) 
+                .addField('** **', scores.slice(0, 10).map(uf => `🌕 ${uf['best']} / 🌑 ${uf['best_bad']}`).join('\n'), true)
+                .addField('\u200b', '\u200b', true)
+                .addField('Scores actuels', scores.sort((userFlipA, userFlipB) => userFlipB['score'] - userFlipA['score']).slice(0, 10).map(uf => `${message.guild.members.cache.get(uf['userID']).user.username}:`).join('\n'), true)
+                .addField('** **', scores.slice(0, 10).map(uf =>`🌕 ${uf['score']} / 🌑 ${uf['score_bad']}`).join('\n'), true)
+                .addField('\u200b', '\u200b', true)
                 .setFooter('Le hasard bavarde, le génie écoute.', message.client.user.displayAvatarURL())
 
             message.channel.send(leaderboard)
@@ -62,11 +66,11 @@ module.exports = {
                 }
                 userFlip = await Userflip.fetch(mentionnedUser.id, message.guild.id)
                 if (!userFlip) {
-                    return message.channel.send(`Il me semble que ${mentionnedUser} n\'as pas encore tenté ta chance au lancer de dé à deux faces.`)
+                    return message.channel.send(`Il me semble que ${mentionnedUser.user.username} n\'as pas encore tenté ta chance au lancer de dé à deux faces.`)
                 }
                 else {
                     let user_commands = await Usercommands.fetch(mentionnedUser.id,message.guild.id);
-                    return message.channel.send(`Le score actuel de ${mentionnedUser} est **${userFlip.score}** et son meilleur score est **${userFlip.best}**. Avec un total de ${user_commands.commands.get('flip')} lancers!`)
+                    return message.channel.send(`Le score actuel de ${mentionnedUser.user.username} est **${userFlip.score}** et son meilleur score est **${userFlip.best}**. Avec un total de ${user_commands.commands.get('flip')} lancers!`)
                 }
             }
         }
