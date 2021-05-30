@@ -27,6 +27,6 @@ module.exports = {
         }
         let thm = thmList.random()
         const thmPage = await wiki({ apiUrl: 'https://en.wikipedia.org/w/api.php' }).page(thm);
-        message.channel.send(thmPage.url())
+        message.channel.send(`<${decodeURI(thmPage.url())}>`)
     }
 }
