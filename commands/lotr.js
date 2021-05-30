@@ -25,12 +25,21 @@ module.exports = {
                 return message.reply('Il semble que personne n\'ai joué dans ce serveur...')
             }
             scores.sort((userScoreA, userScoreB) => userScoreB['wins'] / userScoreB['total'] - userScoreA['wins'] / userScoreB['total'])
+            let usernames = scores.slice(0, 10).map(us => message.guild.members.cache.get(us['userID']).user.username);
+            let max_indent = Math.max(usernames.map(us=>us.length));
+            let users_score_str = [];
+            for (const [index, us_score] of scores.slice(0, 10).entries()) {
+                let us = usernames[index];
+                let user_score_str = `${us}${' '.repeat(max_indent-us)}: **${(100 * us_score['wins'] / us_score['total']).toFixed(2)}%** (${us_score['wins']}/${us_score['total']})`;
+                users_score_str.push(user_score_str)
+            }
+            console.log(users_score_str)
             let leaderboard = new Discord.MessageEmbed()
                 .setTitle(`Leaderboard de ${message.guild.name} au jeu LOTR`)
                 .setColor(message.guild.me.displayHexColor)
                 .setThumbnail(message.guild.iconURL())
-                .addField('Meilleurs winrates', scores.slice(0, 10).map(us => `${message.guild.members.cache.get(us['userID']).user.username}:`).join('\n'), true)
-                .addField('** **', scores.slice(0, 10).map(us => `**${(100 * us['wins'] / us['total']).toFixed(2)}%** (${us['wins']}/${us['total']})`).join('\n'), true)
+                .addField('Meilleurs winrates', users_score_str.join('\n'), true)
+                // .addField('** **', scores.slice(0, 10).map(us => `**${(100 * us['wins'] / us['total']).toFixed(2)}%** (${us['wins']}/${us['total']})`).join('\n'), true)
                 .setFooter('Ne vous mêlez pas des affaires des magiciens, car ils sont subtils et prompts à la colère.', message.client.user.displayAvatarURL())
                 .setTimestamp()
 
