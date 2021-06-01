@@ -65,15 +65,15 @@ module.exports = {
             prompt: `${userChatLog.history}\n\nPerson: ${messageContent_en.text}\nDédé:`,
             maxTokens: 140,
             temperature: 0.8,
-            frequency_penalty:0.3,
-            presence_penalty: 0.3,
+            frequency_penalty:0.6,
+            presence_penalty: 0.6,
             top_p:1,
             stop: ['\n','\nPerson:']
         });
         // console.log(userChatLog.history)
-        console.log(`${userChatLog.history}\n\nPerson: ${messageContent_en.text}\nDédé:`)
+        // console.log(`${userChatLog.history}\n\nPerson: ${messageContent_en.text}\nDédé:`)
         let answer_en = gptResponse.data.choices[0].text
-        console.log(gptResponse.data)
+        // console.log(gptResponse.data)
         if (answer_en) {
             let answer_fr = await translate(`${answer_en}`, { client: 'gtx', from: 'en', to: 'fr' });
             if (!userChatLog.history.includes(answer_en)) {
