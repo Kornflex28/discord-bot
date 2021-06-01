@@ -62,21 +62,22 @@ module.exports = {
 
         const gptResponse = await openai.complete({
             engine: 'davinci',
-            prompt: `${userChatLog.history}Human: ${messageContent_en.text}\nAI: `,
-            maxTokens: 500,
-            temperature: 0.9,
-            bestOf: 3,
-            n: 1,
-            stream: false,
-            stop: ['\n','\nHuman']
+            prompt: `${userChatLog.history}\n\nPerson: ${messageContent_en.text}\nDédé:`,
+            maxTokens: 140,
+            temperature: 0.8,
+            frequency_penalty:0.3,
+            presence_penalty: 0.3,
+            top_p:1,
+            stop: ['\n','\nPerson:']
         });
         // console.log(userChatLog.history)
+        console.log(`${userChatLog.history}\n\nPerson: ${messageContent_en.text}\nDédé:`)
         let answer_en = gptResponse.data.choices[0].text
-        // console.log(gptResponse.data)
+        console.log(gptResponse.data)
         if (answer_en) {
             let answer_fr = await translate(`${answer_en}`, { client: 'gtx', from: 'en', to: 'fr' });
             if (!userChatLog.history.includes(answer_en)) {
-                await AIchatlog.addHistory(message.author.id,message.guild.id,`\nHuman:${messageContent_en.text}\nAI:${answer_en}`);
+                await AIchatlog.addHistory(message.author.id,message.guild.id,`Person: ${messageContent_en.text}\nDédé: ${answer_en}`);
             }
             message.channel.send(answer_fr.text);
         } else {
