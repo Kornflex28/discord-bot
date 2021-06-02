@@ -54,6 +54,18 @@ const AIchatlog = require("../database/aicl.js");
 AIchatlog.setURL(process.env.LEVELS_DB_URL);
 module.exports = {
     async process_message(NlpManager, message, messageContent) {
+
+        if (messageContent === 'reset') {
+            await AIchatlog.deleteUser(message.author.id,message.guild.id);
+            let userChatLog = await AIchatlog.createUser(message.author.id,message.guild.id);
+            if (userChatLog) {
+                return message.react('♻️');
+            } else {
+                return message.react('❌');
+            }
+
+        }
+
         let messageContent_en = await translate(`${messageContent}`, { client: 'gtx', from: 'fr', to: 'en' });
         let userChatLog = await AIchatlog.createUser(message.author.id,message.guild.id)
         if (!userChatLog) {
