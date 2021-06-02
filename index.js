@@ -182,7 +182,7 @@ client.once('ready', async () => {
 
 
     startInterval(interval, client, process.env.OOPS_GENERAL_ID, locales.thoughts)
-    readyMsg = `\`\`\`diff\n- Bot logged in! ${Date(Date.now()).toLocaleString()}\nInterval = ${(interval / (1000 * 60 * 60)).toFixed(2)} h\n\`\`\`${creatorUser}`;
+    readyMsg = `\`\`\`diff\n- Bot logged in! ${Date(Date.now()).toLocaleString()}\nInterval = ${(interval / (1000 * 60 * 60)).toFixed(2)} h\n\`\`\``;
     sendToLogs(process.env.LOGS_CHANNEL_ID, readyMsg)
 
     client.setInterval(addXpToActiveUsers, activeTimeIntreval, client);
