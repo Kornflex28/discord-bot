@@ -10,9 +10,9 @@
 Dédé le Robot is a french multifunction bot for Discord made for fun using Node.js.
 
 >Dédé has curently **44** commands available and a server XP ranking system.<br>
->Dédé has executed **4037** commands for now.
+>Dédé has executed **4045** commands for now.
 >
-> *This was last dynamically generated on Saturday, June 19, 4:53 AM GMT+2.*
+> *This was last dynamically generated on Tuesday, June 22, 4:51 AM GMT+2.*
 
 ## Command examples
 ### !poem 
