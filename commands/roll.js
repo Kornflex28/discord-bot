@@ -8,7 +8,7 @@ function probOfSum(k, n_dice, n_side) {
     let p_out = 0;
     for (let i = 0; i <= Math.floor((k - n_dice) / n_side); i++) {
         p_out += ((-1) ** i) * (binomial(n_dice, i)) * binomial(k - n_side * i - 1, n_dice - 1);
-        console.log(p_out)
+        // console.log(p_out)
     }
 
     return (1 / (n_side ** n_dice)) * p_out;
@@ -30,7 +30,7 @@ module.exports = {
         if (!args.length) {
             n_dice = Math.floor(Math.random() * 15) + 1;
             dice = Array.from({ length: n_dice }, () => Math.floor(Math.random() * 6) + 1);
-            // die_emojis = dice.map(die => client.emojis.cache.find(emoji => emoji.name === `die${die}`));
+            die_emojis = dice.map(die => client.emojis.cache.find(emoji => emoji.name === `die${die}`));
 
             messageChannel.send(`Et hop ! Petit lancer de dés ${client.emojis.cache.find(emoji => emoji.name === `rollingdie`)}`)
 
@@ -71,7 +71,7 @@ module.exports = {
             .then(() => {
                 const sum = dice.reduce((a, b) => a + b, 0);
                 const p_sum = probOfSum(sum, n_dice, 6);
-                console.log(p_sum)
+                // console.log(p_sum)
                 const n_sum_possibilities = Math.round(p_sum * (6 ** n_dice));
                 let die_count = 1
                 for (let k = 1; k < 7; k++) {
@@ -80,7 +80,7 @@ module.exports = {
                 }
                 const p_roll = (fact[n_dice - 1] / die_count) * (1 / (6 ** n_dice));
                 let m = -Math.floor(Math.log10(p_roll) + 1);
-                messageChannel.send(`*Tu avais ${(100 * p_roll).toFixed(m < 2 ? 2 : m)}% de chances d'obtenir c${n_dice > 1 ? 'es' : 'e'} dé${n_dice > 1 ? 's (sans tenir compte de l\'ordre)' : ''} .*`);
+                messageChannel.send(`*Tu avais ${(100 * p_roll).toFixed(m < 2 ? 2 : m)}% de chance d'obtenir c${n_dice > 1 ? 'es' : 'e'} dé${n_dice > 1 ? 's (sans tenir compte de l\'ordre)' : ''} .*`);
                 if (n_dice > 1) { messageChannel.send(`*La somme de tes dés vaut ${sum}, il y a ${(100 * p_sum)}% de chance d'obtenir ce résultat (${n_sum_possibilities.toLocaleString('en').replace(/,/g, " ")} ${n_sum_possibilities > 1 ? 'lancers' : 'lancer'} sur les ${(6 ** n_dice).toLocaleString('en').replace(/,/g, " ")} possibles)*`) };
             }).catch(error => {
                 console.log(error);
