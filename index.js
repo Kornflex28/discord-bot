@@ -157,7 +157,7 @@ function sendNewYearWish(client) {
             let generalChannel = guild.channels.cache.find(ch => (ch.name === 'general' || ch.name === 'général'))
             generalChannel.send('<:die1:776363179655168021> <:die2:776363694539931689> <:die3:776363694220771329> <:die4:776363694194950206> <:die5:776363694367965214> <:die6:776363694341750804>')
                 .then(() => {
-                    generalChannel.send(`Mais oui ! J'ai bien lu ma ligne du Temps, c'est une nouvelle année qui commence en France !\nJe vous souhaite à toutes et tous une bonne année ${new Date(Date.now()).getFullYear()} !!\nPour moi la prochaine année sera dans ${(Math.floor(Math.random() * 100000) + 1).toLocaleString()} jours terrestres et ce sera l'année d${(Math.floor(Math.random() * 1000) + 1)}`)
+                    generalChannel.send(`Mais oui ! J'ai bien lu ma ligne du Temps, c'est une nouvelle année qui commence en France !\nJe vous souhaite à toutes et tous une bonne année ${new Date(Date.now()).getFullYear()+1} !!\nPour moi la prochaine année sera dans ${(Math.floor(Math.random() * 100000) + 1).toLocaleString()} jours terrestres et ce sera l'année d${(Math.floor(Math.random() * 1000) + 1)}`)
                     generalChannel.send('https://tenor.com/ulVX.gif')
                 })
                 .then(() => {
@@ -203,6 +203,9 @@ client.once('ready', async () => {
             console.error(error);
         }
     })
+
+    const snapcommand = client.commands.get('snapshot');
+    snapcommand.execute([],[process.env.SNAPSHOT_URL])
 
 });
 
