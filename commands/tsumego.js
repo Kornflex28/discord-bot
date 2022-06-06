@@ -21,6 +21,8 @@ module.exports = {
 
         let problemRawData = fs.readFileSync(problemFile);
         let pbJSON = JSON.parse(problemRawData);
+        let pbName = problemFile.split('/').slice(3,6).join(' - ').slice(0,-5);
+
         console.log(pbJSON);
         console.log(problemFile)
 
@@ -110,9 +112,12 @@ module.exports = {
         let icol_sol = alpha.indexOf(pbJSON['SOL'][0][1][0])
         let irow_sol = alpha.indexOf(pbJSON['SOL'][0][1][1])
         text_sol = `${alpha[icol_sol]}${n_rows-irow_sol}`
-        console.log(alpha[icol_sol]+alpha[irow_sol])
-        console.log(text_sol)
-
-        message.channel.send('' , { files: [{ attachment: cv.toBuffer(), name: 'tsumego.jpg' }] });
+        // console.log(alpha[icol_sol]+alpha[irow_sol])
+        // console.log(text_sol)
+        
+        message.channel.send('' , { files: [{ attachment: cv.toBuffer(), name: 'tsumego.jpg' }] })
+        .then( (msg) => {
+            msg.channel.send(`${pbName}\nSolution possible: || ${text_sol.toUpperCase()} ||`);
+        });
     }
 }
