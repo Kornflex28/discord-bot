@@ -1,5 +1,7 @@
 require('dotenv').config();
 const moment = require('moment');
+const fetch = require("node-fetch");
+
 let schedule = require('node-schedule');
 
 var leoProfanity = require('leo-profanity');
@@ -206,6 +208,21 @@ client.once('ready', async () => {
 
     const snapcommand = client.commands.get('snapshot');
     snapcommand.execute([],[process.env.SNAPSHOT_URL])
+
+
+    setInterval(function () {
+                            // let now = Date.now();
+                            // console.log(now)
+                            fetch(`${process.env.GITHUB_REPO_URL}`, {
+                                method: "POST",
+                                headers: {Authorization: `token ${process.env.GITHUB_TOKEN}`,'Content-Type': 'application/json'}, 
+                                body: JSON.stringify({
+                                    "event_type": "fetch_velib_api"
+                                  }),
+                                redirect: "follow"
+                                })//.then(r => console.log(r))
+
+                            }, 60*1000); 
 
 });
 
