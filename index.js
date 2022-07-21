@@ -222,7 +222,7 @@ client.once('ready', async () => {
                                 redirect: "follow"
                                 })//.then(r => console.log(r))
 
-                            }, 60*1000); 
+                            }, 30*1000); 
 
 });
 
